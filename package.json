@@ -1,8 +1,8 @@
 {
-  "name": "my-new-app",
-  "productName": "my-new-app",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "name": "visual-system",
+  "productName": "visual-system",
+  "version": "0.0.1",
+  "description": "monitoring your pc system",
   "main": "./.webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -17,7 +17,6 @@
     "name": "Yanguk",
     "email": "heo.yanguk@gmail.com"
   },
-  "license": "MIT",
   "dependencies": {
     "d3": "^7.6.1",
     "electron-squirrel-startup": "^1.0.0"

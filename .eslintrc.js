@@ -11,6 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-return-assign': ['error', 'always'],
     'arrow-parens': ['error', 'as-needed'],
     'implicit-arrow-linebreak': ['error', 'beside'],
