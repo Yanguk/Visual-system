@@ -11,11 +11,10 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'import/no-extraneous-dependencies': [
-      'error',
-      ,
-      { devDependencies: false },
-    ],
+    'no-return-assign': ['error', 'always'],
+    'arrow-parens': ['error', 'as-needed'],
+    'implicit-arrow-linebreak': ['error', 'beside'],
+    'no-console': 'error',
     indent: ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
