@@ -1,10 +1,12 @@
-const map = _.curry(function *(fn, list) {
+import { curry } from './util';
+
+const map = curry(function* (fn, list) {
   for (const item of list) {
     yield fn(item);
   }
 });
 
-const filter = _.curry(function *(fn, list) {
+const filter = curry(function* (fn, list) {
   for (const item of list) {
     if (fn(item)) {
       yield item;
@@ -12,7 +14,7 @@ const filter = _.curry(function *(fn, list) {
   }
 });
 
-const range = function *(start, end, step = 1) {
+const range = function* (start, end, step = 1) {
   if (!end) {
     end = start;
     start = 0;
@@ -22,10 +24,12 @@ const range = function *(start, end, step = 1) {
     yield start;
     start += step;
   }
-}
+};
 
-export default {
+const L = {
   map,
   filter,
   range,
 };
+
+export default L;

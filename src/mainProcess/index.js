@@ -1,4 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+/* eslint-disable no-undef */
+import { app, BrowserWindow } from 'electron';
+import './os';
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -6,11 +8,8 @@ function createWindow() {
     height: 832,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-      nodeIntegration: true,
     },
   });
-
-  ipcMain.handle('ping', () => 'pong');
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
@@ -19,15 +18,15 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
-  app.on("activate", () => {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });

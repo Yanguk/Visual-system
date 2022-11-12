@@ -1,11 +1,11 @@
-import { curry } from "./fp";
+import { curry } from './fp';
 
 const qs = (target, parent = document) => document.querySelector.bind(parent);
 
 const qsAll = document.querySelectorAll.bind(document);
 
-const el = (html) => {
-  const wrapper = document.createElement("div");
+const el = html => {
+  const wrapper = document.createElement('div');
   wrapper.innerHTML = html.trim();
 
   return wrapper.children[0];

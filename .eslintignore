@@ -1,0 +1,14 @@
+# production
+out
+.webpack
+
+# dependencies
+node_modules
+package.json
+package-lock.json
+
+# util
+# lib
+
+# test
+spec

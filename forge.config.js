@@ -26,16 +26,18 @@ module.exports = {
         mainConfig: './webpack.main.config.js',
         renderer: {
           config: './webpack.renderer.config.js',
-          entryPoints: [{
-            name: 'main_window',
-            html: './src/renderer/index.html',
-            js: './src/renderer/index.js',
-            preload: {
-              js: './src/preload.js'
+          entryPoints: [
+            {
+              name: 'main_window',
+              html: './src/rendererProcess/index.html',
+              js: './src/rendererProcess/index.js',
+              preload: {
+                js: './src/preload.js',
+              },
             },
-          }],
-        }
-      }
-    }
-  ]
+          ],
+        },
+      },
+    },
+  ],
 };
