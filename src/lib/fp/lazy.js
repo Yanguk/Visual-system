@@ -26,10 +26,21 @@ const range = function* (start, end, step = 1) {
   }
 };
 
+const flatten = function* (iter) {
+  for (const item of iter) {
+    if (isIterable(item)) {
+      yield *item;
+    } else {
+      yield item;
+    }
+  }
+}
+
 const L = {
   map,
   filter,
   range,
+  flatten,
 };
 
 export default L;

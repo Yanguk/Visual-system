@@ -11,6 +11,11 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'no-shadow': ['error', { allow: ['_'] }],
+    'no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'none', ignoreRestSiblings: false },
+    ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-return-assign': ['error', 'always'],
     'arrow-parens': ['error', 'as-needed'],

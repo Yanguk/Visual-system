@@ -55,6 +55,8 @@ const pipe =
 
 const map = curry(pipe(L.map, takeAll));
 
+const flatten = pipe(L.flatten, takeAll);
+
 const each = curry((f, iter) => {
   for (const item of iter) {
     f(item);
@@ -71,9 +73,11 @@ const _ = {
   map,
   reduce,
   go,
+  go1,
   pipe,
-  tap,
   each,
+  tap,
+  flatten,
 };
 
 export default _;
