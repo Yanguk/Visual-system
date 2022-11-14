@@ -19,3 +19,7 @@ export const push = curry((arr, item) => (arr.push(item), item));
 export const shift = curry((arr, item) => (arr.shift(item), item));
 
 export const isIterable = target => target && target[Symbol.iterator];
+
+export const isNum = val => !isNaN(val);
+
+export const convertKbToGb = num => Math.round(num / 1024 ** 2);

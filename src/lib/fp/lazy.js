@@ -1,4 +1,4 @@
-import { curry } from './util';
+import { curry, isIterable } from './util';
 
 const map = curry(function* (fn, list) {
   for (const item of list) {
@@ -9,6 +9,14 @@ const map = curry(function* (fn, list) {
 const filter = curry(function* (fn, list) {
   for (const item of list) {
     if (fn(item)) {
+      yield item;
+    }
+  }
+});
+
+const reject = curry(function* (fn, list) {
+  for (const item of list) {
+    if (!fn(item)) {
       yield item;
     }
   }
@@ -41,6 +49,7 @@ const L = {
   filter,
   range,
   flatten,
+  reject,
 };
 
 export default L;

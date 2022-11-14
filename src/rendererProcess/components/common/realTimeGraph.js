@@ -38,9 +38,9 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
   const drawingBarStyle = target => {
     target
       .attr('height', d => graphHeight - y(d))
-      .attr('width', graphWidth / data.length)
+      .attr('width', (graphWidth / data.length) / 3)
       .attr('fill', graphColor)
-      .attr('x', (d, i) => x(i) - (graphWidth / data.length) / 2)
+      .attr('x', (d, i) => x(i) - (graphWidth / data.length) / 6)
       .attr('y', (d, i) => y(d));
   };
 

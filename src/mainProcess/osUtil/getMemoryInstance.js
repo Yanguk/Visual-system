@@ -25,6 +25,11 @@ export class MemoryInfo extends Observer {
 
       this.data.push(memoryInfo);
 
+      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
+      if (this.data.length === 60) {
+        this.data = this.data.slice(-2);
+      }
+
       this.notify('interval', this);
     }, time);
   }
@@ -38,6 +43,6 @@ export class MemoryInfo extends Observer {
   }
 }
 
-const getMemoryInfo = makeSingleTonFactory(MemoryInfo);
+const getMemoryInstance = makeSingleTonFactory(MemoryInfo);
 
-export default getMemoryInfo;
+export default getMemoryInstance;

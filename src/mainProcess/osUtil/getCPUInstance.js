@@ -87,6 +87,6 @@ export class CPUInfo extends Observer {
   }
 }
 
-const getCPUInfo = makeSingleTonFactory(CPUInfo);
+const getCPUInstance = makeSingleTonFactory(CPUInfo);
 
-export default getCPUInfo;
+export default getCPUInstance;

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import './index.scss';
 
 import _ from '../../../lib/fp';
@@ -51,7 +52,6 @@ const renderHomePage = () => {
   const cpuGraphClear = drawGraphAndGetClear(cpuData, cpuWrapper, cpuConfig);
 
   const memoryWrapper = $.find('.home_memory > .svg_wrapper', container);
-
   const memoryConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
     [graphEnum.COLOR]: 'hotpink',
@@ -64,13 +64,23 @@ const renderHomePage = () => {
     memoryConfig,
   );
 
-  const clear = () => {
+  const userInfoWrapper = $.find('.home_userInfo', container);
+  console.log(userInfoWrapper);
+
+  userInfoWrapper.addEventListener('click', async () => {
+    const a = await window.api.userInfo();
+    const b = await window.api.disk();
+    console.log(a);
+    console.log(b);
+  });
+
+  const onMount = () => {
     cpuGraphClear();
     memoryGraphClear();
     container.remove();
   };
 
-  return clear;
+  return onMount;
 };
 
 export default renderHomePage;

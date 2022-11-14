@@ -20,4 +20,8 @@ export const channelEnum = {
   }
 };
 
-export const INTERVAL_TIME = 1000;
+export const INTERVAL_TIME = 500;
+
+export const COMMAND = {
+  disk: 'df -k',
+};
