@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen } from 'electron';
-import './handler';
+import init from './init';
 
 const createWindow = (width, height) => {
   const mainWindow = new BrowserWindow({
@@ -14,6 +14,8 @@ const createWindow = (width, height) => {
   // eslint-disable-next-line no-undef
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
   mainWindow.webContents.openDevTools();
+
+  init(mainWindow);
 };
 
 app.whenReady().then(() => {

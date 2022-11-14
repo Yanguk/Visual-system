@@ -1,10 +1,20 @@
+import os from 'os';
 import _ from '../../lib/fp';
-import Observer from '../../lib/Observer';
 import {
   add, bValue, makePercentage, subtract,
 } from '../../lib/fp/util';
+import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
+import Observer from '../../lib/Observer';
 
 export class CPUInfo extends Observer {
+  constructor(window) {
+    super();
+
+    this.window = window;
+    this.data = [];
+    this.interval = null;
+  }
+
   static getCPUTotal(cpus) {
     let idleSum = 0;
 
@@ -28,20 +38,9 @@ export class CPUInfo extends Observer {
     };
   }
 
-  constructor(arr) {
-    super();
-
-    this.data = arr;
-    this.interval = null;
-  }
-
-  value() {
-    return this.target;
-  }
-
-  startInterval(time = 500) {
+  startInterval(time = 1000) {
     this.interval = setInterval(async () => {
-      const info = await window.api.cpu();
+      const info = os.cpus();
 
       this.data.push(info);
 
@@ -52,6 +51,10 @@ export class CPUInfo extends Observer {
         this.data = this.data.slice(-2);
       }
     }, time);
+  }
+
+  removeInterval() {
+    clearInterval(this.interval);
   }
 
   getUsagePercentage() {
@@ -84,16 +87,6 @@ export class CPUInfo extends Observer {
   }
 }
 
-const getCPUInfoFactory = (arr = []) => {
-  let instance = null;
-
-  return () => {
-    instance ??= new CPUInfo(arr);
-
-    return instance;
-  };
-};
-
-const getCPUInfo = getCPUInfoFactory();
+const getCPUInfo = makeSingleTonFactory(CPUInfo);
 
 export default getCPUInfo;

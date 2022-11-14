@@ -1,17 +1,15 @@
-import _ from '../../lib/fp';
+import os from 'os';
 import { makePercentage } from '../../lib/fp/util';
+import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
 
 export class MemoryInfo extends Observer {
-  constructor(arr) {
+  constructor(window) {
     super();
 
-    this.data = arr;
+    this.window = window;
+    this.data = [];
     this.interval = null;
-  }
-
-  value() {
-    return this.target;
   }
 
   startInterval(time = 500) {
@@ -20,11 +18,14 @@ export class MemoryInfo extends Observer {
     }
 
     this.interval = setInterval(() => {
-      _.go(
-        window.api.memory(),
-        info => this.data.push(info),
-        _ => this.notify('interval', this),
-      );
+      const memoryInfo = {
+        free: os.freemem(),
+        total: os.totalmem(),
+      };
+
+      this.data.push(memoryInfo);
+
+      this.notify('interval', this);
     }, time);
   }
 
@@ -37,16 +38,6 @@ export class MemoryInfo extends Observer {
   }
 }
 
-const getMemoryInfoFactory = (arr = []) => {
-  let instance = null;
-
-  return () => {
-    instance ??= new MemoryInfo(arr);
-
-    return instance;
-  };
-};
-
-const getMemoryInfo = getMemoryInfoFactory();
+const getMemoryInfo = makeSingleTonFactory(MemoryInfo);
 
 export default getMemoryInfo;

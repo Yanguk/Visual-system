@@ -1,10 +1,7 @@
 export const graphEnum = {
-  WIDTH: 'width',
-  HEIGHT: 'height',
   MARGIN: 'margin',
   COLOR: 'color',
-  ON_LOAD: 'onLoad',
-  ON_UNMOUNT: 'onUnMount',
+  INTERVAL: 'INTERVAL',
 };
 
 export const colorInfo = {
@@ -13,3 +10,14 @@ export const colorInfo = {
   innerNavy: '#272A3C',
   bgColor: '#1B1C27',
 };
+
+export const channelEnum = {
+  CPU: {
+    USAGE: 'cpu-usage',
+  },
+  MEMORY: {
+    USAGE: 'memory-usage',
+  }
+};
+
+export const INTERVAL_TIME = 1000;
