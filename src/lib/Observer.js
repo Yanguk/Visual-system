@@ -5,7 +5,7 @@ export default class Observer {
     this._observers = new Map();
   };
 
-  subscribe(eventName, ...rest) {
+  on(eventName, ...rest) {
     const targetList = this._observers.get(eventName);
     const isHave = !!targetList;
     const list = targetList ?? [];
@@ -19,7 +19,7 @@ export default class Observer {
     }
   };
 
-  unsubscribe(eventName, fnName) {
+  removeListener(eventName, fnName) {
     const list = this._observers.get(eventName) ?? [];
     const targetIndex = list.indexOf(fnName);
 

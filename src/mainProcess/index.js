@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen } from 'electron';
-import './os';
+import './handler';
 
 const createWindow = (width, height) => {
   const mainWindow = new BrowserWindow({

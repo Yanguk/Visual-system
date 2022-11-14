@@ -1,0 +1,31 @@
+@import "./utils";
+
+.sideNavBar {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  height: 100vh;
+  background-color: $innerNavy;
+  align-items: center;
+
+  .sideNavBar__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  li {
+    width: 100%;
+    padding: 20px 0px;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+
+  .active {
+    background-color: $bgColor;
+  }
+}

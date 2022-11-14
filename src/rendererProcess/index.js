@@ -1,7 +1,4 @@
-import './index.scss';
+import './style/index.scss';
 
+import './components/common/sideNavBar';
 import './osUtil/cpu';
-
-import './components/sideNavBar';
-
-// import './components/graph';

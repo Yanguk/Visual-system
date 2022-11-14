@@ -40,12 +40,17 @@ export class CPUInfo extends Observer {
   }
 
   startInterval(time = 500) {
-    this.interval = setInterval(() => {
-      _.go(
-        window.api.cpu(),
-        info => this.data.push(info),
-        _ => this.notify('interval', this),
-      );
+    this.interval = setInterval(async () => {
+      const info = await window.api.cpu();
+
+      this.data.push(info);
+
+      this.notify('interval', this);
+
+      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
+      if (this.data.length === 60) {
+        this.data = this.data.slice(-2);
+      }
     }, time);
   }
 

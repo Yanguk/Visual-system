@@ -13,7 +13,7 @@ const el = html => {
   return wrapper.children[0];
 };
 
-const append = curry((parent, child) => parent.appendChild(child));
+const append = curry((parent, child) => (parent.appendChild(child), child));
 
 const template = (tag, value = "") => `<${tag}>${value}</${tag}>`;
 
