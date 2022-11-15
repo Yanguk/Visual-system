@@ -23,3 +23,7 @@ export const isIterable = target => target && target[Symbol.iterator];
 export const isNum = val => !isNaN(val);
 
 export const convertKbToGb = num => Math.round(num / 1024 ** 2);
+
+export const execFn = f => f();
+
+export const empty = () => {};

@@ -4,11 +4,14 @@ import './index.scss';
 import _, { pushAndShift } from '../../../lib/fp';
 import $ from '../../../lib/simpleDom';
 import drawGraphAndGetClear from '../../common/realTimeGraph';
-import { channelEnum, graphEnum } from '../../../lib/constant';
-import { receiveChannel } from '../../util';
+import {
+  channelEnum, DATA_LENGTH, graphEnum, GRAPH_COLOR,
+} from '../../../lib/constant';
+import { makeComponent, receiveChannel } from '../../util';
+import { curry } from '../../../lib/fp/util';
 
-const cpuData = new Array(51).fill(0);
-const memoryData = new Array(51).fill(0);
+const cpuData = new Array(DATA_LENGTH).fill(0);
+const memoryData = new Array(DATA_LENGTH).fill(0);
 
 const intervalUpdateCPU = pushAndShift(cpuData);
 const intervalUpdateMemory = pushAndShift(memoryData);
@@ -21,16 +24,17 @@ onMemoryUsageEvent(intervalUpdateMemory);
 
 const root = $.qs('#root');
 
-const renderHomePage = () => {
+const renderHomePage = makeComponent(onMount => {
   const template = `
     <div class="gridContainer homePage">
       <article class="home_cpu item">
-        <p>cpu</p>
+        <p>cpu: <span class="cpu_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_userInfo item">userInfo</article>
       <article class="home_temperature item">temperature</article>
-      <article class="home_memory item">memory
+      <article class="home_memory item">
+        <p>memory: <span class="memory_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_process item">process</article>
@@ -38,29 +42,46 @@ const renderHomePage = () => {
   `;
 
   const container = $.append(root, $.el(template));
+  onMount(() => container.remove());
+
+  const changeUsageText = curry((el, data) => {
+    el.textContent = `${data}%`;
+  });
+
+  const classList = {
+    CPU_USAGE: '.cpu_usage',
+    MEMORY_USAGE: '.memory_usage',
+  };
+
+  const cpuTextEl = $.qs(classList.CPU_USAGE, container);
+  const memoryEl = $.qs(classList.MEMORY_USAGE, container);
+
+  onMount(onCPUUsageEvent(changeUsageText(cpuTextEl)));
+  onMount(onMemoryUsageEvent(changeUsageText(memoryEl)));
+
   const cpuWrapper = $.find('.svg_wrapper', container);
 
   // toDo: 상세 옵선 수정 필요
   const cpuConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
-    [graphEnum.COLOR]: 'hotpink',
+    [graphEnum.COLOR]: GRAPH_COLOR,
     [graphEnum.INTERVAL]: onCPUUsageEvent,
   };
 
-  const cpuGraphClear = drawGraphAndGetClear(cpuData, cpuWrapper, cpuConfig);
+  onMount(drawGraphAndGetClear(cpuData, cpuWrapper, cpuConfig));
 
   const memoryWrapper = $.find('.home_memory > .svg_wrapper', container);
   const memoryConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
-    [graphEnum.COLOR]: 'hotpink',
+    [graphEnum.COLOR]: GRAPH_COLOR,
     [graphEnum.INTERVAL]: onMemoryUsageEvent,
   };
 
-  const memoryGraphClear = drawGraphAndGetClear(
+  onMount(drawGraphAndGetClear(
     memoryData,
     memoryWrapper,
     memoryConfig,
-  );
+  ));
 
   const userInfoWrapper = $.find('.home_userInfo', container);
 
@@ -97,22 +118,6 @@ const renderHomePage = () => {
   };
 
   asyncWriteInfo();
-
-  // toDo: 삭제 예정
-  userInfoWrapper.addEventListener('click', async () => {
-    const a = await window.api.userInfo();
-    const b = await window.api.disk();
-    console.log(a);
-    console.log(b);
-  });
-
-  const onMount = () => {
-    cpuGraphClear();
-    memoryGraphClear();
-    container.remove();
-  };
-
-  return onMount;
-};
+});
 
 export default renderHomePage;

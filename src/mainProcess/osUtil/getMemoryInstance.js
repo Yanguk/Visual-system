@@ -37,6 +37,7 @@ export class MemoryInfo extends Observer {
   getUsagePercentage() {
     const { free, total } = this.data.slice(-1)[0];
 
+    // todo: 수정필요
     const percentage = 1 - free / total;
 
     return makePercentage(2, percentage);

@@ -1,9 +1,11 @@
-import { channelEnum, graphEnum } from '../../../lib/constant';
+import {
+  channelEnum, DATA_LENGTH, graphEnum, GRAPH_COLOR,
+} from '../../../lib/constant';
 import _, { pushAndShift } from '../../../lib/fp';
 import L from '../../../lib/fp/lazy';
 import $ from '../../../lib/simpleDom';
 import drawGraphAndGetClear from '../../common/realTimeGraph';
-import { receiveChannel } from '../../util';
+import { makeComponent, receiveChannel } from '../../util';
 import './index.scss';
 
 const root = $.qs('#root');
@@ -19,7 +21,7 @@ window.api.cpu().then(data => {
 
   cpuAllUsageCoreInfo = _.go(
     L.range(cpuInfo.length),
-    _.map(() => Array.from({ length: 51 }, _ => 0)),
+    _.map(() => Array.from({ length: DATA_LENGTH }, _ => 0)),
   );
 
   onAllUsageCPUEvent(cpuData => {
@@ -30,7 +32,7 @@ window.api.cpu().then(data => {
   });
 });
 
-const renderCPUPage = () => {
+const renderCPUPage = makeComponent(onMount => {
   const container = _.go(
     $.template('article'),
     $.el,
@@ -51,27 +53,24 @@ const renderCPUPage = () => {
 
   container.innerHTML = coreTemplate;
 
+  onMount(() => container.remove());
+
   $.append(root, container);
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
-    [graphEnum.COLOR]: 'hotpink',
+    [graphEnum.COLOR]: GRAPH_COLOR,
     [graphEnum.INTERVAL]: onAllUsageCPUEvent,
   };
 
   let idx = 0;
 
-  const clearFns = _.go(
+  _.go(
     [...$.findAll('.cpu_core', container)],
-    _.map(dom => drawGraphAndGetClear(cpuAllUsageCoreInfo[idx++], dom, graphConfig)),
+    _.each(dom => {
+      onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx++], dom, graphConfig));
+    }),
   );
-
-  const clear = () => {
-    container.remove();
-    _.each(f => f(), clearFns);
-  };
-
-  return clear;
-};
+});
 
 export default renderCPUPage;

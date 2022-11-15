@@ -1,5 +1,5 @@
 import L from './lazy';
-import { curry, push, shift } from './util';
+import { curry, execFn, push, shift } from './util';
 
 const go1 = (target, f) => target instanceof Promise
   ? target.then(f)
@@ -95,8 +95,14 @@ const _ = {
   range,
 };
 
+export default _;
+
+export const makeOnMount = () => {
+  const clearFns = [];
+
+  return [push(clearFns), () => _.each(execFn, clearFns)];
+};
+
 export const pushAndShift = curry((...rest) => {
   _.each(f => f(...rest), [push, shift]);
 });
-
-export default _;

@@ -50,6 +50,12 @@ $margin: 20px;
   }
 }
 
+.text {
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
 .item {
   display: flex;
   flex-direction: column;

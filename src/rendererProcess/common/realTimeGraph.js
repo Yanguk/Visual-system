@@ -1,11 +1,12 @@
 import * as d3 from 'd3';
-import { graphColor, graphEnum } from '../../lib/constant';
-import _ from '../../lib/fp';
+import { graphEnum } from '../../lib/constant';
+import { makeComponent } from '../util';
 
-const drawGraphAndGetClear = (data, parentEl, config) => {
+const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => {
   const [width, height] = [parentEl.clientWidth, parentEl.clientHeight];
   const [mt, mr, mb, ml] = config[graphEnum.MARGIN];
   const onInterval = config[graphEnum.INTERVAL];
+  const graphColor = config[graphEnum.COLOR];
 
   const graphWidth = width - ml - mr;
   const graphHeight = height - mt - mb;
@@ -28,18 +29,19 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
 
   // const scale = d3.scaleTime();
 
-  const getTimeDomain = () => {
-    const t = Date.now();
-    const domain = [t - (1 * 1 * 55 * 1000) / 2, t + (1 * 1 * 55 * 1000) / 2];
-    return domain;
-  };
+  // x축 흘러가는 시간 맞춰야함  x축을 기준으로 삼을수잇게 scaleTime 알아볼것
+  // const getTimeDomain = () => {
+  //   const t = Date.now();
+  //   const domain = [t - (1 * 1 * 55 * 1000) / 5, t + (1 * 1 * 55 * 1000) / 5];
+  //   return domain;
+  // };
 
   const x = d3.scaleLinear()
-    .domain([0, 50])
+    .domain([0, data.length])
     .range([0, graphWidth]);
 
   const timeX = d3.scaleTime()
-    .domain(getTimeDomain)
+    .domain([0, data.length])
     .range([0, graphWidth]);
 
   // toDo: 추후 라인그래프로 수정
@@ -49,12 +51,6 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
     .enter()
     .append('path');
 
-  path
-    .selectAll('d')
-    .transition()
-    .duration(500)
-    .ease(d3.easeLinear);
-
   const xfn = (d, i) => x(i);
   const yfn = (d, i) => y(d);
 
@@ -62,6 +58,7 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
     .x(xfn)
     .y0((d, i) => y(0))
     .y1(yfn);
+    // .curve(d3.curveMonotoneX);
 
   const xAxisG = graph
     .append('g')
@@ -70,7 +67,7 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
   const yAxisG = graph.append('g');
 
   xAxisG.transition()
-    .duration(1000)
+    .duration(500)
     .ease(d3.easeLinear);
 
   xAxisG.call(d3.axisBottom(timeX));
@@ -79,16 +76,19 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
   const drawingBar = target => {
     target
       .attr('height', d => graphHeight - y(d))
-      .attr('width', (graphWidth / data.length) / 3)
+      .attr('width', graphWidth / data.length / 3)
       .attr('fill', graphColor)
       .attr('x', xfn)
       .attr('y', yfn)
-      .transition()
-      .ease(d3.easeLinear)
       .attr('d', fnArea(data));
 
-    timeX.domain(getTimeDomain());
-    xAxisG.call(d3.axisBottom(timeX));
+    // .transition()
+    // .duration(500)
+    // .ease(d3.easeLinear);
+    // .attr('transform', `translate(${x(-1)}, 0)`);
+
+    // timeX.domain(getTimeDomain());
+    // xAxisG.call(d3.axisBottom(timeX));
   };
 
   drawingBar(path);
@@ -98,63 +98,35 @@ const drawGraphAndGetClear = (data, parentEl, config) => {
     //   .selectAll('path')
     //   .data(data)
     //   .join(_ => {}, drawingBar);
-    // console.log(getTime.next().value)
-    // x.domain(getTime.next().value);
-    // drawingBar(path);
 
-    timeX.domain(getTimeDomain());
-    xAxisG.call(d3.axisBottom(timeX));
+    drawingBar(path);
 
-    path
-      .datum(data)
-      .attr('d', fnArea(data))
-      .attr('transform', null);
-
-    path
-      .selectAll('d')
-      .transition()
-      .duration(500)
-      .ease(d3.easeLinear);
+    // timeX.domain(getTimeDomain());
+    // xAxisG.call(d3.axisBottom(timeX));
   };
 
   // toDo: 추후 반응형 고려 이벤트 추가
-  const resizeEventHandler = {
-    wrapper: parentEl,
-    onEvent: () => {},
-    on() {
-      const resizeEvent = () => {
-        const [resizeWidth, resizeHeight] = [
-          parentEl.clientWidth,
-          parentEl.clientHeight,
-        ];
+  const resizeEventHandler = () => {
+    const resizeEvent = () => {
+      const [resizeWidth, resizeHeight] = [
+        parentEl.clientWidth,
+        parentEl.clientHeight,
+      ];
 
-        svg
-          .attr('width', resizeWidth)
-          .attr('height', resizeHeight)
-          .attr('viewBox', `0 0 ${width} ${height}`);
+      svg
+        .attr('width', resizeWidth)
+        .attr('height', resizeHeight)
+        .attr('viewBox', `0 0 ${width} ${height}`);
 
-        updateData();
-      };
+      updateData();
+    };
 
-      this.onEvent = resizeEvent;
-      window.addEventListener('resize', this.onEvent);
-    },
-    clear() {
-      window.removeEventListener('resize', this.onEvent);
-    },
+    window.addEventListener('resize', resizeEvent);
+    return () => window.removeEventListener('resize', resizeEvent);
   };
 
-  const eventFs = [updateData];
-
-  resizeEventHandler.on();
-
-  const clearFns = onInterval(...eventFs);
-  const clearInterval = _.each(fn => fn());
-
-  return () => {
-    resizeEventHandler.clear();
-    clearInterval(clearFns);
-  };
-};
+  onMount(resizeEventHandler());
+  onMount(onInterval(updateData));
+});
 
 export default drawGraphAndGetClear;

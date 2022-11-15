@@ -1,8 +1,11 @@
-import _ from '../../lib/fp';
+import { makeOnMount } from '../../lib/fp';
 
-// eslint-disable-next-line import/prefer-default-export
-export const receiveChannel = channel => {
-  const channelOnEvent = window.connect.on(channel);
+export const receiveChannel = channel => window.connect.on(channel);
 
-  return (...rest) => _.map(channelOnEvent, rest);
+export const makeComponent = renderFn => (...rest) => {
+  const [onMount, clearEvent] = makeOnMount();
+
+  renderFn(onMount, ...rest);
+
+  return clearEvent;
 };

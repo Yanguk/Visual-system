@@ -1,3 +1,4 @@
+import _ from "./fp";
 import { execIdentity } from "./fp/util";
 
 export default class Observer {
@@ -31,8 +32,6 @@ export default class Observer {
   }
 
   notify(eventName, item) {
-    const list = this._observers.get(eventName) ?? [];
-
-    list.forEach(execIdentity(item));
+    _.each(execIdentity(item), this._observers.get(eventName) ?? []);
   }
 }

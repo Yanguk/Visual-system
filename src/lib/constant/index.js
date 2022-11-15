@@ -22,10 +22,12 @@ export const channelEnum = {
   }
 };
 
-export const INTERVAL_TIME = 1000;
+export const INTERVAL_TIME = 500;
 
 export const COMMAND = {
   disk: 'df -k',
 };
 
-export const graphColor = colorInfo.blue;
+export const GRAPH_COLOR = colorInfo.blue;
+
+export const DATA_LENGTH = 201;
