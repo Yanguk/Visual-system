@@ -3,8 +3,10 @@ $defaultBack: #35363A;
 $innerNavy: #272A3C;
 $bgColor: #1B1C27;
 
-$small: 767px;
-$large: 1024px;
+$small: 300px;
+// $small: 767px;
+// $large: 1024px;
+$large: 700px;
 
 @mixin middleView{
   @media (min-width: $small) {

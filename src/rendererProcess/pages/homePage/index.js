@@ -1,41 +1,39 @@
 /* eslint-disable no-console */
 import './index.scss';
 
-import _ from '../../../lib/fp';
-import { curry, push, shift } from '../../../lib/fp/util';
+import _, { pushAndShift } from '../../../lib/fp';
 import $ from '../../../lib/simpleDom';
-import drawGraphAndGetClear from '../../components/common/realTimeGraph';
+import drawGraphAndGetClear from '../../common/realTimeGraph';
 import { channelEnum, graphEnum } from '../../../lib/constant';
 import { receiveChannel } from '../../util';
 
-const cpuData = new Array(51).fill(1);
-const memoryData = new Array(51).fill(1);
-
-const pushAndShift = curry((...rest) => {
-  _.each(f => f(...rest), [push, shift]);
-});
+const cpuData = new Array(51).fill(0);
+const memoryData = new Array(51).fill(0);
 
 const intervalUpdateCPU = pushAndShift(cpuData);
 const intervalUpdateMemory = pushAndShift(memoryData);
 
-window.connect.on(channelEnum.CPU.USAGE, intervalUpdateCPU);
-window.connect.on(channelEnum.MEMORY.USAGE, intervalUpdateMemory);
+const onCPUUsageEvent = receiveChannel(channelEnum.CPU.USAGE);
+const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.USAGE);
+
+onCPUUsageEvent(intervalUpdateCPU);
+onMemoryUsageEvent(intervalUpdateMemory);
 
 const root = $.qs('#root');
 
 const renderHomePage = () => {
   const template = `
-    <div class="container homePage">
-      <div class="home_cpu item">
+    <div class="gridContainer homePage">
+      <article class="home_cpu item">
         <p>cpu</p>
         <div class="svg_wrapper"></div>
-      </div>
-      <div class="home_userInfo item">userInfo</div>
-      <div class="home_temperature item">temperature</div>
-      <div class="home_memory item">memory
+      </article>
+      <article class="home_userInfo item">userInfo</article>
+      <article class="home_temperature item">temperature</article>
+      <article class="home_memory item">memory
         <div class="svg_wrapper"></div>
-      </div>
-      <div class="home_process item">process</div>
+      </article>
+      <article class="home_process item">process</article>
     </div>
   `;
 
@@ -46,7 +44,7 @@ const renderHomePage = () => {
   const cpuConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
     [graphEnum.COLOR]: 'hotpink',
-    [graphEnum.INTERVAL]: receiveChannel(channelEnum.CPU.USAGE),
+    [graphEnum.INTERVAL]: onCPUUsageEvent,
   };
 
   const cpuGraphClear = drawGraphAndGetClear(cpuData, cpuWrapper, cpuConfig);
@@ -55,7 +53,7 @@ const renderHomePage = () => {
   const memoryConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
     [graphEnum.COLOR]: 'hotpink',
-    [graphEnum.INTERVAL]: receiveChannel(channelEnum.MEMORY.USAGE),
+    [graphEnum.INTERVAL]: onMemoryUsageEvent,
   };
 
   const memoryGraphClear = drawGraphAndGetClear(
@@ -65,8 +63,42 @@ const renderHomePage = () => {
   );
 
   const userInfoWrapper = $.find('.home_userInfo', container);
-  console.log(userInfoWrapper);
 
+  const asyncWriteInfo = async () => {
+    const userInfo = await window.api.userInfo();
+    const diskInfo = await window.api.disk();
+
+    const infoEnum = {
+      NAME: 'name',
+      IP: 'ip',
+      CPU: 'cpu',
+      MEMORY: 'memory',
+      DISK: 'disk',
+    };
+
+    const targetInfo = {
+      ...userInfo,
+      name: userInfo.name.split('.')[0],
+      memory: `${userInfo.memory}GB`,
+      disk: `${diskInfo.used}GB / ${diskInfo.total}GB`,
+    };
+
+    const infoTemplate = _.go(
+      Object.keys(infoEnum),
+      _.map(type => `
+        <p class='infoWrapper'>
+          ${infoEnum[type] === 'name' ? '' : `<span class='title'>${infoEnum[type]}: </span> `}
+          <span class='info'>${targetInfo[infoEnum[type]]}</span>
+        </p>
+    `),
+    ).join('\n');
+
+    userInfoWrapper.innerHTML = infoTemplate;
+  };
+
+  asyncWriteInfo();
+
+  // toDo: 삭제 예정
   userInfoWrapper.addEventListener('click', async () => {
     const a = await window.api.userInfo();
     const b = await window.api.disk();

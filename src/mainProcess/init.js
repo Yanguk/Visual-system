@@ -9,7 +9,6 @@ import getHardDiskInfo from './systemUtil/getHardDiskInfo';
 
 const networkInfo = getNetworkInfoInstance();
 
-// toDo: 삭제예정
 ipcMain.handle('cpu', () => os.cpus());
 
 // toDo: 삭제예정
@@ -21,7 +20,7 @@ ipcMain.handle('memory', () => ({
 ipcMain.handle('disk', () => getHardDiskInfo());
 
 const userInfoData = {
-  name: os.userInfo().username,
+  name: os.hostname(),
   ip: networkInfo.getIp(),
   cpu: os.cpus()[0].model,
   memory: convertKbToGb(os.totalmem() / 1024),
@@ -36,14 +35,14 @@ const init = win => {
   const memoryInfo = getMemoryInstance(win);
   memoryInfo.startInterval(INTERVAL_TIME);
 
-  const makeChannel = curry((channel, data) => {
-    win.webContents.send(channel, data);
-  });
+  const makeChannel = curry((channel, data) => win.webContents.send(channel, data));
 
-  const sendCPUUsage = makeChannel(channelEnum.CPU.USAGE);
+  const sendTotalCPUUsage = makeChannel(channelEnum.CPU.USAGE);
+  const sendAllCPUUsage = makeChannel(channelEnum.CPU.ALL_USAGE);
   const sendMemoryUsage = makeChannel(channelEnum.MEMORY.USAGE);
 
-  cpuInfo.on('interval', cpu => sendCPUUsage(cpu.getUsagePercentage()));
+  cpuInfo.on('interval', cpu => sendTotalCPUUsage(cpu.getTotalUsagePercentage()));
+  cpuInfo.on('interval', cpu => sendAllCPUUsage(cpu.getAllUsagePercentage()));
   memoryInfo.on('interval', memory => sendMemoryUsage(memory.getUsagePercentage()));
 };
 

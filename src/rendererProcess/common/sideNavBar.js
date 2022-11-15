@@ -1,8 +1,8 @@
-import _ from '../../../lib/fp';
-import L from '../../../lib/fp/lazy';
-import $ from '../../../lib/simpleDom';
-import renderHomePage from '../../pages/homePage';
-import renderCPUPage from '../../pages/cpuPage';
+import _ from '../../lib/fp';
+import L from '../../lib/fp/lazy';
+import $ from '../../lib/simpleDom';
+import renderHomePage from '../pages/homePage';
+import renderCPUPage from '../pages/cpuPage';
 
 const root = $.qs('#root');
 

@@ -11,6 +11,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'no-plusplus': 0,
+    'prefer-destructuring': ['error', { object: false, array: false }],
     'no-shadow': ['error', { allow: ['_'] }],
     'no-unused-vars': [
       'error',
@@ -28,7 +30,7 @@ module.exports = {
     'max-len': [
       'error',
       {
-        code: 80,
+        code: 90,
         ignoreUrls: true,
         ignoreStrings: true,
         ignoreTemplateLiterals: true,

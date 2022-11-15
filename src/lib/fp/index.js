@@ -1,5 +1,5 @@
 import L from './lazy';
-import { curry } from './util';
+import { curry, push, shift } from './util';
 
 const go1 = (target, f) => target instanceof Promise
   ? target.then(f)
@@ -67,7 +67,17 @@ const each = curry((f, iter) => {
   return iter;
 });
 
-const tap = curry((f, iter) => (f([...iter]), iter));
+const tap = curry((f, iter) => {
+  const a = iter;
+
+  f([...a]);
+
+  return iter;
+});
+
+const join = curry((joinStr, str) => str.join(joinStr));
+
+const range = pipe(L.range, takeAll);
 
 const _ = {
   take,
@@ -81,6 +91,12 @@ const _ = {
   tap,
   flatten,
   filter,
+  join,
+  range,
 };
+
+export const pushAndShift = curry((...rest) => {
+  _.each(f => f(...rest), [push, shift]);
+});
 
 export default _;

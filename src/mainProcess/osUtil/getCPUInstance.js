@@ -1,5 +1,6 @@
 import os from 'os';
 import _ from '../../lib/fp';
+import L from '../../lib/fp/lazy';
 import {
   add, bValue, makePercentage, subtract,
 } from '../../lib/fp/util';
@@ -11,8 +12,9 @@ export class CPUInfo extends Observer {
     super();
 
     this.window = window;
-    this.data = [];
+    this.data = [os.cpus()];
     this.interval = null;
+    this.count = this.data[0].length;
   }
 
   static getCPUTotal(cpus) {
@@ -57,7 +59,7 @@ export class CPUInfo extends Observer {
     clearInterval(this.interval);
   }
 
-  getUsagePercentage() {
+  getTotalUsagePercentage() {
     if (this.data.length < 2) {
       return 0;
     }
@@ -84,6 +86,34 @@ export class CPUInfo extends Observer {
     const percentage = 1 - idle / total;
 
     return makePercentage(2, percentage);
+  }
+
+  getAllUsagePercentage() {
+    const [preCpu, curCpu] = this.data.slice(-2);
+
+    const pre = _.go(
+      preCpu,
+      _.map(cpu => CPUInfo.getCPUTotal([cpu])),
+    );
+
+    const cur = _.go(
+      curCpu,
+      _.map(cpu => CPUInfo.getCPUTotal([cpu])),
+    );
+
+    const result = _.go(
+      L.range(pre.length),
+      L.map(index => {
+        const idle = cur[index].idleSum - pre[index].idleSum;
+        const total = cur[index].total - pre[index].total;
+        const percentage = 1 - idle / total;
+
+        return makePercentage(2, percentage);
+      }),
+      _.takeAll,
+    );
+
+    return result;
   }
 }
 
