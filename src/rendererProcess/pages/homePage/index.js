@@ -1,20 +1,18 @@
 /* eslint-disable no-console */
 import './index.scss';
 
-import _, { pushAndShift } from '../../../lib/fp';
+import _ from '../../../lib/fp';
 import $ from '../../../lib/simpleDom';
 import drawGraphAndGetClear from '../../common/realTimeGraph';
-import {
-  channelEnum, DATA_LENGTH, graphEnum, GRAPH_COLOR,
-} from '../../../lib/constant';
-import { makeComponent, receiveChannel } from '../../util';
+import { channelEnum, graphEnum, GRAPH_COLOR } from '../../../lib/constant';
+import { insertData, makeComponent, receiveChannel } from '../../util';
 import { curry } from '../../../lib/fp/util';
 
-const cpuData = new Array(DATA_LENGTH).fill(0);
-const memoryData = new Array(DATA_LENGTH).fill(0);
+const cpuData = [];
+const memoryData = [];
 
-const intervalUpdateCPU = pushAndShift(cpuData);
-const intervalUpdateMemory = pushAndShift(memoryData);
+const intervalUpdateCPU = insertData(cpuData);
+const intervalUpdateMemory = insertData(memoryData);
 
 const onCPUUsageEvent = receiveChannel(channelEnum.CPU.USAGE);
 const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.USAGE);
@@ -61,7 +59,6 @@ const renderHomePage = makeComponent(onMount => {
 
   const cpuWrapper = $.find('.svg_wrapper', container);
 
-  // toDo: 상세 옵선 수정 필요
   const cpuConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
     [graphEnum.COLOR]: GRAPH_COLOR,

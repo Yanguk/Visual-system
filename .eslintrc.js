@@ -24,7 +24,7 @@ module.exports = {
     'arrow-parens': ['error', 'as-needed'],
     'implicit-arrow-linebreak': ['error', 'beside'],
     'no-console': 'error',
-    indent: ['error', 2, { SwitchCase: 1 }],
+    indent: ['error', 2, { SwitchCase: 1, MemberExpression: 'off' }],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],

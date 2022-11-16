@@ -10,6 +10,7 @@ export const colorInfo = {
   innerNavy: '#272A3C',
   bgColor: '#1B1C27',
   blue: '#4192EA',
+  green: '#69b3a2',
 };
 
 export const channelEnum = {
@@ -28,6 +29,8 @@ export const COMMAND = {
   disk: 'df -k',
 };
 
-export const GRAPH_COLOR = colorInfo.blue;
+export const GRAPH_COLOR = colorInfo.green;
 
-export const DATA_LENGTH = 201;
+export const DATA_LENGTH = 200;
+
+export const DOMAIN_TIME_DIFF = (120 * INTERVAL_TIME);
