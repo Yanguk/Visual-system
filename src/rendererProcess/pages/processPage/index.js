@@ -14,13 +14,14 @@ const renderProcessPage = makeComponent(onMount => {
   const button = $.qs('button', container);
 
   button.addEventListener('click', async () => {
-    const processList = await window.api.processList();
+    // toDo: api test 장소
+    const processList = await window.api.processList(200);
     // eslint-disable-next-line no-console
     console.log(processList);
 
-    const diskList = await window.api.test();
+    const memoryDetail = await window.api.memoryDetail();
     // eslint-disable-next-line no-console
-    console.log(diskList);
+    console.log(memoryDetail);
   });
 
   onMount(() => container.remove());

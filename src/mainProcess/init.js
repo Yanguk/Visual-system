@@ -3,7 +3,7 @@ import os from 'os';
 import { channelEnum, INTERVAL_TIME } from '../lib/constant';
 import { convertKbToGb, curry } from '../lib/fp/util';
 import getCPUInstance from './osUtil/getCPUInstance';
-import getMemoryInstance from './osUtil/getMemoryInstance';
+import getMemoryInstance, { MemoryInfo } from './osUtil/getMemoryInstance';
 import getNetworkInfoInstance from './osUtil/getNetworkInfoInstance';
 import HardDiskInfo from './systemUtil/getHardDiskInfo';
 import { ProcessInfo } from './systemUtil/getProcessListInstance';
@@ -12,7 +12,6 @@ const networkInfo = getNetworkInfoInstance();
 
 ipcMain.handle('cpu', () => os.cpus());
 
-// toDo: 삭제예정
 ipcMain.handle('memory', () => ({
   free: os.freemem(),
   total: os.totalmem(),
@@ -22,6 +21,8 @@ ipcMain.handle('disk', () => HardDiskInfo.getHardDiskInfo());
 
 ipcMain.handle('diskAll', () => HardDiskInfo.getHardDiskInfoAll());
 
+ipcMain.handle('memoryDetail', () => MemoryInfo.getMemoryDetail());
+
 const userInfoData = {
   name: os.hostname(),
   ip: networkInfo.getIp(),
@@ -30,7 +31,7 @@ const userInfoData = {
 };
 
 ipcMain.handle('userInfo', () => userInfoData);
-ipcMain.handle('process_list', () => ProcessInfo.getProcessList());
+ipcMain.handle('processList', (e, count) => ProcessInfo.getProcessList(count));
 
 const init = win => {
   const cpuInfo = getCPUInstance(win);
@@ -47,7 +48,7 @@ const init = win => {
 
   cpuInfo.on('interval', cpu => sendTotalCPUUsage(cpu.getTotalUsagePercentage()));
   cpuInfo.on('interval', cpu => sendAllCPUUsage(cpu.getAllUsagePercentage()));
-  memoryInfo.on('interval', memory => sendMemoryUsage(memory.getUsagePercentage()));
+  memoryInfo.on('interval', memory => sendMemoryUsage(memory.getFreePercentage()));
 };
 
 export default init;

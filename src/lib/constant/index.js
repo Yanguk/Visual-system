@@ -38,3 +38,8 @@ export const GRAPH_COLOR = colorInfo.green;
 export const DATA_LENGTH = 200;
 
 export const DOMAIN_TIME_DIFF = (120 * INTERVAL_TIME);
+
+export const REGEX = {
+  removeSpaceTow: /^\s+|\s{2,}/g,
+  removeAllSpace: /[\s\n\r]+/g,
+}

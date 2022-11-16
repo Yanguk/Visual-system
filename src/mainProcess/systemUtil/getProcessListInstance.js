@@ -1,18 +1,18 @@
+/* eslint-disable no-console */
+import { exec } from 'node:child_process';
+import util from 'node:util';
 import { COMMAND } from '../../lib/constant';
 import _ from '../../lib/fp';
-import L from '../../lib/fp/lazy';
-import { trimAndMakeArr } from '../../lib/fp/util';
+import { identity, trimAndMakeArr } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
 
-const util = require('node:util');
-const exec = util.promisify(require('node:child_process').exec);
+const asyncExec = util.promisify(exec);
 
 const getProcessList = async cmd => {
-  const { stdout, stderr } = await exec(cmd);
+  const { stdout, stderr } = await asyncExec(cmd);
 
   if (stderr) {
-    // eslint-disable-next-line no-console
     console.error(stderr);
 
     return stderr;
@@ -21,17 +21,12 @@ const getProcessList = async cmd => {
   const list = _.go(
     stdout,
     str => str.split('\n'),
-    L.map(str => {
-      const arr = trimAndMakeArr(str);
-      const pre = arr.slice(0, 6);
-      const after = arr.slice(6);
-      pre.push(after.join(' '));
-
-      return pre;
-    }),
-    L.filter(item => item.length > 6),
-    _.takeAll,
+    _.map(trimAndMakeArr),
+    _.map(_.filter(identity)),
+    _.map(([a, b, c, d, e, ...f]) => [a, b, c, d, e, f.join('_')]),
   );
+
+  list.pop();
 
   return list;
 };
@@ -59,27 +54,26 @@ export class ProcessInfo extends Observer {
     clearInterval(this.interval);
   }
 
-  static async getProcessList(option = {
-    sort: COMMAND.PROCESS_LIST.SORT_CPU,
-    limit: -1,
-  }) {
+  static async getProcessList(
+    limit = -1,
+    sort = COMMAND.PROCESS_LIST.SORT_CPU,
+  ) {
     const cmdObj = {
-      [COMMAND.PROCESS_LIST.SORT_CPU]: 'ps -e -o user,pid,pcpu,pmem,rss,time,comm -r',
-      [COMMAND.PROCESS_LIST.SORT_MEMORY]: 'ps -e -o user,pid,pcpu,pmem,rss,time,comm -m',
+      [COMMAND.PROCESS_LIST.SORT_CPU]: 'ps -e -o pid,pcpu,pmem,rss,time,comm -r',
+      [COMMAND.PROCESS_LIST.SORT_MEMORY]: 'ps -e -o pid,pcpu,pmem,rss,time,comm -m',
     };
 
-    const selectedCmd = cmdObj[option.sort];
+    const selectedCmd = cmdObj[sort];
 
-    const cmd = option.limit > -1 ? `${selectedCmd} | head -${option.limit}` : selectedCmd;
+    const cmd = limit > -1 ? `${selectedCmd} | head -${limit}` : selectedCmd;
 
     return getProcessList(cmd);
   }
 
   static async killProcess(pid) {
-    const { stderr } = await exec(COMMAND.PROCESS_LIST);
+    const { stderr } = await asyncExec(COMMAND.PROCESS_LIST);
 
     if (stderr) {
-      // eslint-disable-next-line no-console
       console.error(stderr);
 
       return stderr;

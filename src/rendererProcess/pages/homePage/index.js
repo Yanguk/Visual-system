@@ -26,13 +26,13 @@ const renderHomePage = makeComponent(onMount => {
   const template = `
     <div class="gridContainer homePage">
       <article class="home_cpu item">
-        <p>cpu: <span class="cpu_usage text"></span></p>
+        <p>CPU usage: <span class="cpu_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_userInfo item">userInfo</article>
-      <article class="home_temperature item">temperature</article>
+      <article class="home_temperature item">위에 유저정보 추가하고 여기 disk 요약 정리칸</article>
       <article class="home_memory item">
-        <p>memory: <span class="memory_usage text"></span></p>
+        <p>free Memory: <span class="memory_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_process item">process</article>

@@ -95,6 +95,7 @@ const _ = {
   filter,
   join,
   range,
+  getIndex,
 };
 
 export default _;

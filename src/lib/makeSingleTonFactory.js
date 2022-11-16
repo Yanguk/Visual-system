@@ -1,7 +1,7 @@
 const makeSingleTonFactory = InstanceGenerator => {
   let instance = null;
 
-  return (a) => {
+  return a => {
     instance ??= new InstanceGenerator(a);
 
     return instance;

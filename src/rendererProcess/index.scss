@@ -10,6 +10,11 @@
 
 html {
   background-color: $defaultBack;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+ display: none;
 }
 
 li {
