@@ -79,6 +79,11 @@ const join = curry((joinStr, str) => str.join(joinStr));
 
 const range = pipe(L.range, takeAll);
 
+const getIndex = (iter) => {
+  const range = L.range(iter.length);
+  return _.map(_ => [_, range.next().value], iter);
+};
+
 const _ = {
   take,
   takeAll,

@@ -1,54 +1,35 @@
-import {
-  channelEnum, DOMAIN_TIME_DIFF, graphEnum, GRAPH_COLOR,
-} from '../../../lib/constant';
+import { channelEnum, graphEnum, GRAPH_COLOR } from '../../../lib/constant';
 import _ from '../../../lib/fp';
 import L from '../../../lib/fp/lazy';
-import { curry } from '../../../lib/fp/util';
+import { curry, push } from '../../../lib/fp/util';
 import $ from '../../../lib/simpleDom';
 import drawGraphAndGetClear from '../../common/realTimeGraph';
-import { makeComponent, receiveChannel } from '../../util';
+import { insertData, makeComponent, receiveChannel } from '../../util';
 import './index.scss';
 
 const root = $.qs('#root');
 
-let cpuInfo = [];
+const cpuInfo = [];
 
 const cpuAllUsageCoreInfo = [];
 
 const onAllUsageCPUEvent = receiveChannel(channelEnum.CPU.ALL_USAGE);
 
-let isMaxLength = false;
-
 window.api.cpu().then(data => {
-  cpuInfo = data;
+  _.each(push(cpuInfo), data);
 
-  _.go(
-    L.range(cpuInfo.length),
-    _.map(_ => cpuAllUsageCoreInfo.push([])),
+  const insertDataFns = _.go(
+    _.range(cpuInfo.length),
+    _.tap(_.each(_ => cpuAllUsageCoreInfo.push([]))),
+    _.map(index => insertData(cpuAllUsageCoreInfo[index])),
   );
 
   onAllUsageCPUEvent(cpuData => {
-    const today = new Date();
-
-    if (isMaxLength) {
-      cpuData.forEach((_, i) => {
-        const info = { data: cpuData[i], date: today };
-        cpuAllUsageCoreInfo[i].push(info);
-        cpuAllUsageCoreInfo[i].shift();
-      });
-    }
-
-    if (
-      cpuAllUsageCoreInfo[0][0]?.date
-      && cpuAllUsageCoreInfo[0][0].date < new Date(today - DOMAIN_TIME_DIFF)
-    ) {
-      isMaxLength = true;
-    } else {
-      cpuData.forEach((_, i) => {
-        const info = { data: cpuData[i], date: today };
-        cpuAllUsageCoreInfo[i].push(info);
-      });
-    }
+    _.go(
+      _.range(cpuData.length),
+      _.map(index => [cpuData[index], index]),
+      _.each(([usage, index]) => insertDataFns[index](usage)),
+    );
   });
 });
 
@@ -98,12 +79,11 @@ const renderCPUPage = makeComponent(onMount => {
     [graphEnum.INTERVAL]: onAllUsageCPUEvent,
   };
 
-  let idx = 0;
-
   _.go(
     [...$.findAll('.cpu_core', container)],
-    _.each(dom => {
-      onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx++], dom, graphConfig));
+    _.getIndex,
+    _.each(([dom, idx]) => {
+      onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx], dom, graphConfig));
     }),
   );
 });

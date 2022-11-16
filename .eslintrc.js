@@ -17,7 +17,9 @@ module.exports = {
     'no-shadow': ['error', { allow: ['_'] }],
     'no-unused-vars': [
       'error',
-      { vars: 'all', args: 'none', ignoreRestSiblings: false },
+      {
+        vars: 'all', args: 'none', ignoreRestSiblings: false, argsIgnorePattern: '^_',
+      },
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-return-assign': ['error', 'always'],
