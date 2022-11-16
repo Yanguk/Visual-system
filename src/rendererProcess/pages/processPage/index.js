@@ -17,6 +17,10 @@ const renderProcessPage = makeComponent(onMount => {
     const processList = await window.api.processList();
     // eslint-disable-next-line no-console
     console.log(processList);
+
+    const diskList = await window.api.test();
+    // eslint-disable-next-line no-console
+    console.log(diskList);
   });
 
   onMount(() => container.remove());

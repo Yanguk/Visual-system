@@ -5,7 +5,7 @@ import { convertKbToGb, curry } from '../lib/fp/util';
 import getCPUInstance from './osUtil/getCPUInstance';
 import getMemoryInstance from './osUtil/getMemoryInstance';
 import getNetworkInfoInstance from './osUtil/getNetworkInfoInstance';
-import getHardDiskInfo from './systemUtil/getHardDiskInfo';
+import HardDiskInfo from './systemUtil/getHardDiskInfo';
 import { ProcessInfo } from './systemUtil/getProcessListInstance';
 
 const networkInfo = getNetworkInfoInstance();
@@ -18,7 +18,9 @@ ipcMain.handle('memory', () => ({
   total: os.totalmem(),
 }));
 
-ipcMain.handle('disk', () => getHardDiskInfo());
+ipcMain.handle('disk', () => HardDiskInfo.getHardDiskInfo());
+
+ipcMain.handle('diskAll', () => HardDiskInfo.getHardDiskInfoAll());
 
 const userInfoData = {
   name: os.hostname(),

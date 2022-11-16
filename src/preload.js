@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('api', {
   userInfo: () => ipcRenderer.invoke('userInfo'),
   disk: () => ipcRenderer.invoke('disk'),
   processList: () => ipcRenderer.invoke('process_list'),
+  diskAll: () => ipcRenderer.invoke('diskAll'),
 });
 
 contextBridge.exposeInMainWorld('connect', {

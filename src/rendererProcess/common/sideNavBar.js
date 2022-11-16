@@ -3,7 +3,7 @@ import L from '../../lib/fp/lazy';
 import $ from '../../lib/simpleDom';
 import renderHomePage from '../pages/homePage';
 import renderCPUPage from '../pages/cpuPage';
-import renderProcessPage from '../pages/\bprocessPage';
+import renderProcessPage from '../pages/processPage';
 
 const root = $.qs('#root');
 
