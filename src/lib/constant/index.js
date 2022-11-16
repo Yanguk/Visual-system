@@ -26,7 +26,11 @@ export const channelEnum = {
 export const INTERVAL_TIME = 500;
 
 export const COMMAND = {
-  disk: 'df -k',
+  DISK: 'df -k',
+  PROCESS_LIST: {
+    SORT_CPU: 'sort_cpu',
+    SORT_MEMORY: 'sort_memory',
+  },
 };
 
 export const GRAPH_COLOR = colorInfo.green;

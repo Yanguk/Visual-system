@@ -3,6 +3,7 @@ import L from '../../lib/fp/lazy';
 import $ from '../../lib/simpleDom';
 import renderHomePage from '../pages/homePage';
 import renderCPUPage from '../pages/cpuPage';
+import renderProcessPage from '../pages/\bprocessPage';
 
 const root = $.qs('#root');
 
@@ -36,7 +37,7 @@ const pageInfo = {
   cpu: renderCPUPage,
   memory: () => elementTest(mockElArr[1]),
   disk: () => elementTest(mockElArr[2]),
-  process: () => elementTest(mockElArr[3]),
+  process: renderProcessPage,
   stats: () => elementTest(mockElArr[4]),
 };
 

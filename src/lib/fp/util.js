@@ -27,3 +27,5 @@ export const convertKbToGb = num => Math.round(num / 1024 ** 2);
 export const execFn = f => f();
 
 export const empty = () => {};
+
+export const trimAndMakeArr = str => str.replace(/[\s\n\r]+/g, '#').split('#');

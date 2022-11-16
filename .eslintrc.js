@@ -18,7 +18,11 @@ module.exports = {
     'no-unused-vars': [
       'error',
       {
-        vars: 'all', args: 'none', ignoreRestSiblings: false, argsIgnorePattern: '^_',
+        vars: 'all',
+        args: 'none',
+        ignoreRestSiblings: false,
+        argsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
       },
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],

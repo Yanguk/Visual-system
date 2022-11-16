@@ -44,12 +44,21 @@ const flatten = function* (iter) {
   }
 }
 
+const getIndex = function* (iter) {
+  const rage = L.range(iter.length);
+
+  for (const item of iter) {
+    yield [item, rage.next().value];
+  }
+};
+
 const L = {
   map,
   filter,
   range,
   flatten,
   reject,
+  getIndex,
 };
 
 export default L;

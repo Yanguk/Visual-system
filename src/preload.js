@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('api', {
   memory: () => ipcRenderer.invoke('memory'),
   userInfo: () => ipcRenderer.invoke('userInfo'),
   disk: () => ipcRenderer.invoke('disk'),
+  processList: () => ipcRenderer.invoke('process_list'),
 });
 
 contextBridge.exposeInMainWorld('connect', {

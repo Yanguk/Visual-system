@@ -1,13 +1,15 @@
 import { COMMAND } from '../../lib/constant';
 import _ from '../../lib/fp';
 import L from '../../lib/fp/lazy';
-import { add, convertKbToGb, isNum } from '../../lib/fp/util';
+import {
+  add, convertKbToGb, isNum, trimAndMakeArr,
+} from '../../lib/fp/util';
 
 const util = require('node:util');
 const exec = util.promisify(require('node:child_process').exec);
 
 const getHardDiskInfo = async () => {
-  const { stdout, stderr } = await exec(COMMAND.disk);
+  const { stdout, stderr } = await exec(COMMAND.DISK);
 
   if (stderr) {
     // eslint-disable-next-line no-console
@@ -15,8 +17,6 @@ const getHardDiskInfo = async () => {
 
     return new Error(stderr);
   }
-
-  const trimAndMakeArr = str => str.replace(/[\s\n\r]+/g, ' ').split(' ');
 
   const diskList = _.go(
     stdout.split('\n'),

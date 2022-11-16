@@ -81,7 +81,7 @@ const renderCPUPage = makeComponent(onMount => {
 
   _.go(
     [...$.findAll('.cpu_core', container)],
-    _.getIndex,
+    L.getIndex,
     _.each(([dom, idx]) => {
       onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx], dom, graphConfig));
     }),

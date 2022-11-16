@@ -6,6 +6,7 @@ import getCPUInstance from './osUtil/getCPUInstance';
 import getMemoryInstance from './osUtil/getMemoryInstance';
 import getNetworkInfoInstance from './osUtil/getNetworkInfoInstance';
 import getHardDiskInfo from './systemUtil/getHardDiskInfo';
+import { ProcessInfo } from './systemUtil/getProcessListInstance';
 
 const networkInfo = getNetworkInfoInstance();
 
@@ -27,6 +28,7 @@ const userInfoData = {
 };
 
 ipcMain.handle('userInfo', () => userInfoData);
+ipcMain.handle('process_list', () => ProcessInfo.getProcessList());
 
 const init = win => {
   const cpuInfo = getCPUInstance(win);
