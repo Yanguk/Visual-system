@@ -1,14 +1,12 @@
 import { ipcMain } from 'electron';
 import os from 'os';
 import { channelEnum, INTERVAL_TIME } from '../lib/constant';
-import { convertKbToGb, curry } from '../lib/fp/util';
+import { curry } from '../lib/fp/util';
 import getCPUInstance from './osUtil/getCPUInstance';
 import getMemoryInstance, { MemoryInfo } from './osUtil/getMemoryInstance';
-import getNetworkInfoInstance from './osUtil/getNetworkInfoInstance';
+import getUserInfo from './osUtil/getUserInfo';
 import HardDiskInfo from './systemUtil/getHardDiskInfo';
 import { ProcessInfo } from './systemUtil/getProcessListInstance';
-
-const networkInfo = getNetworkInfoInstance();
 
 ipcMain.handle('cpu', () => os.cpus());
 
@@ -22,15 +20,9 @@ ipcMain.handle('disk', () => HardDiskInfo.getHardDiskInfo());
 ipcMain.handle('diskAll', () => HardDiskInfo.getHardDiskInfoAll());
 
 ipcMain.handle('memoryDetail', () => MemoryInfo.getMemoryDetail());
+ipcMain.handle('processKill', (e, pid) => ProcessInfo.killProcess(pid));
 
-const userInfoData = {
-  name: os.hostname(),
-  ip: networkInfo.getIp(),
-  cpu: os.cpus()[0].model,
-  memory: convertKbToGb(os.totalmem() / 1024),
-};
-
-ipcMain.handle('userInfo', () => userInfoData);
+ipcMain.handle('userInfo', () => getUserInfo());
 ipcMain.handle('processList', (e, count) => ProcessInfo.getProcessList(count));
 
 const init = win => {

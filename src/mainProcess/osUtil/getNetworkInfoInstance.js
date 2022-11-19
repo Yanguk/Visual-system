@@ -21,7 +21,7 @@ class NetWork {
   }
 
   getIp() {
-    return this.network.address;
+    return this?.network?.address ?? '';
   }
 }
 

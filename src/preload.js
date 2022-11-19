@@ -9,6 +9,7 @@ contextBridge.exposeInMainWorld('api', {
   processList: count => ipcRenderer.invoke('processList', count),
   diskAll: () => ipcRenderer.invoke('diskAll'),
   memoryDetail: () => ipcRenderer.invoke('memoryDetail'),
+  processKill: pid => ipcRenderer.invoke('processKill', pid),
 });
 
 contextBridge.exposeInMainWorld('connect', {

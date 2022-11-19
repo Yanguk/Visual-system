@@ -1,0 +1,91 @@
+@import '../common/utils.scss';
+@import '../common//customButton.scss';
+
+.processPageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  overflow: auto;
+
+  section {
+    flex: 1;
+    height: 100%;
+    padding: 20px;
+    background-color: $darkGray;
+    border-radius: 10px;
+  }
+
+  .leftProcess {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+
+    .leftTitle {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      height: 40px;
+      padding: 0px 4px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .processTreeMap {
+      width: 100%;
+      height: calc(100% - 40px);
+    }
+  }
+
+  .rightProcess {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    .rightTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 40px;
+      padding: 0px 3px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .processListWrapper {
+      overflow: auto;
+      height: calc(100% - 40px);
+    }
+
+    button {
+      @include customButton;
+    }
+  }
+
+  @include largeView {
+    flex-direction: row;
+
+    .leftProcess {
+      width: 50%;
+      margin-right: 20px;
+      margin-bottom: 0px;
+    }
+
+    .rightProcess {
+      width: 50%;
+    }
+  }
+}
+
+.processButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}

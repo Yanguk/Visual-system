@@ -28,7 +28,7 @@ class HardDiskInfo {
 
     const used = _.go(
       diskList,
-      L.filter(info => (info[info.length - 1] === '/System/Volumes/Data') || (info[info.length - 1] === '/')),
+      L.filter(info => info[info.length - 1].includes('/')),
       L.map(info => Number(info[2])),
       L.filter(isNum),
       L.map(convertKbToGb),
@@ -38,6 +38,7 @@ class HardDiskInfo {
     const free = total - used;
 
     return {
+      dir: '/',
       total,
       used,
       free,
@@ -51,7 +52,7 @@ class HardDiskInfo {
       // eslint-disable-next-line no-console
       console.error(stderr);
 
-      return new Error(stderr);
+      return { ok: false };
     }
 
     const [headList, ...diskList] = _.go(

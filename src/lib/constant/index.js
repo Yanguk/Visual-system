@@ -2,6 +2,7 @@ export const graphEnum = {
   MARGIN: 'margin',
   COLOR: 'color',
   INTERVAL: 'INTERVAL',
+  FONT_SIZE: 'fontSize',
 };
 
 export const colorInfo = {
@@ -11,6 +12,11 @@ export const colorInfo = {
   bgColor: '#1B1C27',
   blue: '#4192EA',
   green: '#69b3a2',
+  green2: '#05C270',
+  red: '#FE3B3B',
+  text1: '#8F91A6',
+  text2: '#53596F',
+  text3: '#DADAE1',
 };
 
 export const channelEnum = {
@@ -20,10 +26,14 @@ export const channelEnum = {
   },
   MEMORY: {
     USAGE: 'memory-usage',
+  },
+  PROCESS: {
+    TOP: 'top',
   }
 };
 
 export const INTERVAL_TIME = 500;
+export const INTERVAL_TIME_TWO = 5000;
 
 export const COMMAND = {
   DISK: 'df -k',

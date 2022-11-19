@@ -18,6 +18,8 @@
     "email": "heo.yanguk@gmail.com"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "d3": "^7.6.1",
     "electron-squirrel-startup": "^1.0.0"
   },
@@ -28,6 +30,7 @@
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
     "@electron-forge/plugin-webpack": "^6.0.1",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
     "css-loader": "^6.7.1",
     "electron": "21.2.2",
     "eslint": "^8.27.0",

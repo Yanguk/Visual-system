@@ -1,0 +1,28 @@
+@import '../common/utils.scss';
+
+.toastWrapper {
+  position: absolute;
+  top: 30px;
+  right: 60px;
+  z-index: 9;
+  animation: toast-in-right 0.4s ease;
+  background-color: $innerNavy;
+  padding: 10px 20px;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 6px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 4px 6px 5px 0px rgba(188, 128, 128, 0.75);
+  box-shadow: 4px 6px 5px 0px rgba(0,0,0,0.75);
+
+  p {
+    font-weight: 600;
+  }
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

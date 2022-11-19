@@ -4,6 +4,7 @@ import $ from '../../lib/simpleDom';
 import renderHomePage from '../pages/homePage';
 import renderCPUPage from '../pages/cpuPage';
 import renderProcessPage from '../pages/processPage';
+import renderDiskPage from '../pages/diskPage';
 
 const root = $.qs('#root');
 
@@ -36,7 +37,7 @@ const pageInfo = {
   home: renderHomePage,
   cpu: renderCPUPage,
   memory: () => elementTest(mockElArr[1]),
-  disk: () => elementTest(mockElArr[2]),
+  disk: renderDiskPage,
   process: renderProcessPage,
   stats: () => elementTest(mockElArr[4]),
 };

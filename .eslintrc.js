@@ -11,6 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    treatUndefinedAsUnspecified: 0,
     'no-param-reassign': ['error', { props: false }],
     'no-plusplus': 0,
     'prefer-destructuring': ['error', { object: false, array: false }],

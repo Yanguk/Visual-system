@@ -1,14 +1,15 @@
-@import './style/utils.scss';
-@import './style/navbar.scss';
-@import './style/gridContainer.scss';
+@import './common/utils.scss';
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 html {
+  height: 100%;
+  width: 100%;
   background-color: $defaultBack;
   -ms-overflow-style: none;
 }
@@ -24,18 +25,19 @@ li {
 body {
   display: flex;
   width: 100vw;
-  max-height: 100vh;
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color: white;
+  color: $text3;
   background-color: $bgColor;
 }
 
 #root {
+  position: relative;
   width: calc(100vw - 100px);
-  max-height: 100vh;
-  overflow: auto;
+  height: 100%;
 }
 
-.gridContainer {
-  @include girdContainer;
+button {
+  border: 0;
+  outline: 0;
 }

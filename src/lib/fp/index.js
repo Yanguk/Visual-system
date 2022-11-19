@@ -75,7 +75,7 @@ const tap = curry((f, iter) => {
   return iter;
 });
 
-const join = curry((joinStr, str) => str.join(joinStr));
+const join = curry((joinStr = '', iter) => iter.join(joinStr));
 
 const range = pipe(L.range, takeAll);
 

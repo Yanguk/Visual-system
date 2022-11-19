@@ -23,7 +23,7 @@ const getProcessList = async cmd => {
     str => str.split('\n'),
     _.map(trimAndMakeArr),
     _.map(_.filter(identity)),
-    _.map(([a, b, c, d, e, ...f]) => [a, b, c, d, e, f.join('_')]),
+    _.map(([a, b, c, d, e, ...f]) => [f.join(' ').split('/').slice(-1)[0], a, b, c, d, e]),
   );
 
   list.pop();
@@ -37,21 +37,8 @@ export class ProcessInfo extends Observer {
 
     this.window = window;
     this.data = [];
+    this.topTenData = [];
     this.interval = null;
-  }
-
-  startInterval(time = 1000) {
-    this.interval = setInterval(async () => {
-      this.notify('interval', this);
-      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
-      if (this.data.length === 60) {
-        this.data = this.data.slice(-2);
-      }
-    }, time);
-  }
-
-  removeInterval() {
-    clearInterval(this.interval);
   }
 
   static async getProcessList(
@@ -71,15 +58,41 @@ export class ProcessInfo extends Observer {
   }
 
   static async killProcess(pid) {
-    const { stderr } = await asyncExec(COMMAND.PROCESS_LIST);
+    try {
+      if (!pid) {
+        return { ok: false, message: 'undefined pid' };
+      }
 
-    if (stderr) {
-      console.error(stderr);
+      const { stdout, stderr } = await asyncExec(`kill process ${pid}`);
 
-      return stderr;
+      const message = stderr ?? stdout;
+      const ok = !message.includes('failed');
+
+      return { ok, message };
+    } catch (err) {
+      return { ok: false, message: err.message };
     }
+  }
 
-    return { ok: true, message: 'success' };
+  startInterval(time = 1000) {
+    this.interval = setInterval(async () => {
+      const data = await ProcessInfo.getProcessList(10);
+      this.topTenData.push(data);
+
+      this.notify('interval', this);
+      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
+      if (this.topTenData.length === 60) {
+        this.data = this.data.slice(-2);
+      }
+    }, time);
+  }
+
+  removeInterval() {
+    clearInterval(this.interval);
+  }
+
+  getTopTenData() {
+    return this.topTenData[this.topTenData.length - 1];
   }
 }
 

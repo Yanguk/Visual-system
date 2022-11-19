@@ -1,13 +1,12 @@
-import { channelEnum, graphEnum, GRAPH_COLOR } from '../../../lib/constant';
-import _ from '../../../lib/fp';
-import L from '../../../lib/fp/lazy';
-import { curry, push } from '../../../lib/fp/util';
-import $ from '../../../lib/simpleDom';
-import drawGraphAndGetClear from '../../common/realTimeGraph';
-import { insertData, makeComponent, receiveChannel } from '../../util';
-import './index.scss';
-
-const root = $.qs('#root');
+import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
+import _ from '../../lib/fp';
+import L from '../../lib/fp/lazy';
+import { curry, push } from '../../lib/fp/util';
+import $ from '../../lib/simpleDom';
+import drawGraphAndGetClear from '../common/realTimeGraph';
+import {
+  insertData, makeComponent, receiveChannel, renderDom,
+} from '../util';
 
 const cpuInfo = [];
 
@@ -35,7 +34,7 @@ window.api.cpu().then(data => {
 
 const renderCPUPage = makeComponent(onMount => {
   const container = _.go(
-    $.template('article'),
+    $.template('article', ''),
     $.el,
     $.addClass('flexContainer'),
     $.addClass('cpuPage'),
@@ -53,7 +52,8 @@ const renderCPUPage = makeComponent(onMount => {
   );
 
   container.innerHTML = coreTemplate;
-  $.append(root, container);
+
+  onMount(renderDom(container));
 
   const changeUsageText = curry((el, data) => {
     el.textContent = `${data}%`;
@@ -70,8 +70,6 @@ const renderCPUPage = makeComponent(onMount => {
       }),
     );
   }));
-
-  onMount(() => container.remove());
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],

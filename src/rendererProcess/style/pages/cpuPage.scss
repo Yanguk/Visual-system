@@ -1,4 +1,4 @@
-@import '../../style/utils.scss';
+@import '../common/utils.scss';
 
 .flexContainer {
   display: flex;
@@ -6,6 +6,7 @@
   width: 100%;
   height: 100%;
   padding: 10px 20px;
+  overflow-y: auto;
 
   .cpu_core_wrapper {
     flex: 1;

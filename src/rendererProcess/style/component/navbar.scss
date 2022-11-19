@@ -1,11 +1,9 @@
-@import "./utils";
+@import '../common/utils.scss';
 
 .sideNavBar {
   display: flex;
   flex-direction: column;
   width: 100px;
-  height: 100vh;
-  min-height: 500px;
   background-color: $innerNavy;
   align-items: center;
 

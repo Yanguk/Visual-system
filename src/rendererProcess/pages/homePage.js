@@ -1,12 +1,14 @@
-/* eslint-disable no-console */
-import './index.scss';
-
-import _ from '../../../lib/fp';
-import $ from '../../../lib/simpleDom';
-import drawGraphAndGetClear from '../../common/realTimeGraph';
-import { channelEnum, graphEnum, GRAPH_COLOR } from '../../../lib/constant';
-import { insertData, makeComponent, receiveChannel } from '../../util';
-import { curry } from '../../../lib/fp/util';
+import _ from '../../lib/fp';
+import $ from '../../lib/simpleDom';
+import drawGraphAndGetClear from '../common/realTimeGraph';
+import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
+import {
+  customSetInterval,
+  insertData, makeComponent, receiveChannel, renderDom,
+} from '../util';
+import { curry } from '../../lib/fp/util';
+import ProcessList, { processListConfigEnum } from '../common/ProcessList';
+import { disk } from '../util/icons';
 
 const cpuData = [];
 const memoryData = [];
@@ -20,8 +22,6 @@ const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.USAGE);
 onCPUUsageEvent(intervalUpdateCPU);
 onMemoryUsageEvent(intervalUpdateMemory);
 
-const root = $.qs('#root');
-
 const renderHomePage = makeComponent(onMount => {
   const template = `
     <div class="gridContainer homePage">
@@ -30,17 +30,22 @@ const renderHomePage = makeComponent(onMount => {
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_userInfo item">userInfo</article>
-      <article class="home_temperature item">위에 유저정보 추가하고 여기 disk 요약 정리칸</article>
+      <article class="home_diskInfo item"></article>
       <article class="home_memory item">
         <p>free Memory: <span class="memory_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
-      <article class="home_process item">process</article>
+      <article class="home_process item">
+        <fieldset class="tableWrapper">
+          <legend>Process List</legend>
+        </fieldset>
+      </article>
     </div>
   `;
 
-  const container = $.append(root, $.el(template));
-  onMount(() => container.remove());
+  const container = $.el(template);
+
+  onMount(renderDom(container));
 
   const changeUsageText = curry((el, data) => {
     el.textContent = `${data}%`;
@@ -84,21 +89,20 @@ const renderHomePage = makeComponent(onMount => {
 
   const asyncWriteInfo = async () => {
     const userInfo = await window.api.userInfo();
-    const diskInfo = await window.api.disk();
 
     const infoEnum = {
       NAME: 'name',
       IP: 'ip',
       CPU: 'cpu',
       MEMORY: 'memory',
-      DISK: 'disk',
+      PLATFORM: 'platform',
+      ARCH: 'arch',
     };
 
     const targetInfo = {
       ...userInfo,
       name: userInfo.name.split('.')[0],
       memory: `${userInfo.memory}GB`,
-      disk: `${diskInfo.used}GB / ${diskInfo.total}GB`,
     };
 
     const infoTemplate = _.go(
@@ -115,6 +119,39 @@ const renderHomePage = makeComponent(onMount => {
   };
 
   asyncWriteInfo();
+
+  const processWrapper = $.qs('.tableWrapper', container);
+
+  const config = { [processListConfigEnum.SELECT]: false };
+
+  const processList = new ProcessList(processWrapper, config);
+
+  const getDataAndRenderProcess = async () => {
+    const data = await window.api.processList(21);
+    processList.render(data);
+  };
+
+  getDataAndRenderProcess();
+  onMount(customSetInterval(2000, getDataAndRenderProcess));
+
+  const diskWrapper = $.qs('.home_diskInfo', container);
+
+  const asyncWriteDiskInfo = async () => {
+    const diskInfo = await window.api.disk();
+
+    const diskTemplate = `
+      <h3><span>${disk} Disk:</span> '${diskInfo.dir}'</h3>
+      <div>
+      <p><span>Used:</span> ${diskInfo.used}GiB<p>
+      <p><span>Free:</span> ${diskInfo.free}GiB<p>
+      <p><span>Total:</span> ${diskInfo.total}GiB<p>
+      </div>
+    `;
+
+    $.afterBeginInnerHTML(diskWrapper, diskTemplate);
+  };
+
+  asyncWriteDiskInfo();
 });
 
 export default renderHomePage;

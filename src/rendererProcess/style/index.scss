@@ -1,0 +1,15 @@
+@import './global.scss';
+
+@import './component/navbar.scss';
+@import './component/processComponent.scss';
+@import './component/toastComponent.scss';
+
+@import './pages/processPage.scss';
+@import './pages/HomePage.scss';
+@import './pages/cpuPage.scss';
+
+// todo: 추후삭제
+.test {
+  position: absolute;
+  top: 0;
+}

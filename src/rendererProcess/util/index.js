@@ -1,12 +1,16 @@
 import { DOMAIN_TIME_DIFF } from '../../lib/constant';
-import { makeOnMount, pushAndShift } from '../../lib/fp';
+import { makeOnMount } from '../../lib/fp';
+import { curry } from '../../lib/fp/util';
+import $ from '../../lib/simpleDom';
+
+const root = $.qs('#root');
 
 export const receiveChannel = channel => window.connect.on(channel);
 
-export const makeComponent = renderFn => (a, b, c) => {
+export const makeComponent = renderFn => (...rest) => {
   const [onMount, clearEvent] = makeOnMount();
 
-  renderFn(onMount, a, b, c);
+  renderFn(onMount, ...rest);
 
   return clearEvent;
 };
@@ -17,21 +21,31 @@ export const getTimeDomain = () => {
   return domain;
 };
 
-export const insertData = arr => {
-  let isMaxLength = false;
+export const insertData = curry((arr, data) => {
+  const info = { data, date: new Date() };
 
-  return data => {
-    const info = { data, date: new Date() };
+  if (arr[0]?.date && (arr[0].date < new Date(info.date - DOMAIN_TIME_DIFF))) {
+    arr.shift();
+  }
 
-    if (isMaxLength) {
-      pushAndShift(arr, info);
-      return;
-    }
+  arr.push(info);
+});
 
-    if (arr[0]?.date && (arr[0].date < new Date(info.date - DOMAIN_TIME_DIFF))) {
-      isMaxLength = true;
-    } else {
-      arr.push(info);
-    }
-  };
+export const renderDom = el => {
+  $.append(root, el);
+  return () => el.remove();
 };
+
+export const customAddEventListener = (eventName, f, parent = window) => {
+  const handler = () => f();
+
+  parent.addEventListener(eventName, handler);
+
+  return () => parent.removeEventListener(eventName, handler);
+};
+
+export const customSetInterval = curry((time, f) => {
+  const handler = window.setInterval(f, time);
+
+  return () => window.clearInterval(handler);
+});
