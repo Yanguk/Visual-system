@@ -1,22 +1,12 @@
-/* eslint-disable no-console */
-import { exec } from 'node:child_process';
-import util from 'node:util';
 import { COMMAND } from '../../lib/constant';
 import _ from '../../lib/fp';
 import { identity, trimAndMakeArr } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
-
-const asyncExec = util.promisify(exec);
+import customExec from '../osUtil/customExec';
 
 const getProcessList = async cmd => {
-  const { stdout, stderr } = await asyncExec(cmd);
-
-  if (stderr) {
-    console.error(stderr);
-
-    return stderr;
-  }
+  const stdout = await customExec(cmd);
 
   const list = _.go(
     stdout,
@@ -63,9 +53,7 @@ export class ProcessInfo extends Observer {
         return { ok: false, message: 'undefined pid' };
       }
 
-      const { stdout, stderr } = await asyncExec(`kill process ${pid}`);
-
-      const message = stderr ?? stdout;
+      const message = await customExec(`kill process ${pid}`);
       const ok = !message.includes('failed');
 
       return { ok, message };

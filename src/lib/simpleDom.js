@@ -14,6 +14,7 @@ const el = html => {
 };
 
 const append = curry((parent, child) => (parent.appendChild(child), child));
+
 const afterBeginInnerHTML = curry((parent, html) => (parent.insertAdjacentHTML('afterbegin', html), parent));
 
 const template = curry((tag, value = "") => `<${tag}>${value}</${tag}>`);

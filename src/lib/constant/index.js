@@ -26,6 +26,7 @@ export const channelEnum = {
   },
   MEMORY: {
     USAGE: 'memory-usage',
+    DETAIL: 'memory-detail',
   },
   PROCESS: {
     TOP: 'top',

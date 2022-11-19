@@ -32,7 +32,7 @@ const renderHomePage = makeComponent(onMount => {
       <article class="home_userInfo item">userInfo</article>
       <article class="home_diskInfo item"></article>
       <article class="home_memory item">
-        <p>free Memory: <span class="memory_usage text"></span></p>
+        <p>Memory usage: <span class="memory_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_process item">

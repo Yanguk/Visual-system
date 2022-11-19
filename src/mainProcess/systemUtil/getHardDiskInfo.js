@@ -4,20 +4,11 @@ import L from '../../lib/fp/lazy';
 import {
   add, convertKbToGb, isNum, trimAndMakeArr,
 } from '../../lib/fp/util';
-
-const util = require('node:util');
-const exec = util.promisify(require('node:child_process').exec);
+import customExec from '../osUtil/customExec';
 
 class HardDiskInfo {
   static getHardDiskInfo = async function diskInfo() {
-    const { stdout, stderr } = await exec(COMMAND.DISK);
-
-    if (stderr) {
-      // eslint-disable-next-line no-console
-      console.error(stderr);
-
-      return new Error(stderr);
-    }
+    const stdout = await customExec(COMMAND.DISK);
 
     const diskList = _.go(
       stdout.split('\n'),
@@ -46,14 +37,7 @@ class HardDiskInfo {
   };
 
   static getHardDiskInfoAll = async function allInfo() {
-    const { stdout, stderr } = await exec(COMMAND.DISK);
-
-    if (stderr) {
-      // eslint-disable-next-line no-console
-      console.error(stderr);
-
-      return { ok: false };
-    }
+    const stdout = await customExec(COMMAND.DISK);
 
     const [headList, ...diskList] = _.go(
       stdout.split('\n'),

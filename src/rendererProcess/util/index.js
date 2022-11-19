@@ -24,11 +24,15 @@ export const getTimeDomain = () => {
 export const insertData = curry((arr, data) => {
   const info = { data, date: new Date() };
 
-  if (arr[0]?.date && (arr[0].date < new Date(info.date - DOMAIN_TIME_DIFF))) {
-    arr.shift();
-  }
-
   arr.push(info);
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i]?.date && (arr[i].date <= new Date(info.date - DOMAIN_TIME_DIFF + 100))) {
+      arr.shift();
+    } else {
+      break;
+    }
+  }
 });
 
 export const renderDom = el => {

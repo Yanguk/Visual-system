@@ -3,10 +3,10 @@ import $ from '../../lib/simpleDom';
 import Toast from '../common/Toast';
 import { makeComponent, renderDom } from '../util';
 
-const renderDiskPage = makeComponent(onMount => {
+const renderStatsPage = makeComponent(onMount => {
   const template = `
-    <div class="diskPageContainer">
-     <button class="test">Test</button>
+    <div class="statsContainer">
+      <button class="test">Test</button>
     </div>
   `;
 
@@ -26,4 +26,4 @@ const renderDiskPage = makeComponent(onMount => {
   });
 });
 
-export default renderDiskPage;
+export default renderStatsPage;
