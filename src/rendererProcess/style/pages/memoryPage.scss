@@ -27,6 +27,7 @@
 
       .pieChartWrapper {
         height: 80%;
+        justify-content: center;
       }
 
       .sectionItemHear {
@@ -37,26 +38,38 @@
       }
     }
 
+    .memoryTable {
+      th {
+        width: 100px;
+      }
+
+      td {
+        width: 100px;
+      }
+
+      th, td {
+        margin: 30px 0px;
+      }
+    }
+
     @include largeView{
       flex-direction: row;
 
       section {
         width: calc(100% / 3 - 10px);
-        height: 60%;
+        height: 50%;
       }
     }
   }
 }
 
 .columnTable {
-  display:flex;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  overflow-x: auto;
-  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  tbody {
-    display:flex
+  tbody, thead {
+    height: 100%;
   }
 
   th, td {

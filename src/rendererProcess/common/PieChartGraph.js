@@ -1,7 +1,9 @@
 /* eslint-disable newline-per-chained-call */
 import * as d3 from 'd3';
 import { colorInfo } from '../../lib/constant';
+import { add } from '../../lib/fp/util';
 import { delay } from '../../lib/time';
+import _ from '../../lib/fp';
 
 const makeArcTween = arcFn => d => {
   const arc = arcFn;
@@ -14,18 +16,18 @@ const makeArcTween = arcFn => d => {
 };
 
 export default class PieChartGraph {
-  constructor(parentEl, config) {
+  constructor(parentEl) {
     this.parentEl = parentEl;
     this.svg = null;
     this.chart = null;
-    this.config = config;
-    this.data = [];
-    this.color = [];
+    this.color = null;
     this.pie = null;
+    this.data = [];
     this.arc = null;
     this.outerArc = null;
     this.duration = 1000;
     this.isInit = true;
+    this.sum = 0;
   }
 
   render(data) {
@@ -38,8 +40,10 @@ export default class PieChartGraph {
     const [width, height] = [this.parentEl.clientWidth, this.parentEl.clientHeight];
     const margin = Math.min(width, height) / 10;
     const radius = Math.min(width, height) / 2 - margin;
+    const rebelGap = 20;
+    const fontSize = '0.8rem';
 
-    if (!this.svg) {
+    if (this.isInit) {
       this.svg = d3.select(this.parentEl)
         .append('svg');
     }
@@ -51,17 +55,17 @@ export default class PieChartGraph {
       .attr('height', height);
 
     this.chart
-      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+      .attr('transform', `translate(${width / 2}, ${height / 2 - height / 10})`);
 
-    if (this.color.length === 0) {
+    if (this.isInit) {
       this.color = d3.scaleOrdinal()
         .domain(Object.keys(data))
         .range(d3.schemeDark2);
     }
 
     this.pie = d3.pie()
-      .sort((a, b) => b - a)
-      .value(d => d[1]);
+      .value(d => d[1])
+      .sort((a, b) => a[1] - b[1]);
 
     const pieData = this.pie(Object.entries(data));
 
@@ -110,23 +114,25 @@ export default class PieChartGraph {
           const posB = outerArc.centroid(d);
           const posC = outerArc.centroid(d);
           const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          posC[0] = radius * 0.7 * (midAngle < Math.PI ? 1 : -1);
+          posC[0] = radius * 0.78 * (midAngle < Math.PI ? 1 : -1);
 
           return [posA, posB, posC];
         });
 
     this.chart
+      .append('g')
+      .attr('class', 'chartText')
       .selectAll('text')
       .data(pieData)
       .join('text')
         .text(d => d.data[0])
       .transition().duration(duration)
         .attr('fill', colorInfo.text3)
-        .attr('font-size', '12px')
+        .attr('font-size', fontSize)
         .attr('transform', d => {
           const pos = outerArc.centroid(d);
           const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-          pos[0] = radius * 0.74 * (midAngle < Math.PI ? 1 : -1);
+          pos[0] = radius * 0.8 * (midAngle < Math.PI ? 1 : -1);
           pos[1] += 3;
 
           return `translate(${pos})`;
@@ -135,14 +141,48 @@ export default class PieChartGraph {
           const midAngle = d.startAngle + (d.endAngle - d.startAngle) / 2;
           return midAngle < Math.PI ? 'start' : 'end';
         });
+
+    const legendG = this.chart
+      .selectAll('.legend')
+      .data(pieData)
+      .join('g')
+        .attr('transform', (d, i) => `translate(${-radius + margin}, ${radius + i * rebelGap})`)
+        .attr('class', 'legend');
+
+    legendG
+      .append('rect')
+      .attr('width', 10)
+      .attr('height', 10)
+      .attr('fill', d => this.color(d.data[0]));
+
+    const sum = _.go(
+      pieData,
+      _.map(d => d.data[1]),
+      _.reduce(add),
+    );
+
+    this.sum = sum;
+
+    legendG.append('text')
+      .text(d => `${d.data[0]} ${Math.round((d.data[1] / sum) * 100)} %`)
+      .attr('fill', colorInfo.text3)
+      .style('font-size', fontSize)
+      .attr('y', 10)
+      .attr('x', 15);
   }
 
   update(data) {
+    const pieData = this.pie(Object.entries(data));
+
+    this.chart
+      .selectAll('.legend text')
+      .join('text')
+      .attr('d', pieData)
+      .text(d => `${d.data[0]} ${Math.round((d.data[1] / this.sum) * 100)} %`);
+
     if (this.isInit) {
       return;
     }
-
-    const pieData = this.pie(Object.entries(data));
 
     this.chart
       .selectAll('path')
@@ -167,6 +207,7 @@ export default class PieChartGraph {
     .transition().duration(this.duration);
 
     this.chart
+      .select('.chartText')
       .selectAll('text')
       .data(pieData)
       .join('text')

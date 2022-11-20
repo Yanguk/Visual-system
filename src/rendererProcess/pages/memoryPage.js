@@ -1,9 +1,8 @@
 /* eslint-disable function-paren-newline */
-import { channelEnum, colorInfo, graphEnum } from '../../lib/constant';
+import { channelEnum, graphEnum } from '../../lib/constant';
 import _ from '../../lib/fp';
 import $ from '../../lib/simpleDom';
 import PieChartGraph from '../common/PieChartGraph';
-import Toast from '../common/Toast';
 import {
   customAddEventListener,
   makeComponent,
@@ -75,10 +74,10 @@ const renderMemoryPage = makeComponent(onMount => {
             <table class="columnTable memoryTable">
               <thead>
                 <tr>
-                  <th>App</th>
-                  <th>Wired</th>
-                  <th>Free</th>
-                  <th>Total</th>
+                  <th>App: </th>
+                  <th>Wired: </th>
+                  <th>Free: </th>
+                  <th>Total: </th>
                 </tr>
                 </thead>
               <tbody>
@@ -93,7 +92,6 @@ const renderMemoryPage = makeComponent(onMount => {
           </div>
         </section>
       </div>
-      <button class="test">Test</button>
     </div>
   `;
 
@@ -154,15 +152,6 @@ const renderMemoryPage = makeComponent(onMount => {
     onMount(
       onMemoryUsageEvent(
         twoIntervalHandler.update.bind(twoIntervalHandler)));
-  });
-
-  const toastElement = new Toast();
-
-  $.qs('.test').addEventListener('click', async () => {
-    const memoryDetail = await window.api.memoryDetail();
-    toastElement.render('테스트', colorInfo.green2);
-    // eslint-disable-next-line no-console
-    console.log(memoryDetail);
   });
 });
 
