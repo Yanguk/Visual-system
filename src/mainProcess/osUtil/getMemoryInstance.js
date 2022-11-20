@@ -6,17 +6,6 @@ import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
 import customExec from './customExec';
 
-export const memoryInfoEnum = {
-  TOTAL_MEM_MB: 'totalMemMb',
-  USED_MEM_MB: 'usedMemMb',
-  FREE_MEM_MB: 'freeMemMb',
-  USED_MEM_PERCENTAGE: 'usedMemPercentage',
-  FREE_MEM_PERCENTAGE: 'freeMemPercentage',
-  COMPRESSED_MB: 'compressedMb',
-  WIRED_MB: 'wiredMb',
-  APP_MB: 'appMb',
-};
-
 export class MemoryInfo extends Observer {
   constructor(window) {
     super();

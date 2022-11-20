@@ -52,6 +52,14 @@ const getIndex = function* (iter) {
   }
 };
 
+const iterObjKey = curry(function* (f, obj) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      yield f([key, obj[key]]);
+    }
+  }
+});
+
 const L = {
   map,
   filter,
@@ -59,6 +67,7 @@ const L = {
   flatten,
   reject,
   getIndex,
+  iterObjKey,
 };
 
 export default L;

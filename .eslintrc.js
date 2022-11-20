@@ -11,6 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'function-paren-newline': ['error', 'consistent'],
     treatUndefinedAsUnspecified: 0,
     'no-param-reassign': ['error', { props: false }],
     'no-plusplus': 0,

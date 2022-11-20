@@ -22,13 +22,13 @@ const template = curry((tag, value = "") => `<${tag}>${value}</${tag}>`);
 const templateClass = (tag, ...rest) => {
   const classList = rest.join(' ');
 
-  return value => `<${tag} class="${classList}"></${tag}>`
+  return value => `<${tag} class="${classList}">${value}</${tag}>`
 };
 
 const addClass = curry((value, el) => (el?.classList.add(value), el));
 const removeClass = curry((value, el) => (el?.classList.remove(value), el));
 
-const getAddEvent = (eventName) => curry((f, el) => (el.addEventListener(eventName, f), el));
+const onAddEvent = (eventName) => curry((f, el) => (el.addEventListener(eventName, f), el));
 
 const $ = {
   qs,
@@ -40,7 +40,7 @@ const $ = {
   template,
   addClass,
   removeClass,
-  getAddEvent,
+  onAddEvent,
   templateClass,
   afterBeginInnerHTML,
 };

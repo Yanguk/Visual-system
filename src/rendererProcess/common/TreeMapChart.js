@@ -1,5 +1,6 @@
-/* eslint-disable no-nested-ternary */
 /* eslint-disable newline-per-chained-call */
+/* eslint-disable no-nested-ternary */
+
 import * as d3 from 'd3';
 import { graphEnum, colorInfo } from '../../lib/constant';
 
@@ -85,7 +86,7 @@ export default class TreeMapChart {
           update
             .transition().duration(duration)
               .attr('transform', d => `translate(${d.x0},${d.y0})`)
-              .select('rect')
+            .select('rect')
               .attr('width', d => d.x1 - d.x0)
               .attr('height', d => d.y1 - d.y0)
               .attr('fill', (d, i) => (
@@ -98,33 +99,13 @@ export default class TreeMapChart {
 
           update
             .select('text')
-            .text(d => `${d.data.name} ${d.data.value}`)
-            .attr('data-width', d => d.x1 - d.x0)
-            .attr('font-size', `${fontSize}px`)
-            .attr('x', 3)
-            .attr('y', fontSize)
-            .call(this.wrapText.bind(this));
+            .attr('data-width', d => d.x1 - d.x0);
         },
-        exit => {
-          exit
-            .select('rect')
-            .attr('width', d => d.x1 - d.x0)
-            .attr('height', d => d.y1 - d.y0);
-
-          exit
-            .selectAll('text')
-            .attr('data-width', d => d.x1 - d.x0)
-            .attr('font-size', `${fontSize}px`)
-            .attr('x', 3)
-            .attr('y', fontSize)
-            .call(this.wrapText.bind(this));
-
-          exit
+        exit => exit
             .style('opacity', 1)
           .transition().duration(duration)
             .style('opacity', 1e-6)
-            .remove();
-        },
+            .remove(),
       );
 
     this.isInit = false;

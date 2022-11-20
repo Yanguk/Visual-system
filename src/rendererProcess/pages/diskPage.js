@@ -5,8 +5,10 @@ import { makeComponent, renderDom } from '../util';
 
 const renderDiskPage = makeComponent(onMount => {
   const template = `
-    <div class="diskPageContainer">
-     <button class="test">Test</button>
+    <div class="diskPageContainer" id="disk">
+      <div class="diskPageWrapper">
+      </div>
+      <button class="test">Test</button>
     </div>
   `;
 
@@ -15,14 +17,10 @@ const renderDiskPage = makeComponent(onMount => {
 
   const toastElement = new Toast();
   $.qs('.test').addEventListener('click', async () => {
-    // eslint-disable-next-line no-shadow
-    const processList = await window.api.processList(200);
-    // eslint-disable-next-line no-console
-    console.log(processList);
-    const memoryDetail = await window.api.memoryDetail();
+    const diskAll = await window.api.diskAll();
     toastElement.render('테스트', colorInfo.green2);
     // eslint-disable-next-line no-console
-    console.log(memoryDetail);
+    console.log(diskAll);
   });
 });
 

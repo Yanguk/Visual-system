@@ -1,0 +1,65 @@
+@import '../common/utils.scss';
+@import '../common/flexContainer.scss';
+
+.memoryPageContainer {
+  @include flexContainer;
+
+  .memoryPageWrapper {
+    @include flexContainer;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 80%;
+      height: calc(100% / 3 - 10px);
+      text-align: center;
+      background-color: $innerNavy;
+      border-radius: 10px;
+
+      .p {
+        height: 20%;
+      }
+
+      .pieChartWrapper {
+        height: 80%;
+      }
+
+      .sectionItemHear {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 20%;
+      }
+    }
+
+    @include largeView{
+      flex-direction: row;
+
+      section {
+        width: calc(100% / 3 - 10px);
+        height: 60%;
+      }
+    }
+  }
+}
+
+.columnTable {
+  display:flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  tbody {
+    display:flex
+  }
+
+  th, td {
+    display:block
+  }
+}

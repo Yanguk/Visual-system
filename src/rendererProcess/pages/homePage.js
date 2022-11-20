@@ -24,7 +24,7 @@ onMemoryUsageEvent(intervalUpdateMemory);
 
 const renderHomePage = makeComponent(onMount => {
   const template = `
-    <div class="gridContainer homePage">
+    <div class="gridContainer homePage" id="home">
       <article class="home_cpu item">
         <p>CPU usage: <span class="cpu_usage text"></span></p>
         <div class="svg_wrapper"></div>
@@ -60,6 +60,7 @@ const renderHomePage = makeComponent(onMount => {
   const memoryEl = $.qs(classList.MEMORY_USAGE, container);
 
   onMount(onCPUUsageEvent(changeUsageText(cpuTextEl)));
+
   onMount(onMemoryUsageEvent(changeUsageText(memoryEl)));
 
   const cpuWrapper = $.find('.svg_wrapper', container);

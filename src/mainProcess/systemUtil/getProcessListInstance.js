@@ -48,18 +48,14 @@ export class ProcessInfo extends Observer {
   }
 
   static async killProcess(pid) {
-    try {
-      if (!pid) {
-        return { ok: false, message: 'undefined pid' };
-      }
-
-      const message = await customExec(`kill process ${pid}`);
-      const ok = !message.includes('failed');
-
-      return { ok, message };
-    } catch (err) {
-      return { ok: false, message: err.message };
+    if (!pid) {
+      return { ok: false, message: 'undefined pid' };
     }
+
+    const message = await customExec(`kill process ${pid}`);
+    const ok = !message.includes('failed');
+
+    return { ok, message };
   }
 
   startInterval(time = 1000) {

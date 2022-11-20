@@ -14,7 +14,7 @@ const cpuAllUsageCoreInfo = [];
 
 const onAllUsageCPUEvent = receiveChannel(channelEnum.CPU.ALL_USAGE);
 
-window.api.cpu().then(data => {
+const init = window.api.cpu().then(data => {
   _.each(push(cpuInfo), data);
 
   const insertDataFns = _.go(
@@ -32,7 +32,7 @@ window.api.cpu().then(data => {
   });
 });
 
-const renderCPUPage = makeComponent(onMount => {
+const renderCPUPage = makeComponent(async onMount => {
   const container = _.go(
     $.template('article', ''),
     $.el,
@@ -40,20 +40,24 @@ const renderCPUPage = makeComponent(onMount => {
     $.addClass('cpuPage'),
   );
 
+  container.id = 'cpu';
+
+  await init;
+
+  onMount(renderDom(container));
+
   const coreTemplate = _.go(
     L.range(cpuInfo.length),
     _.map(index => `
       <div class="cpu_core_wrapper">
-        <p>CPU CORE ${index + 1} 사용량 <span class="cpu_text"></span></p>
+        <p>CPU CORE ${index + 1} usage <span class="cpu_text"></span></p>
         <div class="cpu_core item"></div>
       </div>
     `),
     _.join('\n'),
   );
 
-  container.innerHTML = coreTemplate;
-
-  onMount(renderDom(container));
+  $.afterBeginInnerHTML(container, coreTemplate);
 
   const changeUsageText = curry((el, data) => {
     el.textContent = `${data}%`;

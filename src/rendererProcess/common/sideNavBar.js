@@ -7,8 +7,6 @@ import renderDiskPage from '../pages/diskPage';
 import renderMemoryPage from '../pages/memoryPage';
 import renderStatsPage from '../pages/statsPage';
 
-let preClear = renderHomePage();
-
 const sideNavBar = $.qs('.sideNavBar');
 const navWrapper = $.find('.sideNavBar__wrapper', sideNavBar);
 
@@ -20,6 +18,18 @@ const pageInfo = {
   process: renderProcessPage,
   stats: renderStatsPage,
 };
+
+const prePage = window.localStorage.getItem('prePage');
+
+let preClear = prePage
+  ? pageInfo[prePage]()
+  : renderHomePage();
+
+const targetNav = prePage
+  ? $.qs(`#${prePage}`)
+  : $.qs('#home');
+
+$.addClass('active', targetNav);
 
 const render = e => {
   const navEl = e.currentTarget;
@@ -42,6 +52,6 @@ const render = e => {
   );
 };
 
-const onClick = $.getAddEvent('click');
+const onClick = $.onAddEvent('click');
 
 [...navWrapper.children].forEach(onClick(render));

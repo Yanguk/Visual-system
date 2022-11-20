@@ -81,6 +81,8 @@ const range = pipe(L.range, takeAll);
 
 const getIndex = pipe(L.getIndex, takeAll);
 
+const iterObjKey = f => pipe(L.iterObjKey(f), iter => [...iter]);
+
 const _ = {
   take,
   takeAll,
@@ -96,6 +98,7 @@ const _ = {
   join,
   range,
   getIndex,
+  iterObjKey,
 };
 
 export default _;

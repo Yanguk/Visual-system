@@ -22,7 +22,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    min-height: calc(50% - 20px);
     margin-bottom: 20px;
     align-items: center;
 
@@ -47,7 +47,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: calc(50% - 20px);
     overflow: auto;
 
     .rightTitle {
@@ -75,12 +75,14 @@
 
     .leftProcess {
       width: 50%;
+      height: 100%;
       margin-right: 20px;
       margin-bottom: 0px;
     }
 
     .rightProcess {
       width: 50%;
+      height: 100%;
     }
   }
 }

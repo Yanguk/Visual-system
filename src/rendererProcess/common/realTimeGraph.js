@@ -23,11 +23,11 @@ const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => 
     const graphHeight = height - mt - mb;
 
     const graph = svg
-      .attr('width', width)
-      .attr('height', height)
+        .attr('width', width)
+        .attr('height', height)
       .append('g')
-      .attr('class', 'graph')
-      .attr('transform', `translate(${ml}, ${mt})`);
+        .attr('class', 'graph')
+        .attr('transform', `translate(${ml}, ${mt})`);
 
     const xScale = d3.scaleTime()
       .domain(getTimeDomain())
@@ -38,9 +38,9 @@ const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => 
       .range([graphHeight, 0]);
 
     const xAisG = graph
-      .append('g')
-      .attr('transform', `translate(0, ${graphHeight})`)
-      .call(d3.axisBottom(xScale).ticks(10).tickSizeOuter(0));
+        .append('g')
+        .attr('transform', `translate(0, ${graphHeight})`)
+        .call(d3.axisBottom(xScale).ticks(10).tickSizeOuter(0));
 
     graph
       .append('g')
@@ -60,21 +60,21 @@ const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => 
 
     const path = graph
       .append('g')
-      .attr('class', 'fillPath')
+        .attr('class', 'fillPath')
       .append('path')
-      .attr('fill', graphColor)
-      .attr('fill-opacity', 0.3)
-      .attr('stroke', 'none')
-      .attr('d', areaFn(data));
+        .attr('fill', graphColor)
+        .attr('fill-opacity', 0.3)
+        .attr('stroke', 'none')
+        .attr('d', areaFn(data));
 
     const strokePath = graph
       .append('g')
-      .attr('class', 'strokePath')
+        .attr('class', 'strokePath')
       .append('path')
-      .attr('fill', 'none')
-      .attr('stroke', graphColor)
-      .attr('stroke-width', 1)
-      .attr('d', lineFn(data));
+        .attr('fill', 'none')
+        .attr('stroke', graphColor)
+        .attr('stroke-width', 1)
+        .attr('d', lineFn(data));
 
     graphController.updateDraw = () => {
       xScale.domain(getTimeDomain());

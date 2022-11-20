@@ -1,5 +1,5 @@
-import { DOMAIN_TIME_DIFF } from '../../lib/constant';
-import { makeOnMount } from '../../lib/fp';
+import { DOMAIN_TIME_DIFF, memoryInfoEnum } from '../../lib/constant';
+import _, { makeOnMount } from '../../lib/fp';
 import { curry } from '../../lib/fp/util';
 import $ from '../../lib/simpleDom';
 
@@ -36,6 +36,8 @@ export const insertData = curry((arr, data) => {
 });
 
 export const renderDom = el => {
+  window.localStorage.setItem('prePage', el.id);
+
   $.append(root, el);
   return () => el.remove();
 };
@@ -53,3 +55,33 @@ export const customSetInterval = curry((time, f) => {
 
   return () => window.clearInterval(handler);
 });
+
+export const processingMemoryData = memoryData => {
+  const mapping = {
+    [memoryInfoEnum.TOTAL_MEM_MB]: 'Total',
+    [memoryInfoEnum.USED_MEM_MB]: 'Used',
+    [memoryInfoEnum.FREE_MEM_MB]: 'Free',
+    [memoryInfoEnum.USED_MEM_PERCENTAGE]: 'Usage %',
+    [memoryInfoEnum.FREE_MEM_PERCENTAGE]: 'Free %',
+    [memoryInfoEnum.APP_MB]: 'App',
+    [memoryInfoEnum.COMPRESSED_MB]: 'Compressed',
+    [memoryInfoEnum.WIRED_MB]: 'Wired',
+  };
+
+  const newObj = {};
+
+  _.go(
+    memoryData,
+    _.iterObjKey(([key, value]) => {
+      if (
+        key === memoryInfoEnum.USED_MEM_PERCENTAGE
+        || key === memoryInfoEnum.FREE_MEM_PERCENTAGE) {
+        newObj[mapping[key]] = value;
+      } else {
+        newObj[mapping[key]] = parseFloat((value / 1024).toFixed(2));
+      }
+    }),
+  );
+
+  return newObj;
+};

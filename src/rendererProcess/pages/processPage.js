@@ -8,7 +8,7 @@ import _ from '../../lib/fp';
 import TreeMapChart from '../common/TreeMapChart';
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
 
-const terrifyingProcessData = (data, selectIndex) => _.go(
+const processingProcessData = (data, selectIndex) => _.go(
   data,
   ([_title, ...rest]) => rest,
   _.map(info => ({ name: info[0], value: info[selectIndex] })),
@@ -16,7 +16,7 @@ const terrifyingProcessData = (data, selectIndex) => _.go(
 
 const renderProcessPage = makeComponent(onMount => {
   const template = `
-    <div class="processPageContainer">
+    <div class="processPageContainer" id="process">
       <section class="leftProcess">
         <div class="leftTitle">
           <p>CPU usage %</p>
@@ -75,10 +75,9 @@ const renderProcessPage = makeComponent(onMount => {
 
   const treeMapChart = new TreeMapChart(processTreeChartWrapper, config);
 
-  const makeTreeData = (info, name) => {
-    const infoObj = { name, children: terrifyingProcessData(info, 2) };
-    return infoObj;
-  };
+  const makeTreeData = (info, name) => (
+    { name, children: processingProcessData(info, 2) }
+  );
 
   const updateProcessData = async () => {
     const data = await window.api.processList(100);

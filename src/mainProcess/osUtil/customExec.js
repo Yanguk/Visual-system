@@ -8,11 +8,7 @@ const customExec = async command => {
 
   const { stdout, stderr } = await asyncExec(runCommand);
 
-  if (stderr) {
-    throw new Error(stderr);
-  }
-
-  return stdout;
+  return stdout ?? stderr;
 };
 
 export default customExec;

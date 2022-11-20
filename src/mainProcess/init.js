@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron';
 import os from 'os';
-import { channelEnum, INTERVAL_TIME } from '../lib/constant';
+import { channelEnum, INTERVAL_TIME, memoryInfoEnum } from '../lib/constant';
 import { curry } from '../lib/fp/util';
 import getCPUInstance from './osUtil/getCPUInstance';
-import getMemoryInstance, { MemoryInfo, memoryInfoEnum } from './osUtil/getMemoryInstance';
+import getMemoryInstance, { MemoryInfo } from './osUtil/getMemoryInstance';
 import getUserInfo from './osUtil/getUserInfo';
 import HardDiskInfo from './systemUtil/getHardDiskInfo';
 import { ProcessInfo } from './systemUtil/getProcessListInstance';

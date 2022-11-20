@@ -34,7 +34,7 @@ export const channelEnum = {
 };
 
 export const INTERVAL_TIME = 500;
-export const INTERVAL_TIME_TWO = 5000;
+export const INTERVAL_TIME_TWO = 3000;
 
 export const COMMAND = {
   DISK: 'df -k',
@@ -54,3 +54,14 @@ export const REGEX = {
   removeSpaceTow: /^\s+|\s{2,}/g,
   removeAllSpace: /[\s\n\r]+/g,
 }
+
+export const memoryInfoEnum = {
+  TOTAL_MEM_MB: 'totalMemMb',
+  USED_MEM_MB: 'usedMemMb',
+  FREE_MEM_MB: 'freeMemMb',
+  USED_MEM_PERCENTAGE: 'usedMemPercentage',
+  FREE_MEM_PERCENTAGE: 'freeMemPercentage',
+  COMPRESSED_MB: 'compressedMb',
+  WIRED_MB: 'wiredMb',
+  APP_MB: 'appMb',
+};

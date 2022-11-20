@@ -6,13 +6,17 @@ $text2: #53596F;
 $text1: #8F91A6;
 $text3: #DADAE1;
 
-// $small: 300px;
-$small: 767px;
+$middle: 767px;
 $large: 1024px;
-// $large: 700px;
+
+@mixin smallView {
+  @media (max-width: $middle) {
+    @content;
+  }
+}
 
 @mixin middleView{
-  @media (min-width: $small) {
+  @media (min-width: ($middle + 1px)) and (max-width: ($large - 1px)) {
     @content;
   }
 }
