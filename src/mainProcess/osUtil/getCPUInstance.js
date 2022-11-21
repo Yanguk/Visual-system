@@ -1,4 +1,5 @@
 import os from 'os';
+import cumulativeAverage from '../../lib/cumulativeAverage';
 import _ from '../../lib/fp';
 import L from '../../lib/fp/lazy';
 import {
@@ -6,6 +7,10 @@ import {
 } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
+import FileSystem from '../fsUtil/FileSystem';
+
+const titles = ['date', 'averagePercentage'];
+const cpuFilsSystem = new FileSystem('cpu', titles);
 
 export class CPUInfo extends Observer {
   constructor(window) {
@@ -15,6 +20,9 @@ export class CPUInfo extends Observer {
     this.data = [os.cpus()];
     this.interval = null;
     this.count = this.data[0].length;
+    this.average = 0;
+    this.averageCount = 0;
+    this.intervalTime = 0;
   }
 
   static getCPUTotal(cpus) {
@@ -40,7 +48,8 @@ export class CPUInfo extends Observer {
     };
   }
 
-  startInterval(time = 1000) {
+  startInterval(time = 500) {
+    this.intervalTime = time;
     this.interval = setInterval(async () => {
       const info = os.cpus();
 
@@ -48,10 +57,13 @@ export class CPUInfo extends Observer {
 
       this.notify('interval', this);
 
-      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
-      if (this.data.length === 60) {
-        this.data = this.data.slice(-2);
+      if (this.data.length === 3) {
+        this.data.shift();
       }
+
+      const millisecond = (this.intervalTime * this.averageCount);
+
+      cpuFilsSystem.intervalSave(millisecond, this.average);
     }, time);
   }
 
@@ -84,8 +96,11 @@ export class CPUInfo extends Observer {
     );
 
     const percentage = 1 - idle / total;
+    const result = makePercentage(2, percentage);
 
-    return makePercentage(2, percentage);
+    this.average = cumulativeAverage(this.average, result, ++this.averageCount);
+
+    return result;
   }
 
   getAllUsagePercentage() {
@@ -114,6 +129,13 @@ export class CPUInfo extends Observer {
     );
 
     return result;
+  }
+
+  getPercentageTotalAverage() {
+    return {
+      time: this.averageCount * this.intervalTime,
+      average: this.average,
+    };
   }
 }
 

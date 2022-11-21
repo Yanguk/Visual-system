@@ -11,6 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'class-methods-use-this': ['error', { enforceForClassFields: false }],
     'import/prefer-default-export': 'off',
     'function-paren-newline': ['error', 'consistent'],
     treatUndefinedAsUnspecified: 0,

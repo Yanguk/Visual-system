@@ -60,6 +60,16 @@ const iterObjKey = curry(function* (f, obj) {
   }
 });
 
+const stop = curry(function* (f ,iter) {
+  for (const item of iter) {
+    if (f(item)) {
+      break;
+    }
+
+    yield item;
+  }
+})
+
 const L = {
   map,
   filter,
@@ -68,6 +78,7 @@ const L = {
   reject,
   getIndex,
   iterObjKey,
+  stop,
 };
 
 export default L;

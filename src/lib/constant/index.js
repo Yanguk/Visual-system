@@ -33,8 +33,13 @@ export const channelEnum = {
   }
 };
 
-export const INTERVAL_TIME = 500;
-export const INTERVAL_TIME_TWO = 3000;
+export const INTERVAL_TIME_500 = 500;
+export const INTERVAL_TIME_3000 = 3000;
+
+const SECOND = 1000;
+const MINUTE = SECOND * 60;
+
+export const SAVE_INTERVAL_TIME_MS = MINUTE * 1;
 
 export const COMMAND = {
   DISK: 'df -k',
@@ -49,7 +54,7 @@ export const GRAPH_COLOR = colorInfo.green;
 
 export const DATA_LENGTH = 200;
 
-export const DOMAIN_TIME_DIFF = (120 * INTERVAL_TIME);
+export const DOMAIN_TIME_DIFF = (120 * INTERVAL_TIME_500);
 
 export const REGEX = {
   removeSpaceTow: /^\s+|\s{2,}/g,

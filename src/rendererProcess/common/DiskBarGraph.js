@@ -68,7 +68,7 @@ class DiskBarGraph {
       .join('text')
       .attr('class', 'text-value-middle')
       .attr('text-anchor', 'middle')
-      .text(d => `${d[0]} ${Math.floor((d[1] / total[1]) * 100)}%`)
+      .text(d => `${d[0]} ${Math.round((d[1] / total[1]) * 100)}%`)
       .attr('y', graphHeight / 2 + 5)
     .transition().duration(duration).ease(d3.easeQuadOut)
       .attr('x', d => {

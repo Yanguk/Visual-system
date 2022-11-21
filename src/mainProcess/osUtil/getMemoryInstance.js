@@ -1,18 +1,25 @@
 import os from 'os';
+import { memoryInfoEnum } from '../../lib/constant';
+import cumulativeAverage from '../../lib/cumulativeAverage';
 import _ from '../../lib/fp';
 import L from '../../lib/fp/lazy';
-import { makePercentage, push } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
+import FileSystem from '../fsUtil/FileSystem';
 import customExec from './customExec';
+
+const memoryFileSystem = new FileSystem('memory', ['date', 'averagePercentage']);
 
 export class MemoryInfo extends Observer {
   constructor(window) {
     super();
 
     this.window = window;
-    this.data = [];
     this.interval = null;
+    this.data = null;
+    this.average = 0;
+    this.averageCount = 0;
+    this.intervalTime = 0;
   }
 
   startInterval(time = 500) {
@@ -20,37 +27,20 @@ export class MemoryInfo extends Observer {
       return;
     }
 
-    MemoryInfo
-      .getMemoryDetail()
-      .then(push(this.data));
+    this.intervalTime = time;
 
     this.interval = setInterval(async () => {
       const nextMemoryInfo = await MemoryInfo.getMemoryDetail();
+      this.data = nextMemoryInfo;
+      const resultAverage = nextMemoryInfo[memoryInfoEnum.USED_MEM_PERCENTAGE];
 
-      this.data.push(nextMemoryInfo);
+      this.average = cumulativeAverage(this.average, resultAverage, ++this.averageCount);
 
-      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
-      if (this.data.length === 60) {
-        this.data = this.data.slice(-2);
-      }
+      const millisecond = (this.intervalTime * this.averageCount);
+      memoryFileSystem.intervalSave(millisecond, this.average);
 
       this.notify('interval', this);
     }, time);
-  }
-
-  get lastData() {
-    return this.data[this.data.length - 1];
-  }
-
-  getFreePercentage() {
-    if (this.data.length < 2) {
-      return 0;
-    }
-
-    const { free, total } = MemoryInfo.getFreeAndTotalInfo();
-    const percentage = free / total;
-
-    return makePercentage(2, percentage);
   }
 
   static getFreeAndTotalInfo() {
@@ -141,6 +131,13 @@ export class MemoryInfo extends Observer {
       compressedMb: parseByteToMb(compressedMemory),
       wiredMb: parseByteToMb(wiredMemory),
       appMb: parseByteToMb(appMemory),
+    };
+  }
+
+  getPercentageTotalAverage() {
+    return {
+      time: this.averageCount * this.intervalTime,
+      average: this.average,
     };
   }
 }

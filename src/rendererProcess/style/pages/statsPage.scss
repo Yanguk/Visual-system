@@ -1,0 +1,20 @@
+@import '../common/utils.scss';
+
+.statsPageContainer {
+  @include flexContainer;
+
+  .statsPageWrapper {
+    @include flexCenter;
+
+    flex-direction: row;
+    width: 100%;
+
+    section {
+      flex: 1;
+      height: 100%;
+      padding: 20px;
+      background-color: $darkGray;
+      border-radius: 10px;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
 import os from 'os';
-import { channelEnum, INTERVAL_TIME, memoryInfoEnum } from '../lib/constant';
+import { channelEnum, INTERVAL_TIME_500, memoryInfoEnum } from '../lib/constant';
 import _ from '../lib/fp';
 import { curry } from '../lib/fp/util';
 import getCPUInstance from './osUtil/getCPUInstance';
@@ -18,13 +18,13 @@ ipcMain.handle('memory', () => ({
 
 const init = win => {
   const cpuInfo = getCPUInstance(win);
-  cpuInfo.startInterval(INTERVAL_TIME);
+  cpuInfo.startInterval(INTERVAL_TIME_500);
 
   const memoryInfo = getMemoryInstance(win);
-  memoryInfo.startInterval(INTERVAL_TIME);
+  memoryInfo.startInterval(INTERVAL_TIME_500);
 
   const processInfo = getProcessListInstance(win);
-  processInfo.startInterval(INTERVAL_TIME * 2 * 3);
+  processInfo.startInterval(INTERVAL_TIME_500 * 2 * 3);
 
   const makeChannel = curry((channel, data) => {
     _.go1(data, dataInfo => win.webContents.send(channel, dataInfo));
@@ -36,6 +36,10 @@ const init = win => {
   ipcMain.handle('memoryDetail', () => MemoryInfo.getMemoryDetail());
   ipcMain.handle('userInfo', () => getUserInfo());
   ipcMain.handle('processList', (e, count) => processInfo.getLatestData(count));
+  ipcMain.handle('stats', (e, time) => ({
+    cpu: cpuInfo.getPercentageTotalAverage(),
+    memory: memoryInfo.getPercentageTotalAverage(),
+  }));
 
   const sendTotalCPUUsage = makeChannel(channelEnum.CPU.USAGE);
   const sendAllCPUUsage = makeChannel(channelEnum.CPU.ALL_USAGE);
@@ -45,8 +49,8 @@ const init = win => {
 
   cpuInfo.on('interval', cpu => sendTotalCPUUsage(cpu.getTotalUsagePercentage()));
   cpuInfo.on('interval', cpu => sendAllCPUUsage(cpu.getAllUsagePercentage()));
-  memoryInfo.on('interval', memory => sendMemoryUsage(memory.lastData[memoryInfoEnum.USED_MEM_PERCENTAGE]));
-  memoryInfo.on('interval', memory => sendMemoryDetail(memory.lastData));
+  memoryInfo.on('interval', memory => sendMemoryUsage(memory.data[memoryInfoEnum.USED_MEM_PERCENTAGE]));
+  memoryInfo.on('interval', memory => sendMemoryDetail(memory.data));
   processInfo.on('interval', process => sendProcessList(process.getLatestData()));
 };
 
