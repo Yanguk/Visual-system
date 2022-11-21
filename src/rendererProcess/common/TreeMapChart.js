@@ -1,6 +1,5 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable no-nested-ternary */
-
 import * as d3 from 'd3';
 import { graphEnum, colorInfo } from '../../lib/constant';
 
@@ -18,7 +17,7 @@ export default class TreeMapChart {
     this.colorScale = getColorScale(colorInfo.darkGray);
     this.isInit = true;
     this.data = [];
-    this.duration = 1000;
+    this.duration = 800;
   }
 
   render(data) {
@@ -95,7 +94,8 @@ export default class TreeMapChart {
                   : d.value > 2
                     ? this.colorScale(1)
                     : this.colorScale(3)
-              ));
+              ))
+              .style('opacity', 1);
 
           update
             .select('text')

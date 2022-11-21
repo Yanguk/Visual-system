@@ -3,7 +3,6 @@ import $ from '../../lib/simpleDom';
 import drawGraphAndGetClear from '../common/realTimeGraph';
 import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
 import {
-  customSetInterval,
   insertData, makeComponent, receiveChannel, renderDom,
 } from '../util';
 import { curry } from '../../lib/fp/util';
@@ -18,6 +17,7 @@ const intervalUpdateMemory = insertData(memoryData);
 
 const onCPUUsageEvent = receiveChannel(channelEnum.CPU.USAGE);
 const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.USAGE);
+const onProcessEvent = receiveChannel(channelEnum.PROCESS.TOP);
 
 onCPUUsageEvent(intervalUpdateCPU);
 onMemoryUsageEvent(intervalUpdateMemory);
@@ -133,7 +133,13 @@ const renderHomePage = makeComponent(onMount => {
   };
 
   getDataAndRenderProcess();
-  onMount(customSetInterval(2000, getDataAndRenderProcess));
+
+  const getDataAndUpdateProcess = processInfo => {
+    const sliceData = processInfo.slice(0, 21);
+    processList.render(sliceData);
+  };
+
+  onMount(onProcessEvent(getDataAndUpdateProcess));
 
   const diskWrapper = $.qs('.home_diskInfo', container);
 

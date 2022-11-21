@@ -27,7 +27,6 @@ export class ProcessInfo extends Observer {
 
     this.window = window;
     this.data = [];
-    this.topTenData = [];
     this.interval = null;
   }
 
@@ -60,12 +59,13 @@ export class ProcessInfo extends Observer {
 
   startInterval(time = 1000) {
     this.interval = setInterval(async () => {
-      const data = await ProcessInfo.getProcessList(10);
-      this.topTenData.push(data);
+      const data = await ProcessInfo.getProcessList(100);
+      this.data.push(data);
 
       this.notify('interval', this);
       // toDo: 추후 데이터 저장 로직 작업시 변경 필요
-      if (this.topTenData.length === 60) {
+
+      if (this.data.length === 60) {
         this.data = this.data.slice(-2);
       }
     }, time);
@@ -75,8 +75,16 @@ export class ProcessInfo extends Observer {
     clearInterval(this.interval);
   }
 
-  getTopTenData() {
-    return this.topTenData[this.topTenData.length - 1];
+  async getLatestData(count = Infinity) {
+    const latestData = this.data[this.data.length - 1].slice(0, count);
+
+    if (latestData.length === 0) {
+      const data = await ProcessInfo.getProcessList(100, 'cpu');
+
+      return data;
+    }
+
+    return latestData;
   }
 }
 

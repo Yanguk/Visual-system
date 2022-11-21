@@ -1,12 +1,16 @@
 import {
-  customAddEventListener, customSetInterval, makeComponent, renderDom,
+  customAddEventListener, makeComponent, receiveChannel, renderDom,
 } from '../util';
 import $ from '../../lib/simpleDom';
 import Toast from '../common/Toast';
-import { colorInfo, graphEnum, GRAPH_COLOR } from '../../lib/constant';
+import {
+  channelEnum, colorInfo, graphEnum, GRAPH_COLOR,
+} from '../../lib/constant';
 import _ from '../../lib/fp';
 import TreeMapChart from '../common/TreeMapChart';
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
+
+const onProcessEvent = receiveChannel(channelEnum.PROCESS.TOP);
 
 const processingProcessData = (data, selectIndex) => _.go(
   data,
@@ -79,15 +83,14 @@ const renderProcessPage = makeComponent(onMount => {
     { name, children: processingProcessData(info, 2) }
   );
 
-  const updateProcessData = async () => {
-    const data = await window.api.processList(100);
+  const updateProcessData = data => {
     treeMapChart.render(makeTreeData(data.slice(0, 21), 'cpu'));
     processList.render(data);
   };
 
-  updateProcessData();
+  window.api.processList().then(updateProcessData);
 
-  onMount(customSetInterval(3000, updateProcessData));
+  onMount(onProcessEvent(updateProcessData));
   onMount(customAddEventListener('resize', () => treeMapChart.resize()));
 });
 
