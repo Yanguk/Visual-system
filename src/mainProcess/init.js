@@ -16,7 +16,7 @@ ipcMain.handle('memory', () => ({
 }));
 
 ipcMain.handle('disk', () => HardDiskInfo.getHardDiskInfo());
-ipcMain.handle('diskAll', () => HardDiskInfo.getHardDiskInfoAll());
+ipcMain.handle('diskAll', () => HardDiskInfo.getHardDiskInfoAllGB());
 ipcMain.handle('processKill', (e, pid) => ProcessInfo.killProcess(pid));
 ipcMain.handle('memoryDetail', () => MemoryInfo.getMemoryDetail());
 ipcMain.handle('userInfo', () => getUserInfo());

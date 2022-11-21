@@ -22,6 +22,9 @@ export default class TreeMapChart {
   }
 
   render(data) {
+    const duration = this.duration;
+    const durationInit = (this.isInit && this.svg) ? 0 : duration;
+
     if (!this.svg) {
       this.svg = d3.select(this.parentEl).append('svg');
     }
@@ -30,7 +33,6 @@ export default class TreeMapChart {
 
     const [width, height] = [this.parentEl.clientWidth, this.parentEl.clientHeight];
     const fontSize = this.config[graphEnum.FONT_SIZE];
-    const duration = this.duration;
 
     this.svg
       .attr('width', width)
@@ -54,8 +56,6 @@ export default class TreeMapChart {
           const g = enter
             .append('g')
             .attr('transform', d => `translate(${d.x0}, ${d.y0})`);
-
-          const durationInit = this.isInit ? 0 : duration;
 
           g.append('rect')
             .attr('width', d => d.x1 - d.x0)

@@ -38,6 +38,7 @@ export const INTERVAL_TIME_TWO = 3000;
 
 export const COMMAND = {
   DISK: 'df -k',
+  DISK_GB: 'df -h',
   PROCESS_LIST: {
     SORT_CPU: 'sort_cpu',
     SORT_MEMORY: 'sort_memory',

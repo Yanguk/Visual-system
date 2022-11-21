@@ -3,6 +3,11 @@
 
 .homePage {
   @include girdContainer;
+
+  .item {
+    max-height: 300px;
+  }
+
   @include middleView {
     grid-template-columns: 1fr;
   }
@@ -34,6 +39,10 @@
 
     :nth-child(5) {
       grid-area: e;
+    }
+
+    .item {
+      max-height: none;
     }
 
     .home_diskInfo {

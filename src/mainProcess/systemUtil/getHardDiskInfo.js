@@ -36,8 +36,8 @@ class HardDiskInfo {
     };
   };
 
-  static getHardDiskInfoAll = async function allInfo() {
-    const stdout = await customExec(COMMAND.DISK);
+  static getHardDiskInfoAllGB = async function allInfo() {
+    const stdout = await customExec(COMMAND.DISK_GB);
 
     const [headList, ...diskList] = _.go(
       stdout.split('\n'),

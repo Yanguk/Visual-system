@@ -8,7 +8,7 @@ import {
 } from '../util';
 import { curry } from '../../lib/fp/util';
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
-import { disk } from '../util/icons';
+import { disk as diskIcon } from '../util/icons';
 
 const cpuData = [];
 const memoryData = [];
@@ -141,11 +141,11 @@ const renderHomePage = makeComponent(onMount => {
     const diskInfo = await window.api.disk();
 
     const diskTemplate = `
-      <h3><span>${disk} Disk:</span> '${diskInfo.dir}'</h3>
-      <div>
-      <p><span>Used:</span> ${diskInfo.used}GiB<p>
-      <p><span>Free:</span> ${diskInfo.free}GiB<p>
-      <p><span>Total:</span> ${diskInfo.total}GiB<p>
+      <h3><span>${diskIcon} Disk:</span> '${diskInfo.dir}'</h3>
+      <div class="diskInfoWrapper">
+        <p><span>Used:</span> ${diskInfo.used}GiB<p>
+        <p><span>Free:</span> ${diskInfo.free}GiB<p>
+        <p><span>Total:</span> ${diskInfo.total}GiB<p>
       </div>
     `;
 
