@@ -25,7 +25,7 @@ export default class PieChartGraph {
     this.data = [];
     this.arc = null;
     this.outerArc = null;
-    this.duration = 1000;
+    this.duration = 600;
     this.isInit = true;
     this.sum = 0;
   }

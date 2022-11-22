@@ -65,6 +65,12 @@
       height: calc(100% - 40px);
     }
 
+    tbody {
+      tr {
+        cursor: pointer;
+      }
+    }
+
     button {
       @include customButton;
     }

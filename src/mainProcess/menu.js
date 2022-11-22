@@ -19,10 +19,17 @@ const menuInit = () => {
       ],
     },
     {
-      label: 'contact',
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    {
+      label: 'Contact',
       submenu: [
         {
-          label: 'github',
+          label: 'Github',
           click: async () => {
             await shell.openExternal('https://github.com/Yanguk/Visual-system');
           },

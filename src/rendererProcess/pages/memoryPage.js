@@ -1,5 +1,5 @@
 /* eslint-disable function-paren-newline */
-import { channelEnum, graphEnum } from '../../lib/constant';
+import { channelEnum } from '../../lib/constant';
 import _ from '../../lib/fp';
 import $ from '../../lib/simpleDom';
 import PieChartGraph from '../common/PieChartGraph';
@@ -102,12 +102,8 @@ const renderMemoryPage = makeComponent(onMount => {
   const percentageChartWrapper = $.qs('.percentage', container);
   const tableTextNodes = $.qsAll('.changeText td', container);
 
-  const pieChartConfig = {
-    [graphEnum.MARGIN]: 60,
-  };
-
-  const percentagePieChart = new PieChartGraph(percentageChartWrapper, pieChartConfig);
-  const usagePieChartGraph = new PieChartGraph(usagePieChartWrapper, pieChartConfig);
+  const percentagePieChart = new PieChartGraph(percentageChartWrapper);
+  const usagePieChartGraph = new PieChartGraph(usagePieChartWrapper);
   const preParsingFn = new PreParsingFn(processingMemoryData);
   const twoIntervalHandler = new StepIntervalHandler(2);
   const changeNodeText = getChangeNodeText(tableTextNodes);

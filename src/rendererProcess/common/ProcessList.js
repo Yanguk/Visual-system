@@ -11,7 +11,6 @@ export default class ProcessList {
     this.parentEl = parentEl;
     this.config = config;
     this.isInit = true;
-    this.selectedNode = null;
     this.tableChildNodes = [];
     this.wrapper = _.go(
       $.template('table', ''),
@@ -48,9 +47,9 @@ export default class ProcessList {
         }
 
         trNode.addEventListener('click', e => {
-          $.removeClass('selected', this.selectedNode);
+          const selectedNode = $.qs('.selected');
+          $.removeClass('selected', selectedNode);
           $.addClass('selected', e.currentTarget);
-          this.selectedNode = e.currentTarget;
         });
       });
     }
@@ -59,9 +58,10 @@ export default class ProcessList {
   }
 
   update(newDataList) {
-    const selectedPid = this.selectedNode?.dataset.id;
-    this.selectedNode?.classList.remove('selected');
-    this.selectedNode?.classList.remove('cancel-text');
+    const selectedNode = $.qs('.selected');
+    const selectedPid = selectedNode?.dataset.id;
+    selectedNode?.classList.remove('selected');
+    selectedNode?.classList.remove('cancel-text');
 
     this.tableChildNodes.forEach((trNode, i) => {
       if (i === 0) {
@@ -79,7 +79,7 @@ export default class ProcessList {
       });
     });
 
-    this.selectedNode = _.go(
+    _.go(
       $.qs(`[data-id="${selectedPid}"]`),
       $.addClass('selected'),
     );
