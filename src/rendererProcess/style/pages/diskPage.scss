@@ -1,9 +1,9 @@
 @import '../common/flexContainer.scss';
 
-.diskPageContainer {
+.disk-page-container {
   @include flexContainer;
 
-  .diskPageWrapper {
+  .disk-page-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -15,7 +15,7 @@
     border-radius: 10px;
     overflow: auto;
 
-    .graphWrapper {
+    .graph-wrapper {
       @include flexCenter;
       flex-direction: column;
       width: 100%;
@@ -23,7 +23,7 @@
       padding: 0px;
     }
 
-    .wrapperItem {
+    .wrapper-item {
       width: 100%;
       border-radius: 10px;
       background-color: $innerNavy;
@@ -34,7 +34,7 @@
       width: 100%;
     }
 
-    .diskMainGraph {
+    .disk-main-graph {
       width: 100%;
       height: 200px;
       margin-bottom: 20px;

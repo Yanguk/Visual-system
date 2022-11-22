@@ -30,13 +30,13 @@ const renderHomePage = makeComponent(onMount => {
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_userInfo item">userInfo</article>
-      <article class="home_diskInfo item"></article>
+      <article class="home-disk-info item"></article>
       <article class="home_memory item">
         <p>Memory usage: <span class="memory_usage text"></span></p>
         <div class="svg_wrapper"></div>
       </article>
       <article class="home_process item">
-        <fieldset class="tableWrapper">
+        <fieldset class="table-wrapper">
           <legend>Process List</legend>
         </fieldset>
       </article>
@@ -109,7 +109,7 @@ const renderHomePage = makeComponent(onMount => {
     const infoTemplate = _.go(
       Object.keys(infoEnum),
       _.map(type => `
-        <p class='infoWrapper'>
+        <p class='info-wrapper'>
           ${infoEnum[type] === 'name' ? '' : `<span class='title'>${infoEnum[type]}: </span> `}
           <span class='info'>${targetInfo[infoEnum[type]]}</span>
         </p>
@@ -121,7 +121,7 @@ const renderHomePage = makeComponent(onMount => {
 
   asyncWriteInfo();
 
-  const processWrapper = $.qs('.tableWrapper', container);
+  const processWrapper = $.qs('.table-wrapper', container);
 
   const config = { [processListConfigEnum.SELECT]: false };
 
@@ -135,20 +135,20 @@ const renderHomePage = makeComponent(onMount => {
   getDataAndRenderProcess();
 
   const getDataAndUpdateProcess = processInfo => {
-    const sliceData = processInfo.slice(0, 21);
+    const sliceData = processInfo?.slice(0, 21) ?? [];
     processList.render(sliceData);
   };
 
   onMount(onProcessEvent(getDataAndUpdateProcess));
 
-  const diskWrapper = $.qs('.home_diskInfo', container);
+  const diskWrapper = $.qs('.home-disk-info', container);
 
   const asyncWriteDiskInfo = async () => {
     const diskInfo = await window.api.disk();
 
     const diskTemplate = `
       <h3><span>${diskIcon} Disk:</span> '${diskInfo.dir}'</h3>
-      <div class="diskInfoWrapper">
+      <div class="disk-info-wrapper">
         <p><span>Used:</span> ${diskInfo.used}GiB<p>
         <p><span>Free:</span> ${diskInfo.free}GiB<p>
         <p><span>Total:</span> ${diskInfo.total}GiB<p>

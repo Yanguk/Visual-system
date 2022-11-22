@@ -52,26 +52,26 @@ const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.DETAIL);
 
 const renderMemoryPage = makeComponent(onMount => {
   const template = `
-    <div class="memoryPageContainer" id="memory">
-      <div class="memoryPageWrapper item">
+    <div class="memory-page-container" id="memory">
+      <div class="memory-page-wrapper item">
         <section>
-          <div class="sectionItemHear">
+          <div class="section-Item-Head">
             <h3>Memory Usage Percentage</h3>
           </div>
-          <div class="pieChartWrapper percentage"></div>
+          <div class="pie-chart-wrapper percentage"></div>
         </section>
         <section>
-          <div class="sectionItemHear">
+          <div class="section-Item-Head">
             <h3>Memory Usage Detail</h3>
           </div>
-          <div class="pieChartWrapper usage"></div>
+          <div class="pie-chart-wrapper usage"></div>
         </section>
         <section>
-          <div class="sectionItemHear">
+          <div class="section-Item-Head">
             <h3>Memory Detail</h3>
           </div>
-          <div class="pieChartWrapper">
-            <table class="columnTable memoryTable">
+          <div class="pie-chart-wrapper">
+            <table class="column-table memory-table">
               <thead>
                 <tr>
                   <th>App: </th>

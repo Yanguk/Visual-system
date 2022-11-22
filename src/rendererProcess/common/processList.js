@@ -16,7 +16,7 @@ export default class ProcessList {
     this.wrapper = _.go(
       $.template('table', ''),
       $.el,
-      $.addClass('processTable'),
+      $.addClass('process-table'),
     );
   }
 
@@ -62,7 +62,7 @@ export default class ProcessList {
   update(newDataList) {
     const selectedPid = this.selectedNode?.dataset.id;
     this.selectedNode?.classList.remove('selected');
-    this.selectedNode?.classList.remove('cancelText');
+    this.selectedNode?.classList.remove('cancel-text');
 
     this.tableChildNodes.forEach((trNode, i) => {
       if (i === 0) {

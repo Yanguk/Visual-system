@@ -7,33 +7,33 @@ import {
   channelEnum, colorInfo, graphEnum, GRAPH_COLOR,
 } from '../../lib/constant';
 import _ from '../../lib/fp';
-import TreeMapChart from '../common/TreeMapChart';
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
+import TreeMapChart from '../common/TreeMapChart';
 
 const onProcessEvent = receiveChannel(channelEnum.PROCESS.TOP);
 
 const processingProcessData = (data, selectIndex) => _.go(
   data,
   ([_title, ...rest]) => rest,
-  _.map(info => ({ name: info[0], value: info[selectIndex] })),
+  _.map(info => ({ name: info[0], value: info[selectIndex], pid: info[1] })),
 );
 
 const renderProcessPage = makeComponent(onMount => {
   const template = `
-    <div class="processPageContainer" id="process">
-      <section class="leftProcess">
-        <div class="leftTitle">
+    <div class="process-page-container" id="process">
+      <section class="left-process">
+        <div class="left-title">
           <p>CPU usage %</p>
         </div>
-        <div class="processTreeMap"></div>
+        <div class="process-tree-map"></div>
       </section>
-      <section class="rightProcess">
-        <div class="rightTitle">
+      <section class="right-process">
+        <div class="right-title">
           <p>Process List</p>
           <button class="killButton">kill Process</button>
         </div>
-        <div class="processListWrapper">
-          <fieldset class="tableWrapper"></fieldset>
+        <div class="process-list-wrapper">
+          <fieldset class="table-wrapper"></fieldset>
         </div>
       </section>
     </div>
@@ -42,7 +42,7 @@ const renderProcessPage = makeComponent(onMount => {
   const container = $.el(template);
   onMount(renderDom(container));
 
-  const processListWrapper = $.qs('.tableWrapper', container);
+  const processListWrapper = $.qs('.table-wrapper', container);
   const processConfig = {
     [processListConfigEnum.SELECT]: true,
   };
@@ -62,14 +62,14 @@ const renderProcessPage = makeComponent(onMount => {
 
       if (result.ok) {
         toastElement.render('Kill process', colorInfo.green2);
-        selectProcess.classList.add('cancelText');
+        selectProcess.classList.add('cancel-text');
       } else {
         toastElement.render('Deny permission', colorInfo.red);
       }
     }
   });
 
-  const processTreeChartWrapper = $.qs('.processTreeMap', container);
+  const processTreeChartWrapper = $.qs('.process-tree-map', container);
 
   const config = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],

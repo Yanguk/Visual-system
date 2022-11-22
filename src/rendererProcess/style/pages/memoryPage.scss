@@ -1,10 +1,10 @@
 @import '../common/utils.scss';
 @import '../common/flexContainer.scss';
 
-.memoryPageContainer {
+.memory-page-container {
   @include flexContainer;
 
-  .memoryPageWrapper {
+  .memory-page-wrapper {
     @include flexContainer;
     flex-direction: column;
     justify-content: space-between;
@@ -27,12 +27,12 @@
         height: 20%;
       }
 
-      .pieChartWrapper {
+      .pie-chart-wrapper {
         height: 80%;
         justify-content: center;
       }
 
-      .sectionItemHear {
+      .section-Item-Head {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -40,7 +40,7 @@
       }
     }
 
-    .memoryTable {
+    .memory-table {
       th {
         width: 100px;
       }
@@ -65,7 +65,7 @@
   }
 }
 
-.columnTable {
+.column-table {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,11 +1,11 @@
 @import '../common/utils.scss';
 
-.tableWrapper, .processTable {
+.table-wrapper, .process-table {
   width: 100%;
   height: 100%;
 }
 
-.tableWrapper {
+.table-wrapper {
   overflow: auto;
 
   legend {
@@ -51,7 +51,7 @@
   }
 }
 
-.tableWrapper {
+.table-wrapper {
   height: 100%;
   text-align: center;
 
@@ -59,7 +59,7 @@
     background-color: $defaultBack;
   }
 
-  .cancelText {
+  .cancel-text {
     text-decoration: line-through;
   }
 }

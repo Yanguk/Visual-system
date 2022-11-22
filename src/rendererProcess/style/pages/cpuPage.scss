@@ -1,6 +1,6 @@
 @import '../common/utils.scss';
 
-.flexContainer {
+.flex-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,7 +8,7 @@
   padding: 10px 20px;
   overflow-y: auto;
 
-  .cpu_core_wrapper {
+  .cpu-core-wrapper {
     flex: 1;
     display: flex;
     flex-direction: column;

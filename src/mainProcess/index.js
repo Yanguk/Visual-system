@@ -1,19 +1,25 @@
+/* eslint-disable no-undef */
 import { app, BrowserWindow, screen } from 'electron';
 import init from './init';
+import menuInit from './menuInit';
 
 const createWindow = (width, height) => {
+  menuInit();
+
   const mainWindow = new BrowserWindow({
     width,
     height,
     webPreferences: {
-      // eslint-disable-next-line no-undef
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
+    icon: './src/images/icon.png',
   });
 
-  // eslint-disable-next-line no-undef
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  mainWindow.webContents.openDevTools();
+
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
 
   init(mainWindow);
 };

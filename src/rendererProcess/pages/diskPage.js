@@ -6,12 +6,12 @@ import { disk } from '../util/icons';
 
 const renderDiskPage = makeComponent(async onMount => {
   const template = `
-    <div class="diskPageContainer" id="disk">
-      <div class="diskPageWrapper">
-        <div class="graphWrapper">
-          <div class="wrapperItem">
+    <div class="disk-page-container" id="disk">
+      <div class="disk-page-wrapper">
+        <div class="graph-wrapper">
+          <div class="wrapper-item">
             <h3>${disk} Disk Mount '/'</h3>
-            <div class="diskMainGraph">
+            <div class="disk-main-graph">
           </div>
         </div>
         </div>
@@ -23,7 +23,7 @@ const renderDiskPage = makeComponent(async onMount => {
   const container = $.el(template);
   onMount(renderDom(container));
 
-  const diskMainGraphWrapper = $.qs('.diskMainGraph', container);
+  const diskMainGraphWrapper = $.qs('.disk-main-graph', container);
 
   const diskGraph = new DiskBarGraph(diskMainGraphWrapper);
 

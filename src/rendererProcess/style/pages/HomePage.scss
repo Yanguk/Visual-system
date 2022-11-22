@@ -45,7 +45,7 @@
       max-height: none;
     }
 
-    .home_diskInfo {
+    .home-disk-info {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -74,7 +74,7 @@
     }
   }
 
-  .processTable {
+  .process-table {
     font-size: 0.8rem;
   }
 }
@@ -95,7 +95,7 @@
   height: 100%;
 }
 
-.infoWrapper {
+.info-wrapper {
   display: flex;
   flex-direction: row;
   width: 100%;

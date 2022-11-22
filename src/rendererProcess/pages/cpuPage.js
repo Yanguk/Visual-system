@@ -36,7 +36,7 @@ const renderCPUPage = makeComponent(async onMount => {
   const container = _.go(
     $.template('article', ''),
     $.el,
-    $.addClass('flexContainer'),
+    $.addClass('flex-container'),
     $.addClass('cpuPage'),
   );
 
@@ -49,7 +49,7 @@ const renderCPUPage = makeComponent(async onMount => {
   const coreTemplate = _.go(
     L.range(cpuInfo.length),
     _.map(index => `
-      <div class="cpu_core_wrapper">
+      <div class="cpu-core-wrapper">
         <p>CPU CORE ${index + 1} usage <span class="cpu_text"></span></p>
         <div class="cpu_core item"></div>
       </div>

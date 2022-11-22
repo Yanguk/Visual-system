@@ -7,8 +7,8 @@ import renderDiskPage from '../pages/diskPage';
 import renderMemoryPage from '../pages/memoryPage';
 import renderStatsPage from '../pages/statsPage';
 
-const sideNavBar = $.qs('.sideNavBar');
-const navWrapper = $.find('.sideNavBar__wrapper', sideNavBar);
+const sideNavBar = $.qs('.side-nav-bar');
+const navWrapper = $.find('.side-nav-bar-wrapper', sideNavBar);
 
 const pageInfo = {
   home: renderHomePage,

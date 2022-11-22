@@ -1,9 +1,9 @@
 @import '../common/utils.scss';
 
-.statsPageContainer {
+.stats-page-container {
   @include flexContainer;
 
-  .statsPageWrapper {
+  .stats-page-wrapper {
     @include flexCenter;
 
     width: 100%;
@@ -13,7 +13,7 @@
       padding-bottom: 20px;
     }
 
-    .graphContainer {
+    .graph-container {
       display: flex;
       flex-direction: column;
       overflow: auto;
@@ -25,7 +25,7 @@
         justify-content: space-between;
       }
 
-      .graphWrapper {
+      .graph-wrapper {
         display: flex;
         flex-direction: column;
         min-height: 400px;

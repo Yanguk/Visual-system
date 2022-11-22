@@ -2,11 +2,19 @@
 /* eslint-disable no-nested-ternary */
 import * as d3 from 'd3';
 import { graphEnum, colorInfo } from '../../lib/constant';
+import $ from '../../lib/simpleDom';
 
 const getColorScale = chartColor => {
   const fader = color => d3.interpolateRgb(color, chartColor)(0.2);
   const colorScale = d3.scaleOrdinal(d3.schemePaired.map(fader));
   return colorScale;
+};
+
+const clickEvent = d => {
+  const pid = d.path[0].__data__.data.pid;
+  const selectDom = $.qs(`[data-id='${pid}']`);
+  $.removeClass('selected', $.qs('.selected'));
+  $.addClass('selected', selectDom);
 };
 
 export default class TreeMapChart {
@@ -57,6 +65,8 @@ export default class TreeMapChart {
             .attr('transform', d => `translate(${d.x0}, ${d.y0})`);
 
           g.append('rect')
+            .on('click', clickEvent)
+            .style('cursor', 'pointer')
             .attr('width', d => d.x1 - d.x0)
             .attr('height', d => d.y1 - d.y0)
             .attr('fill', (d, i) => (

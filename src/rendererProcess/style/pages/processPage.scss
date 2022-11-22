@@ -1,7 +1,7 @@
 @import '../common/utils.scss';
 @import '../common//customButton.scss';
 
-.processPageContainer {
+.process-page-container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -17,7 +17,7 @@
     border-radius: 10px;
   }
 
-  .leftProcess {
+  .left-process {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,7 +26,7 @@
     margin-bottom: 20px;
     align-items: center;
 
-    .leftTitle {
+    .left-title {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -37,20 +37,20 @@
       font-weight: 600;
     }
 
-    .processTreeMap {
+    .process-tree-map {
       width: 100%;
       height: calc(100% - 40px);
     }
   }
 
-  .rightProcess {
+  .right-process {
     display: flex;
     flex-direction: column;
     width: 100%;
     min-height: calc(50% - 20px);
     overflow: auto;
 
-    .rightTitle {
+    .right-title {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -60,7 +60,7 @@
       font-weight: 600;
     }
 
-    .processListWrapper {
+    .process-list-wrapper {
       overflow: auto;
       height: calc(100% - 40px);
     }
@@ -73,21 +73,16 @@
   @include largeView {
     flex-direction: row;
 
-    .leftProcess {
+    .left-process {
       width: 50%;
       height: 100%;
       margin-right: 20px;
       margin-bottom: 0px;
     }
 
-    .rightProcess {
+    .right-process {
       width: 50%;
       height: 100%;
     }
   }
-}
-
-.processButtonWrapper {
-  display: flex;
-  justify-content: flex-end;
 }
