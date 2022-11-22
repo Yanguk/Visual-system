@@ -5,10 +5,7 @@ import _ from '../../lib/fp';
 import L from '../../lib/fp/lazy';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
-import FileSystem from '../fsUtil/FileSystem';
 import customExec from './customExec';
-
-const memoryFileSystem = new FileSystem('memory', ['date', 'averagePercentage']);
 
 export class MemoryInfo extends Observer {
   constructor(window) {
@@ -35,9 +32,6 @@ export class MemoryInfo extends Observer {
       const resultAverage = nextMemoryInfo[memoryInfoEnum.USED_MEM_PERCENTAGE];
 
       this.average = cumulativeAverage(this.average, resultAverage, ++this.averageCount);
-
-      const millisecond = (this.intervalTime * this.averageCount);
-      memoryFileSystem.intervalSave(millisecond, this.average);
 
       this.notify('interval', this);
     }, time);

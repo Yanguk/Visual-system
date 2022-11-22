@@ -7,10 +7,6 @@ import {
 } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
-import FileSystem from '../fsUtil/FileSystem';
-
-const titles = ['date', 'averagePercentage'];
-const cpuFilsSystem = new FileSystem('cpu', titles);
 
 export class CPUInfo extends Observer {
   constructor(window) {
@@ -60,10 +56,6 @@ export class CPUInfo extends Observer {
       if (this.data.length === 3) {
         this.data.shift();
       }
-
-      const millisecond = (this.intervalTime * this.averageCount);
-
-      cpuFilsSystem.intervalSave(millisecond, this.average);
     }, time);
   }
 

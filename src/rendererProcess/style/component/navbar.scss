@@ -3,6 +3,7 @@
 .sideNavBar {
   display: flex;
   flex-direction: column;
+  min-width: 100px;
   width: 100px;
   background-color: $innerNavy;
   align-items: center;

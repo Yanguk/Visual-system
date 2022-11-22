@@ -7,10 +7,10 @@ import _ from '../../lib/fp';
 
 const makeArcTween = arcFn => d => {
   const arc = arcFn;
-  const interpolate = d3.interpolate(d.endAngle, d.startAngle);
+  const interpolate = d3.interpolate(d.startAngle, d.endAngle);
 
   return time => {
-    d.startAngle = interpolate(time);
+    d.endAngle = interpolate(time);
     return arc(d);
   };
 };
@@ -64,8 +64,8 @@ export default class PieChartGraph {
     }
 
     this.pie = d3.pie()
-      .value(d => d[1])
-      .sort((a, b) => a[1] - b[1]);
+      .sort(null)
+      .value(d => d[1]);
 
     const pieData = this.pie(Object.entries(data));
 

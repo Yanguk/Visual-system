@@ -63,10 +63,9 @@ export class ProcessInfo extends Observer {
       this.data.push(data);
 
       this.notify('interval', this);
-      // toDo: 추후 데이터 저장 로직 작업시 변경 필요
 
-      if (this.data.length === 60) {
-        this.data = this.data.slice(-2);
+      if (this.data.length === 2) {
+        this.data = this.data.shift();
       }
     }, time);
   }

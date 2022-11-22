@@ -18,7 +18,7 @@ class DiskBarGraph {
     const iterData = Object.entries(data);
     const [_, total, ...validData] = iterData;
     const [graphWidth, graphHeight] = [width - margin * 2, height - margin * 2];
-    const duration = this.svg ? 0 : 500;
+    const duration = 0;
 
     if (!this.svg) {
       this.svg = d3.select(this.parentEl)
