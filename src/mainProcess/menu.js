@@ -1,5 +1,7 @@
-const { app, Menu, nativeImage } = require('electron');
 const path = require('path');
+const {
+  app, Menu, nativeImage, shell,
+} = require('electron');
 
 const menuInit = () => {
   const image = nativeImage.createFromPath(
@@ -17,13 +19,14 @@ const menuInit = () => {
       ],
     },
     {
-      label: 'View',
+      label: 'contact',
       submenu: [
-        { role: 'reload' },
-        { type: 'separator' },
-        { role: 'resetZoom' },
-        { role: 'zoomIn' },
-        { role: 'zoomOut' },
+        {
+          label: 'github',
+          click: async () => {
+            await shell.openExternal('https://github.com/Yanguk/Visual-system');
+          },
+        },
       ],
     },
   ];

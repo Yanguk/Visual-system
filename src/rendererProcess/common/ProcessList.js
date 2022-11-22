@@ -27,6 +27,7 @@ export default class ProcessList {
     }
 
     $.append(this.parentEl, this.wrapper);
+
     this.tableChildNodes = _.go(
       dataList,
       L.getIndex,
@@ -63,6 +64,10 @@ export default class ProcessList {
     this.selectedNode?.classList.remove('cancel-text');
 
     this.tableChildNodes.forEach((trNode, i) => {
+      if (i === 0) {
+        return;
+      }
+
       trNode.childNodes.forEach((tdNode, j) => {
         if (j > 0) {
           tdNode.textContent = newDataList[i][j - 1];

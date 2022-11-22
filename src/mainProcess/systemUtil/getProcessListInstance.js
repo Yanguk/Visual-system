@@ -5,7 +5,7 @@ import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import Observer from '../../lib/Observer';
 import customExec from '../osUtil/customExec';
 
-const getProcessList = async cmd => {
+const execProcessCmd = async cmd => {
   const stdout = await customExec(cmd);
 
   const list = _.go(
@@ -43,7 +43,7 @@ export class ProcessInfo extends Observer {
 
     const cmd = limit > -1 ? `${selectedCmd} | head -${limit}` : selectedCmd;
 
-    return getProcessList(cmd);
+    return execProcessCmd(cmd);
   }
 
   static async killProcess(pid) {

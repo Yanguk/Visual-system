@@ -1,7 +1,7 @@
 {
   "name": "Visual System",
   "productName": "Visual System",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "monitoring your pc system",
   "main": "./.webpack/main",
   "scripts": {
