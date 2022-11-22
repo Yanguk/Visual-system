@@ -21,8 +21,6 @@ export default class ProcessList {
   }
 
   render(dataList) {
-    dataList[0][4] = 'RSS(KiB)';
-
     if (!this.isInit) {
       this.update(dataList);
       return;
@@ -34,7 +32,7 @@ export default class ProcessList {
       L.getIndex,
       _.map(([tds, index]) => `
         <tr class="row_${index}" data-id=${tds[1]}>
-          ${_.map(([text, j]) => `<${index === 0 ? 'th' : 'td'} class="col_${j}">${text}</${index ? 'th' : 'td'}>`, L.getIndex(tds)).join('')}
+          ${_.map(([text, j]) => `<${index === 0 ? 'th' : 'td'} class="col_${j}">${text}${j === 4 ? '(KiB)' : ''}</${index ? 'th' : 'td'}>`, L.getIndex(tds)).join('')}
         </tr>
       `),
       ([thead, ...tbody]) => `<thead>${thead}</thead><tbody>${tbody.join('')}</tbody>`,
@@ -65,10 +63,6 @@ export default class ProcessList {
     this.selectedNode?.classList.remove('cancel-text');
 
     this.tableChildNodes.forEach((trNode, i) => {
-      if (i === 0) {
-        return;
-      }
-
       trNode.childNodes.forEach((tdNode, j) => {
         if (j > 0) {
           tdNode.textContent = newDataList[i][j - 1];

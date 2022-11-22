@@ -35,8 +35,8 @@ const init = win => {
   ipcMain.handle('processKill', (e, pid) => ProcessInfo.killProcess(pid));
   ipcMain.handle('memoryDetail', () => MemoryInfo.getMemoryDetail());
   ipcMain.handle('userInfo', () => getUserInfo());
-  ipcMain.handle('processList', (e, count) => processInfo.getLatestData(count));
-  ipcMain.handle('stats', (e, time) => ({
+  ipcMain.handle('processList', () => ProcessInfo.getProcessList(100));
+  ipcMain.handle('stats', () => ({
     cpu: cpuInfo.getPercentageTotalAverage(),
     memory: memoryInfo.getPercentageTotalAverage(),
   }));
@@ -51,7 +51,7 @@ const init = win => {
   cpuInfo.on('interval', cpu => sendAllCPUUsage(cpu.getAllUsagePercentage()));
   memoryInfo.on('interval', memory => sendMemoryUsage(memory.data[memoryInfoEnum.USED_MEM_PERCENTAGE]));
   memoryInfo.on('interval', memory => sendMemoryDetail(memory.data));
-  processInfo.on('interval', process => sendProcessList(process.getLatestData()));
+  processInfo.on('interval', process => sendProcessList(process.data));
 };
 
 export default init;

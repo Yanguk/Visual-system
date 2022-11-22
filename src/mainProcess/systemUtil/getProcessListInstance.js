@@ -59,31 +59,14 @@ export class ProcessInfo extends Observer {
 
   startInterval(time = 1000) {
     this.interval = setInterval(async () => {
-      const data = await ProcessInfo.getProcessList(100);
-      this.data.push(data);
+      this.data = await ProcessInfo.getProcessList(100);
 
       this.notify('interval', this);
-
-      if (this.data.length === 2) {
-        this.data = this.data.shift();
-      }
     }, time);
   }
 
   removeInterval() {
     clearInterval(this.interval);
-  }
-
-  async getLatestData(count = Infinity) {
-    const latestData = this.data[this.data.length - 1].slice(0, count);
-
-    if (latestData.length === 0) {
-      const data = await ProcessInfo.getProcessList(100, 'cpu');
-
-      return data;
-    }
-
-    return latestData;
   }
 }
 

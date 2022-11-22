@@ -16,6 +16,16 @@ const menuInit = () => {
         { role: 'quit' },
       ],
     },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+      ],
+    },
   ];
 
   app.setAboutPanelOptions({

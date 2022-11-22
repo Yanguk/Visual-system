@@ -127,19 +127,9 @@ const renderHomePage = makeComponent(onMount => {
 
   const processList = new ProcessList(processWrapper, config);
 
-  const getDataAndRenderProcess = async () => {
-    const data = await window.api.processList(21);
-    processList.render(data);
-  };
+  window.api.processList().then(processList.render.bind(processList));
 
-  getDataAndRenderProcess();
-
-  const getDataAndUpdateProcess = processInfo => {
-    const sliceData = processInfo?.slice(0, 21) ?? [];
-    processList.render(sliceData);
-  };
-
-  onMount(onProcessEvent(getDataAndUpdateProcess));
+  onMount(onProcessEvent(processList.render.bind(processList)));
 
   const diskWrapper = $.qs('.home-disk-info', container);
 

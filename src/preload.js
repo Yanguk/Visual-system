@@ -8,7 +8,7 @@ contextBridge.exposeInMainWorld('api', {
   disk: () => ipcRenderer.invoke('disk'),
   diskAll: () => ipcRenderer.invoke('diskAll'),
   memoryDetail: () => ipcRenderer.invoke('memoryDetail'),
-  processList: count => ipcRenderer.invoke('processList', count),
+  processList: () => ipcRenderer.invoke('processList'),
   processKill: pid => ipcRenderer.invoke('processKill', pid),
   getStats: time => ipcRenderer.invoke('stats', time),
 });
