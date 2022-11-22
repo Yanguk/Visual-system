@@ -27,18 +27,32 @@ export default class ProcessList {
 
     $.append(this.parentEl, this.wrapper);
 
-    this.tableChildNodes = _.go(
-      dataList,
+    const [theadData, ...tbodyData] = dataList;
+
+    const thead = _.go(
+      theadData,
+      ([a, b, c, d, e, f]) => [a, b, 'CPU%', 'MEM%', 'RSS(KiB)', f],
+      L.getIndex,
+      _.map(([text, j]) => `<th class="col_${j}">${text}</th>`),
+      ths => `<thead><tr class="row_0">${ths.join('')}</tr></thead>`,
+    );
+
+    const tbody = _.go(
+      tbodyData,
       L.getIndex,
       _.map(([tds, index]) => `
-        <tr class="row_${index}" data-id=${tds[1]}>
-          ${_.map(([text, j]) => `<${index === 0 ? 'th' : 'td'} class="col_${j}">${text}${j === 4 ? '(KiB)' : ''}</${index ? 'th' : 'td'}>`, L.getIndex(tds)).join('')}
+        <tr class="row_${index + 1}" data-id=${tds[1]}>
+          ${_.map(([text, j]) => `<td class="col_${j}">${text}</td>`, L.getIndex(tds)).join('')}
         </tr>
       `),
-      ([thead, ...tbody]) => `<thead>${thead}</thead><tbody>${tbody.join('')}</tbody>`,
-      $.afterBeginInnerHTML(this.wrapper),
-      $.findAll('tr'),
+      trs => `<tbody>${trs.join('')}</tbody>`,
     );
+
+    const tableTemplate = thead + tbody;
+
+    $.afterBeginInnerHTML(this.wrapper, tableTemplate);
+
+    this.tableChildNodes = $.qsAll('tr', this.wrapper);
 
     if (this.config[processListConfigEnum.SELECT]) {
       this.tableChildNodes.forEach((trNode, i) => {
