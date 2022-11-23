@@ -1,5 +1,5 @@
 import L from './lazy';
-import { curry } from './util';
+import { curry, execFn, push, shift } from './util';
 
 const go1 = (target, f) => target instanceof Promise
   ? target.then(f)
@@ -55,6 +55,12 @@ const pipe =
 
 const map = curry(pipe(L.map, takeAll));
 
+const filter = curry(pipe(L.filter, takeAll));
+
+const reject = curry(pipe(L.reject, takeAll));
+
+const flatten = pipe(L.flatten, takeAll);
+
 const each = curry((f, iter) => {
   for (const item of iter) {
     f(item);
@@ -63,7 +69,23 @@ const each = curry((f, iter) => {
   return iter;
 });
 
-const tap = curry((f, iter) => (f([...iter]), iter));
+const tap = curry((f, iter) => {
+  const a = iter;
+
+  f([...a]);
+
+  return iter;
+});
+
+const join = curry((joinStr = '', iter) => iter.join(joinStr));
+
+const range = pipe(L.range, takeAll);
+
+const getIndex = pipe(L.getIndex, takeAll);
+
+const iterObjKey = f => pipe(L.iterObjKey(f), iter => [...iter]);
+
+const stop = pipe(L.stop, takeAll);
 
 const _ = {
   take,
@@ -71,9 +93,28 @@ const _ = {
   map,
   reduce,
   go,
+  go1,
   pipe,
-  tap,
   each,
+  tap,
+  filter,
+  reject,
+  flatten,
+  join,
+  range,
+  getIndex,
+  iterObjKey,
+  stop,
 };
 
 export default _;
+
+export const makeOnMount = () => {
+  const clearFns = [];
+
+  return [push(clearFns), () => _.each(execFn, clearFns)];
+};
+
+export const pushAndShift = curry((...rest) => {
+  _.each(f => f(...rest), [push, shift]);
+});

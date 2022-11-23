@@ -1,0 +1,32 @@
+@import '../common/utils.scss';
+
+.side-nav-bar {
+  display: flex;
+  flex-direction: column;
+  min-width: 100px;
+  width: 100px;
+  background-color: $innerNavy;
+  align-items: center;
+
+  .side-nav-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  li {
+    width: 100%;
+    padding: 20px 0px;
+
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+
+  .active {
+    background-color: $bgColor;
+    border-radius: 10px 0px 0px 10px;
+  }
+}

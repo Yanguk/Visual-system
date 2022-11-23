@@ -1,22 +1,33 @@
 /* eslint-disable no-undef */
-import { app, BrowserWindow } from 'electron';
-import './os';
+import { app, BrowserWindow, screen } from 'electron';
+import init from './init';
+import menuInit from './menu';
 
-function createWindow() {
+const createWindow = (width, height) => {
+  menuInit();
+
   const mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 832,
+    width,
+    height,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
+    icon: './src/images/icon.png',
   });
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  mainWindow.webContents.openDevTools();
-}
+
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
+
+  init(mainWindow);
+};
 
 app.whenReady().then(() => {
-  createWindow();
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+  createWindow(Math.floor(width * 0.9), Math.floor(height * 0.9));
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -26,7 +37,9 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
+});
+
+app.on('quit', () => {
+  app.quit();
 });

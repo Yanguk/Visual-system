@@ -1,0 +1,80 @@
+@import '../common/utils.scss';
+@import '../common/flexContainer.scss';
+
+.memory-page-container {
+  @include flexContainer;
+
+  .memory-page-wrapper {
+    @include flexContainer;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    overflow-y: auto;
+
+    section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 80%;
+      min-height: 400px;
+      margin: 10px 0px;
+      text-align: center;
+      background-color: $innerNavy;
+      border-radius: 10px;
+
+      .p {
+        height: 20%;
+      }
+
+      .pie-chart-wrapper {
+        height: 80%;
+        justify-content: center;
+      }
+
+      .section-Item-Head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 20%;
+      }
+    }
+
+    .memory-table {
+      th {
+        width: 100px;
+      }
+
+      td {
+        width: 100px;
+      }
+
+      th, td {
+        margin: 30px 0px;
+      }
+    }
+
+    @include largeView{
+      flex-direction: row;
+
+      section {
+        width: calc(100% / 3 - 10px);
+        height: 50%;
+      }
+    }
+  }
+}
+
+.column-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  tbody, thead {
+    height: 100%;
+  }
+
+  th, td {
+    display:block
+  }
+}

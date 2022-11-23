@@ -1,0 +1,28 @@
+$darkGray: #383C48;
+$defaultBack: #35363A;
+$innerNavy: #272A3C;
+$bgColor: #1B1C27;
+$text2: #53596F;
+$text1: #8F91A6;
+$text3: #DADAE1;
+
+$middle: 767px;
+$large: 1024px;
+
+@mixin smallView {
+  @media (max-width: $middle) {
+    @content;
+  }
+}
+
+@mixin middleView{
+  @media (min-width: ($middle + 1px)) and (max-width: ($large - 1px)) {
+    @content;
+  }
+}
+
+@mixin largeView{
+  @media (min-width: $large){
+    @content;
+  }
+}

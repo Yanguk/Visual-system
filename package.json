@@ -1,11 +1,11 @@
 {
-  "name": "my-new-app",
-  "productName": "my-new-app",
+  "name": "visual-system",
+  "productName": "Visual System",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "monitoring your pc system",
   "main": "./.webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "NODE_ENV=development electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -17,7 +17,6 @@
     "name": "Yanguk",
     "email": "heo.yanguk@gmail.com"
   },
-  "license": "MIT",
   "dependencies": {
     "d3": "^7.6.1",
     "electron-squirrel-startup": "^1.0.0"
@@ -29,18 +28,21 @@
     "@electron-forge/maker-squirrel": "^6.0.1",
     "@electron-forge/maker-zip": "^6.0.1",
     "@electron-forge/plugin-webpack": "^6.0.1",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "electron": "21.2.2",
+    "electron-icon-maker": "^0.0.5",
     "eslint": "^8.27.0",
     "eslint-config-airbnb": "^19.0.4",
     "husky": "^8.0.2",
     "lint-staged": "^13.0.3",
+    "mini-css-extract-plugin": "^2.6.1",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
-    "style-loader": "^3.3.1",
     "webpack": "^5.75.0"
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.js": "eslint --fix"
   }
 }

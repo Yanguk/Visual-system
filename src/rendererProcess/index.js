@@ -1,3 +1,3 @@
-import './index.scss';
-
-import './osUtil/cpu';
+import './style/index.scss';
+import './util';
+import './common/sideNavBar';
