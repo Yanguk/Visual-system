@@ -20,6 +20,7 @@ class HardDiskInfo {
     const used = _.go(
       diskList,
       L.filter(info => info[info.length - 1].includes('/')),
+      L.filter(info => info[0].includes('disk')),
       L.map(info => Number(info[2])),
       L.filter(isNum),
       L.map(convertKbToGb),
@@ -47,7 +48,11 @@ class HardDiskInfo {
     const lastText = headList.pop();
     headList[headList.length - 1] = `${headList[headList.length - 1]} ${lastText}`;
 
-    const filteredDiskList = _.filter(info => info[0].includes('/'), diskList);
+    const filteredDiskList = _.go(
+      diskList,
+      _.filter(info => info[0].includes('/')),
+      _.filter(info => info[0].includes('disk')),
+    );
 
     return {
       headList,

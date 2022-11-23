@@ -57,6 +57,8 @@ const map = curry(pipe(L.map, takeAll));
 
 const filter = curry(pipe(L.filter, takeAll));
 
+const reject = curry(pipe(L.reject, takeAll));
+
 const flatten = pipe(L.flatten, takeAll);
 
 const each = curry((f, iter) => {
@@ -95,8 +97,9 @@ const _ = {
   pipe,
   each,
   tap,
-  flatten,
   filter,
+  reject,
+  flatten,
   join,
   range,
   getIndex,
