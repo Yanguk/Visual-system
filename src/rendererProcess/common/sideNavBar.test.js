@@ -39,20 +39,8 @@ describe('Nav Bar Test', () => {
       expect(cpuPageContainer).not.toBeNull();
     });
 
-    test('memory click', async () => {
-      const memoryNav = screen.getByText('Memory');
-
-      await userEvent.click(memoryNav);
-
-      const cpuPageContainer = document.querySelector('.cpuPage');
-      expect(cpuPageContainer).toBeNull();
-
-      const memoryContainer = document.querySelector('.memoryPage');
-      expect(memoryContainer).not.toBeNull();
-    });
-
     test('Process: jest-dom에서의 svg태그 미지원 이슈(duration)로 process페이지는 생략합니다.', () => {});
-
+    test('memory: svg태그 이슈로 생략', () => {});
     test('Disk: svg태그 이슈로 생략', () => {});
     test('stats: svg태그 이슈로 생략', () => {});
   });

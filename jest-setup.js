@@ -11,9 +11,14 @@ document.body.innerHTML = `
       <li id="stats">Stats</li>
     </ul>
   </nav>
-
   <main id="root"></main>
 `;
+
+Object.defineProperty(window, 'connect', {
+  value: {
+    on: () => () => () => {},
+  },
+});
 
 Object.defineProperty(window, 'api', {
   value: {
