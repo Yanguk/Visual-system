@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
-import { graphEnum } from '../../lib/constant';
+
 import { getTimeDomain, makeComponent } from '../util';
+import { graphEnum } from '../../lib/constant';
 
 const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => {
   const [mt, mr, mb, ml] = config[graphEnum.MARGIN];

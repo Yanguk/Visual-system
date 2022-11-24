@@ -1,8 +1,9 @@
 /* eslint-disable newline-per-chained-call */
 import * as d3 from 'd3';
+
 import { colorInfo } from '../../lib/constant';
 import { add } from '../../lib/fp/util';
-import { delay } from '../../lib/time';
+import delay from '../../lib/delay';
 import _ from '../../lib/fp';
 
 const makeArcTween = arcFn => d => {

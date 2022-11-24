@@ -1,21 +1,20 @@
 import os from 'os';
+
+import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import cumulativeAverage from '../../lib/cumulativeAverage';
+import Observer from '../../lib/Observer';
 import _ from '../../lib/fp';
 import L from '../../lib/fp/lazy';
 import {
   add, bValue, makePercentage, subtract,
 } from '../../lib/fp/util';
-import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
-import Observer from '../../lib/Observer';
 
 export class CPUInfo extends Observer {
-  constructor(window) {
+  constructor() {
     super();
 
-    this.window = window;
     this.data = [os.cpus()];
     this.interval = null;
-    this.count = this.data[0].length;
     this.average = 0;
     this.averageCount = 0;
     this.intervalTime = 0;

@@ -1,17 +1,17 @@
 import os from 'os';
-import { memoryInfoEnum } from '../../lib/constant';
-import cumulativeAverage from '../../lib/cumulativeAverage';
-import _ from '../../lib/fp';
-import L from '../../lib/fp/lazy';
+
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
+import cumulativeAverage from '../../lib/cumulativeAverage';
+import { memoryInfoEnum } from '../../lib/constant';
 import Observer from '../../lib/Observer';
 import customExec from './customExec';
+import L from '../../lib/fp/lazy';
+import _ from '../../lib/fp';
 
 export class MemoryInfo extends Observer {
-  constructor(window) {
+  constructor() {
     super();
 
-    this.window = window;
     this.interval = null;
     this.data = null;
     this.average = 0;
@@ -133,6 +133,10 @@ export class MemoryInfo extends Observer {
       time: this.averageCount * this.intervalTime,
       average: this.average,
     };
+  }
+
+  removeInterval() {
+    clearInterval(this.interval);
   }
 }
 

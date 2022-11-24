@@ -1,5 +1,5 @@
-import _ from './fp';
 import { execIdentity } from './fp/util';
+import _ from './fp';
 
 export default class Observer {
   constructor() {

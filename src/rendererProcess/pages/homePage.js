@@ -1,23 +1,23 @@
-import _ from '../../lib/fp';
-import $ from '../../lib/simpleDom';
-import drawGraphAndGetClear from '../common/realTimeGraph';
-import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
-import {
-  insertData, makeComponent, receiveChannel, renderDom,
-} from '../util';
-import { curry } from '../../lib/fp/util';
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
+import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
+import drawGraphAndGetClear from '../common/realTimeGraph';
 import { disk as diskIcon } from '../util/icons';
+import { curry } from '../../lib/fp/util';
+import $ from '../../lib/simpleDom';
+import _ from '../../lib/fp';
+import {
+  insertRealTimeGraphData, makeComponent, receiveChannel, renderDom,
+} from '../util';
 
 const cpuData = [];
 const memoryData = [];
 
-const intervalUpdateCPU = insertData(cpuData);
-const intervalUpdateMemory = insertData(memoryData);
+const intervalUpdateCPU = insertRealTimeGraphData(cpuData);
+const intervalUpdateMemory = insertRealTimeGraphData(memoryData);
 
 const onCPUUsageEvent = receiveChannel(channelEnum.CPU.USAGE);
 const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.USAGE);
-const onProcessEvent = receiveChannel(channelEnum.PROCESS.TOP);
+const onProcessEvent = receiveChannel(channelEnum.PROCESS.List);
 
 onCPUUsageEvent(intervalUpdateCPU);
 onMemoryUsageEvent(intervalUpdateMemory);

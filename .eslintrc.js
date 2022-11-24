@@ -10,6 +10,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  ignorePatterns: ['*.test.js'],
   rules: {
     'class-methods-use-this': ['error', { enforceForClassFields: false }],
     'import/prefer-default-export': 'off',

@@ -1,11 +1,17 @@
 import { DOMAIN_TIME_DIFF, memoryInfoEnum } from '../../lib/constant';
-import _, { makeOnMount } from '../../lib/fp';
-import { curry } from '../../lib/fp/util';
+import { curry, execFn, push } from '../../lib/fp/util';
 import $ from '../../lib/simpleDom';
+import _ from '../../lib/fp';
 
 const root = $.qs('#root');
 
 export const receiveChannel = channel => window.connect.on(channel);
+
+export const makeOnMount = () => {
+  const clearFns = [];
+
+  return [push(clearFns), () => _.each(execFn, clearFns)];
+};
 
 export const makeComponent = renderFn => (...rest) => {
   const [onMount, clearEvent] = makeOnMount();
@@ -21,7 +27,7 @@ export const getTimeDomain = () => {
   return domain;
 };
 
-export const insertData = curry((arr, data) => {
+export const insertRealTimeGraphData = curry((arr, data) => {
   const info = { data, date: new Date() };
 
   arr.push(info);
@@ -39,6 +45,7 @@ export const renderDom = el => {
   window.localStorage.setItem('prePage', el.id);
 
   $.append(root, el);
+
   return () => el.remove();
 };
 

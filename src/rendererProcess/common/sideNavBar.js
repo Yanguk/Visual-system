@@ -1,10 +1,11 @@
-import _ from '../../lib/fp';
 import $ from '../../lib/simpleDom';
+import _ from '../../lib/fp';
+
 import renderHomePage from '../pages/homePage';
 import renderCPUPage from '../pages/cpuPage';
+import renderMemoryPage from '../pages/memoryPage';
 import renderProcessPage from '../pages/processPage';
 import renderDiskPage from '../pages/diskPage';
-import renderMemoryPage from '../pages/memoryPage';
 import renderStatsPage from '../pages/statsPage';
 
 const sideNavBar = $.qs('.side-nav-bar');

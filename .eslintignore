@@ -11,4 +11,4 @@ package-lock.json
 src/lib
 
 # test
-spec
+__tests__

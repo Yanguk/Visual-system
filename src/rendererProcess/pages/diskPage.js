@@ -1,8 +1,8 @@
-import _ from '../../lib/fp';
-import $ from '../../lib/simpleDom';
-import DiskBarGraph from '../common/DiskBarGraph';
 import { customAddEventListener, makeComponent, renderDom } from '../util';
+import DiskBarGraph from '../common/DiskBarGraph';
 import { disk } from '../util/icons';
+import $ from '../../lib/simpleDom';
+import _ from '../../lib/fp';
 
 const renderDiskPage = makeComponent(async onMount => {
   const template = `

@@ -1,10 +1,10 @@
 import { COMMAND } from '../../lib/constant';
-import _ from '../../lib/fp';
+import customExec from '../osUtil/customExec';
 import L from '../../lib/fp/lazy';
+import _ from '../../lib/fp';
 import {
   add, convertKbToGb, isNum, trimAndMakeArr,
 } from '../../lib/fp/util';
-import customExec from '../osUtil/customExec';
 
 class HardDiskInfo {
   static getHardDiskInfo = async function diskInfo() {

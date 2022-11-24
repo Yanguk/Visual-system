@@ -1,11 +1,11 @@
 import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
-import _ from '../../lib/fp';
-import L from '../../lib/fp/lazy';
+import drawGraphAndGetClear from '../common/realTimeGraph';
 import { curry, push } from '../../lib/fp/util';
 import $ from '../../lib/simpleDom';
-import drawGraphAndGetClear from '../common/realTimeGraph';
+import L from '../../lib/fp/lazy';
+import _ from '../../lib/fp';
 import {
-  insertData, makeComponent, receiveChannel, renderDom,
+  insertRealTimeGraphData, makeComponent, receiveChannel, renderDom,
 } from '../util';
 
 const cpuInfo = [];
@@ -20,7 +20,7 @@ const init = window.api.cpu().then(data => {
   const insertDataFns = _.go(
     _.range(cpuInfo.length),
     _.tap(_.each(_ => cpuAllUsageCoreInfo.push([]))),
-    _.map(index => insertData(cpuAllUsageCoreInfo[index])),
+    _.map(index => insertRealTimeGraphData(cpuAllUsageCoreInfo[index])),
   );
 
   onAllUsageCPUEvent(cpuData => {

@@ -1,6 +1,7 @@
 import os from 'os';
-import { convertKbToGb } from '../../lib/fp/util';
+
 import getNetworkInfoInstance from './getNetworkInfoInstance';
+import { convertKbToGb } from '../../lib/fp/util';
 
 const networkInfo = getNetworkInfoInstance();
 

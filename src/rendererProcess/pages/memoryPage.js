@@ -52,7 +52,7 @@ const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.DETAIL);
 
 const renderMemoryPage = makeComponent(onMount => {
   const template = `
-    <div class="memory-page-container" id="memory">
+    <div class="memoryPage" id="memory">
       <div class="memory-page-wrapper item">
         <section>
           <div class="section-Item-Head">

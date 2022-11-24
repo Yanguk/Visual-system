@@ -1,16 +1,16 @@
-import {
-  customAddEventListener, makeComponent, receiveChannel, renderDom,
-} from '../util';
+import ProcessList, { processListConfigEnum } from '../common/ProcessList';
+import TreeMapChart from '../common/TreeMapChart';
 import $ from '../../lib/simpleDom';
 import Toast from '../common/Toast';
+import _ from '../../lib/fp';
 import {
   channelEnum, colorInfo, graphEnum, GRAPH_COLOR,
 } from '../../lib/constant';
-import _ from '../../lib/fp';
-import ProcessList, { processListConfigEnum } from '../common/ProcessList';
-import TreeMapChart from '../common/TreeMapChart';
+import {
+  customAddEventListener, makeComponent, receiveChannel, renderDom,
+} from '../util';
 
-const onProcessEvent = receiveChannel(channelEnum.PROCESS.TOP);
+const onProcessEvent = receiveChannel(channelEnum.PROCESS.List);
 
 const processingProcessData = (data, selectIndex) => _.go(
   data,

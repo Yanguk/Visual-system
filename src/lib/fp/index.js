@@ -48,10 +48,7 @@ const reduce = curry((fn, acc, iter) => {
 
 const go = (...rest) => reduce((target, f) => f(target), rest);
 
-const pipe =
-  (f, ...rest) =>
-  (...as) =>
-    go(f(...as), ...rest);
+const pipe = (f, ...rest) => (...as) => go(f(...as), ...rest);
 
 const map = curry(pipe(L.map, takeAll));
 
@@ -108,12 +105,6 @@ const _ = {
 };
 
 export default _;
-
-export const makeOnMount = () => {
-  const clearFns = [];
-
-  return [push(clearFns), () => _.each(execFn, clearFns)];
-};
 
 export const pushAndShift = curry((...rest) => {
   _.each(f => f(...rest), [push, shift]);

@@ -1,5 +1,5 @@
-import $ from '../../lib/simpleDom';
 import SinglePieGraph from '../common/SinglePieGraph';
+import $ from '../../lib/simpleDom';
 import {
   customSetInterval, makeComponent, makeTimeFormat, renderDom,
 } from '../util';

@@ -1,8 +1,9 @@
 import path from 'path';
+import fs from 'fs';
 import {
   mkdir, writeFile, readFile, appendFile,
 } from 'node:fs/promises';
-import fs from 'fs';
+
 import { SAVE_INTERVAL_TIME_MS } from '../../lib/constant';
 
 const dirName = 'vsData';
