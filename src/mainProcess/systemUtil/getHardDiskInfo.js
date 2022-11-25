@@ -1,7 +1,7 @@
 import { COMMAND } from '../../lib/constant';
 import customExec from '../osUtil/customExec';
+import _ from '../../lib/fp/underDash';
 import L from '../../lib/fp/lazy';
-import _ from '../../lib/fp';
 import {
   add, convertKbToGb, isNum, trimAndMakeArr,
 } from '../../lib/fp/util';

@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import { DOMAIN_TIME_DIFF, memoryInfoEnum } from '../../lib/constant';
 import { curry, execFn, push } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
-import _ from '../../lib/fp';
 
 const root = $.qs('#root');
 
@@ -32,13 +33,11 @@ export const insertRealTimeGraphData = curry((arr, data) => {
 
   arr.push(info);
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i]?.date && (arr[i].date <= new Date(info.date - DOMAIN_TIME_DIFF + 100))) {
-      arr.shift();
-    } else {
-      break;
-    }
-  }
+  _.go(
+    arr,
+    _.notUntil(item => item?.date && (item.date <= new Date(info.date - DOMAIN_TIME_DIFF + 100))),
+    _.each(() => arr.shift()),
+  );
 });
 
 export const renderDom = el => {

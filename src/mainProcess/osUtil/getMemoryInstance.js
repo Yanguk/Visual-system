@@ -5,8 +5,8 @@ import cumulativeAverage from '../../lib/cumulativeAverage';
 import { memoryInfoEnum } from '../../lib/constant';
 import Observer from '../../lib/Observer';
 import customExec from './customExec';
+import _ from '../../lib/fp/underDash';
 import L from '../../lib/fp/lazy';
-import _ from '../../lib/fp';
 
 export class MemoryInfo extends Observer {
   constructor() {

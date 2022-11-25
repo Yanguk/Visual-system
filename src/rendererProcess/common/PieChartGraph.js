@@ -3,8 +3,8 @@ import * as d3 from 'd3';
 
 import { colorInfo } from '../../lib/constant';
 import { add } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
 import delay from '../../lib/delay';
-import _ from '../../lib/fp';
 
 const makeArcTween = arcFn => d => {
   const arc = arcFn;

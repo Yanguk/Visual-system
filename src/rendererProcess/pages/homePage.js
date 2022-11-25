@@ -3,8 +3,8 @@ import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
 import drawGraphAndGetClear from '../common/realTimeGraph';
 import { disk as diskIcon } from '../util/icons';
 import { curry } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
-import _ from '../../lib/fp';
 import {
   insertRealTimeGraphData, makeComponent, receiveChannel, renderDom,
 } from '../util';

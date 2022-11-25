@@ -1,25 +1,9 @@
 import L from './lazy';
-import { curry, execFn, push, shift } from './util';
+import { curry, push, shift } from './util';
 
 const go1 = (target, f) => target instanceof Promise
   ? target.then(f)
   : f(target);
-
-const take = curry((limit, iter) => {
-  const res = [];
-
-  for (const item of iter) {
-    res.push(item);
-
-    if (res.length === limit) {
-      return res;
-    }
-  }
-
-  return res;
-});
-
-const takeAll = take(Infinity);
 
 const reduce = curry((fn, acc, iter) => {
   if (!iter) {
@@ -49,6 +33,22 @@ const reduce = curry((fn, acc, iter) => {
 const go = (...rest) => reduce((target, f) => f(target), rest);
 
 const pipe = (f, ...rest) => (...as) => go(f(...as), ...rest);
+
+const take = curry((limit, iter) => {
+  const res = [];
+
+  for (const item of iter) {
+    res.push(item);
+
+    if (res.length === limit) {
+      return res;
+    }
+  }
+
+  return res;
+});
+
+const takeAll = take(Infinity);
 
 const map = curry(pipe(L.map, takeAll));
 
@@ -82,7 +82,9 @@ const getIndex = pipe(L.getIndex, takeAll);
 
 const iterObjKey = f => pipe(L.iterObjKey(f), iter => [...iter]);
 
-const stop = pipe(L.stop, takeAll);
+const until = curry(pipe(L.until, takeAll));
+
+const notUntil = curry(pipe(L.notUntil, takeAll));
 
 const _ = {
   take,
@@ -101,11 +103,8 @@ const _ = {
   range,
   getIndex,
   iterObjKey,
-  stop,
+  until,
+  notUntil,
 };
 
 export default _;
-
-export const pushAndShift = curry((...rest) => {
-  _.each(f => f(...rest), [push, shift]);
-});

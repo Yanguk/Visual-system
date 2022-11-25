@@ -1,8 +1,10 @@
 /* eslint-disable function-paren-newline */
-import { channelEnum } from '../../lib/constant';
-import _ from '../../lib/fp';
-import $ from '../../lib/simpleDom';
+import StepIntervalHandler from '../util/StepIntervalHandler';
 import PieChartGraph from '../common/PieChartGraph';
+import PreParsingFn from '../util/PreParsingFn';
+import { channelEnum } from '../../lib/constant';
+import _ from '../../lib/fp/underDash';
+import $ from '../../lib/simpleDom';
 import {
   customAddEventListener,
   makeComponent,
@@ -10,8 +12,6 @@ import {
   receiveChannel,
   renderDom,
 } from '../util';
-import PreParsingFn from '../util/class/PreParsingFn';
-import StepIntervalHandler from '../util/class/StepIntervalHandler';
 
 const getUsageInfo = processingData => {
   const usageInfo = {

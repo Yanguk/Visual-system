@@ -3,7 +3,7 @@ import os from 'os';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import cumulativeAverage from '../../lib/cumulativeAverage';
 import Observer from '../../lib/Observer';
-import _ from '../../lib/fp';
+import _ from '../../lib/fp/underDash';
 import L from '../../lib/fp/lazy';
 import {
   add, bValue, makePercentage, subtract,

@@ -1,8 +1,8 @@
 import ProcessList, { processListConfigEnum } from '../common/ProcessList';
 import TreeMapChart from '../common/TreeMapChart';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
 import Toast from '../common/Toast';
-import _ from '../../lib/fp';
 import {
   channelEnum, colorInfo, graphEnum, GRAPH_COLOR,
 } from '../../lib/constant';

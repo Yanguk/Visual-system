@@ -1,9 +1,9 @@
 import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
 import drawGraphAndGetClear from '../common/realTimeGraph';
-import { curry, push } from '../../lib/fp/util';
+import { push } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
 import L from '../../lib/fp/lazy';
-import _ from '../../lib/fp';
 import {
   insertRealTimeGraphData, makeComponent, receiveChannel, renderDom,
 } from '../util';
@@ -23,13 +23,7 @@ const init = window.api.cpu().then(data => {
     _.map(index => insertRealTimeGraphData(cpuAllUsageCoreInfo[index])),
   );
 
-  onAllUsageCPUEvent(cpuData => {
-    _.go(
-      _.range(cpuData.length),
-      _.map(index => [cpuData[index], index]),
-      _.each(([usage, index]) => insertDataFns[index](usage)),
-    );
-  });
+  onAllUsageCPUEvent(_.pipe(L.bind(insertDataFns), _.each(([usage, fn]) => fn(usage))));
 });
 
 const renderCPUPage = makeComponent(async onMount => {
@@ -59,21 +53,13 @@ const renderCPUPage = makeComponent(async onMount => {
 
   $.afterBeginInnerHTML(container, coreTemplate);
 
-  const changeUsageText = curry((el, data) => {
-    el.textContent = `${data}%`;
-  });
+  const changeUsageText = ([data, el]) => {
+    el.textContent = `${Math.round(data)}%`;
+  };
 
-  onMount(onAllUsageCPUEvent(data => {
-    _.go(
-      _.range(data.length),
-      _.each(index => {
-        _.go(
-          [...$.findAll('.cpu_text', container)],
-          _.each(dom => changeUsageText(dom, data[index])),
-        );
-      }),
-    );
-  }));
+  const textEl = [...$.findAll('.cpu_text', container)];
+
+  onMount(onAllUsageCPUEvent(_.pipe(L.bind(textEl), _.each(changeUsageText))));
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
@@ -83,10 +69,8 @@ const renderCPUPage = makeComponent(async onMount => {
 
   _.go(
     [...$.findAll('.cpu_core', container)],
-    L.getIndex,
-    _.each(([dom, idx]) => {
-      onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx], dom, graphConfig));
-    }),
+    L.bind(cpuAllUsageCoreInfo),
+    _.each(([dom, cpuItem]) => onMount(drawGraphAndGetClear(cpuItem, dom, graphConfig))),
   );
 });
 

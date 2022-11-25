@@ -1,5 +1,5 @@
-import _ from '../../../lib/fp';
-import { push } from '../../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
+import { push } from '../../lib/fp/util';
 
 export default class PreParsingFn {
   constructor(...fs) {

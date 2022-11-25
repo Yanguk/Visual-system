@@ -1,4 +1,4 @@
-import _ from '../../../lib/fp';
+import _ from '../../lib/fp/underDash';
 import PreParsingFn from './PreParsingFn';
 
 describe('PreParsingFn 생성자 테스트', () => {

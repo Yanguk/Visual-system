@@ -1,7 +1,7 @@
 import os from 'os';
 
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
-import _ from '../../lib/fp';
+import _ from '../../lib/fp/underDash';
 import L from '../../lib/fp/lazy';
 
 class NetWork {

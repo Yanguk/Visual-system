@@ -60,15 +60,51 @@ const iterObjKey = curry(function* (f, obj) {
   }
 });
 
-const stop = curry(function* (f ,iter) {
+const until = curry(function* (f, iter) {
   for (const item of iter) {
     if (f(item)) {
-      break;
+      return;
     }
 
     yield item;
   }
 })
+
+const notUntil = curry(function* (f, iter) {
+  for (const item of iter) {
+    if (!f(item)) {
+      return;
+    }
+
+    yield item;
+  }
+});
+
+const bind = curry(function* (subIter, targetIter) {
+  const sub = subIter[Symbol.iterator]();
+  const target = targetIter[Symbol.iterator]();
+
+  let subIterNext = sub.next();
+  let targetIterNext = target.next();
+
+  while (!subIterNext.done && !targetIterNext.done) {
+
+    yield [targetIterNext.value, subIterNext.value];
+
+    subIterNext = sub.next();
+    targetIterNext = target.next();
+  }
+});
+
+const take = curry(function* (limit, iter) {
+  let count = -1;
+
+  const iterator = iter[Symbol.iterator]();
+
+  while (++count < limit && !iterator.done) {
+    yield iterator.next().value;
+  }
+});
 
 const L = {
   map,
@@ -78,7 +114,10 @@ const L = {
   reject,
   getIndex,
   iterObjKey,
-  stop,
+  until,
+  notUntil,
+  bind,
+  take,
 };
 
 export default L;

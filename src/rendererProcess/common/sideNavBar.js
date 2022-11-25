@@ -1,5 +1,5 @@
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
-import _ from '../../lib/fp';
 
 import renderHomePage from '../pages/homePage';
 import renderCPUPage from '../pages/cpuPage';

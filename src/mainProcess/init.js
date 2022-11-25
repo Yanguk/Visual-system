@@ -8,7 +8,7 @@ import HardDiskInfo from './systemUtil/getHardDiskInfo';
 import getCPUInstance from './osUtil/getCPUInstance';
 import getUserInfo from './osUtil/getUserInfo';
 import { curry } from '../lib/fp/util';
-import _ from '../lib/fp';
+import _ from '../lib/fp/underDash';
 
 const cpuInfo = getCPUInstance();
 cpuInfo.startInterval(INTERVAL_TIME_500);

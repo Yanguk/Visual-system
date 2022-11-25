@@ -3,7 +3,7 @@ import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
 import customExec from '../osUtil/customExec';
 import { COMMAND } from '../../lib/constant';
 import Observer from '../../lib/Observer';
-import _ from '../../lib/fp';
+import _ from '../../lib/fp/underDash';
 
 const processingListData = async cmd => {
   const stdout = await customExec(cmd);
