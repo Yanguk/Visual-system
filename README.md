@@ -203,7 +203,7 @@ contextBridge.exposeInMainWorld('connect', {
 ### 개발 환경 셋팅
 * `electron` 공식 문서에서 권장하는 `electron-forge`를 이용하여서 개발 환경을 세팅하였습니다.  
 `electron-forge`를 이용하면 mainProcess와 renderer에 손쉽게 다른 webpack 세팅 값을 적용할 수가 있고, webpack dev server 여는 동시에 main Process를 연결시키고 프로그램을 실행시켜 주기 때문에 개발하기가 편리하였습니다.
-* webpack의 loader`와 plugin은 필요한 것 만 최소한으로 넣어서 간단하게 세팅하여 사용하였습니다.(renderer 프로세스의 css loader, scss loader)
+* webpack의 loader와 plugin은 필요한 것 만 최소한으로 넣어서 간단하게 세팅하여 사용하였습니다.(renderer 프로세스의 css loader, scss loader)
 
 <br>
 
