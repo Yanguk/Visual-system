@@ -14,8 +14,14 @@ const menuInit = () => {
     {
       label: app.name,
       submenu: [
-        { role: 'about' },
-        { role: 'quit' },
+        {
+          label: 'About',
+          role: 'about',
+        },
+        {
+          label: 'Quit',
+          role: 'quit',
+        },
       ],
     },
     {

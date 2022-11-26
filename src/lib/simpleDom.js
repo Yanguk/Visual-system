@@ -17,7 +17,7 @@ const append = curry((parent, child) => (parent.appendChild(child), child));
 
 const afterBeginInnerHTML = curry((parent, html) => (parent.insertAdjacentHTML('afterbegin', html), parent));
 
-const template = curry((tag, value = "") => `<${tag}>${value}</${tag}>`);
+const template = curry((tag, value = '') => `<${tag}>${value}</${tag}>`);
 
 const templateClass = (tag, ...rest) => {
   const classList = rest.join(' ');

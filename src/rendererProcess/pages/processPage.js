@@ -18,7 +18,7 @@ const processingProcessData = (data, selectIndex) => _.go(
   _.map(info => ({ name: info[0], value: info[selectIndex], pid: info[1] })),
 );
 
-const renderProcessPage = makeComponent(onMount => {
+const renderProcessPage = makeComponent(unmount => {
   const template = `
     <div class="process-page-container" id="process">
       <section class="left-process">
@@ -40,7 +40,7 @@ const renderProcessPage = makeComponent(onMount => {
   `;
 
   const container = $.el(template);
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
   const processListWrapper = $.qs('.table-wrapper', container);
   const processConfig = {
@@ -90,8 +90,8 @@ const renderProcessPage = makeComponent(onMount => {
 
   window.api.processList().then(updateProcessData);
 
-  onMount(onProcessEvent(updateProcessData));
-  onMount(customAddEventListener('resize', () => treeMapChart.resize()));
+  unmount(onProcessEvent(updateProcessData));
+  unmount(customAddEventListener('resize', () => treeMapChart.resize()));
 });
 
 export default renderProcessPage;

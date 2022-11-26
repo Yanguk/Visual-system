@@ -1,5 +1,5 @@
 import L from './lazy';
-import _ from "./underDash";
+import _ from './underDash';
 
 describe('lazy 함수 테스트', () => {
   describe('bind 함수 테스트', () => {

@@ -1,4 +1,4 @@
-import StepIntervalHandler from "./StepIntervalHandler";
+import StepIntervalHandler from './StepIntervalHandler';
 
 describe('StepIntervalHandler Test', () => {
   it('step이 3일때 update함수가 3번실행될때마다 등록된 함수들을 실행시킴', () => {

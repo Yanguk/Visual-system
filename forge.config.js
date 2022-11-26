@@ -35,11 +35,4 @@ module.exports = {
       },
     },
   ],
-  // config: {
-  //   forge: {
-  //     packagerConfig: {
-  //       icon: '/path/to/icon',
-  //     },
-  //   },
-  // },
 };

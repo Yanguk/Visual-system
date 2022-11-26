@@ -21,7 +21,7 @@ export class MemoryInfo extends Observer {
 
   startInterval(time = 500) {
     if (this.interval) {
-      return;
+      throw new Error('interval is already existed');
     }
 
     this.intervalTime = time;

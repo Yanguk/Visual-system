@@ -44,6 +44,10 @@ export class CPUInfo extends Observer {
   }
 
   startInterval(time = 500) {
+    if (this.interval) {
+      throw new Error('interval is already existed');
+    }
+
     this.intervalTime = time;
     this.interval = setInterval(async () => {
       const info = os.cpus();

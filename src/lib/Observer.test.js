@@ -1,4 +1,4 @@
-import Observer from "./Observer";
+import Observer from './Observer';
 
 describe('Observer Class Test', () => {
   test('옵저버 구독후 알람을 제대로 받을수 있는지 테스트', () => {

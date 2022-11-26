@@ -50,7 +50,7 @@ const getChangeNodeText = nodes => memoryData => {
 
 const onMemoryUsageEvent = receiveChannel(channelEnum.MEMORY.DETAIL);
 
-const renderMemoryPage = makeComponent(onMount => {
+const renderMemoryPage = makeComponent(unmount => {
   const template = `
     <div class="memoryPage" id="memory">
       <div class="memory-page-wrapper item">
@@ -96,7 +96,7 @@ const renderMemoryPage = makeComponent(onMount => {
   `;
 
   const container = $.el(template);
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
   const usagePieChartWrapper = $.qs('.usage', container);
   const percentageChartWrapper = $.qs('.percentage', container);
@@ -142,10 +142,10 @@ const renderMemoryPage = makeComponent(onMount => {
 
     twoIntervalHandler.insert(preParsingFn.sendParsingData.bind(preParsingFn));
 
-    onMount(customAddEventListener('resize', () => percentagePieChart.resize()));
-    onMount(customAddEventListener('resize', () => usagePieChartGraph.resize()));
+    unmount(customAddEventListener('resize', () => percentagePieChart.resize()));
+    unmount(customAddEventListener('resize', () => usagePieChartGraph.resize()));
 
-    onMount(
+    unmount(
       onMemoryUsageEvent(
         twoIntervalHandler.update.bind(twoIntervalHandler)));
   });

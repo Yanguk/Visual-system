@@ -26,7 +26,7 @@ const init = window.api.cpu().then(data => {
   onAllUsageCPUEvent(_.pipe(L.bind(insertDataFns), _.each(([usage, fn]) => fn(usage))));
 });
 
-const renderCPUPage = makeComponent(async onMount => {
+const renderCPUPage = makeComponent(async unmount => {
   const container = _.go(
     $.template('article', ''),
     $.el,
@@ -38,14 +38,14 @@ const renderCPUPage = makeComponent(async onMount => {
 
   await init;
 
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
   const coreTemplate = _.go(
     L.range(cpuInfo.length),
     _.map(index => `
       <div class="cpu-core-wrapper">
-        <p>CPU CORE ${index + 1} usage <span class="cpu_text"></span></p>
-        <div class="cpu_core item"></div>
+        <p>CPU CORE ${index + 1} usage <span class="cpu-text"></span></p>
+        <div class="cpu-core item"></div>
       </div>
     `),
     _.join('\n'),
@@ -57,9 +57,9 @@ const renderCPUPage = makeComponent(async onMount => {
     el.textContent = `${Math.round(data)}%`;
   };
 
-  const textEl = [...$.findAll('.cpu_text', container)];
+  const textEl = [...$.findAll('.cpu-text', container)];
 
-  onMount(onAllUsageCPUEvent(_.pipe(L.bind(textEl), _.each(changeUsageText))));
+  unmount(onAllUsageCPUEvent(_.pipe(L.bind(textEl), _.each(changeUsageText))));
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
@@ -68,9 +68,9 @@ const renderCPUPage = makeComponent(async onMount => {
   };
 
   _.go(
-    [...$.findAll('.cpu_core', container)],
+    [...$.findAll('.cpu-core', container)],
     L.bind(cpuAllUsageCoreInfo),
-    _.each(([dom, cpuItem]) => onMount(drawGraphAndGetClear(cpuItem, dom, graphConfig))),
+    _.each(([dom, cpuItem]) => unmount(drawGraphAndGetClear(cpuItem, dom, graphConfig))),
   );
 });
 

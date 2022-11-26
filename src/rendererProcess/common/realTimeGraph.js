@@ -1,9 +1,9 @@
 import * as d3 from 'd3';
 
-import { getTimeDomain, makeComponent } from '../util';
+import { customAddEventListener, getTimeDomain, makeComponent } from '../util';
 import { graphEnum } from '../../lib/constant';
 
-const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => {
+const drawGraphAndGetClear = makeComponent((unmount, data, parentEl, config) => {
   const [mt, mr, mb, ml] = config[graphEnum.MARGIN];
   const onInterval = config[graphEnum.INTERVAL];
   const graphColor = config[graphEnum.COLOR];
@@ -101,9 +101,9 @@ const drawGraphAndGetClear = makeComponent((onMount, data, parentEl, config) => 
     graphController.newDrawing();
   };
 
-  onMount(() => graphController.clearGraph());
-  window.addEventListener('resize', reSizing);
-  onMount(() => window.removeEventListener('resize', reSizing));
+  unmount(() => graphController.clearGraph());
+
+  unmount(customAddEventListener('resize', reSizing));
 });
 
 export default drawGraphAndGetClear;

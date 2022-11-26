@@ -8,16 +8,16 @@ const root = $.qs('#root');
 
 export const receiveChannel = channel => window.connect.on(channel);
 
-export const makeOnMount = () => {
+export const makeUnmount = () => {
   const clearFns = [];
 
   return [push(clearFns), () => _.each(execFn, clearFns)];
 };
 
 export const makeComponent = renderFn => (...rest) => {
-  const [onMount, clearEvent] = makeOnMount();
+  const [unmount, clearEvent] = makeUnmount();
 
-  renderFn(onMount, ...rest);
+  renderFn(unmount, ...rest);
 
   return clearEvent;
 };

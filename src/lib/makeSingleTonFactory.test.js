@@ -1,4 +1,4 @@
-import makeSingleTonFactory from "./makeSingleTonFactory";
+import makeSingleTonFactory from './makeSingleTonFactory';
 
 describe('오직 하나의 인스턴스만 존재해야 합니다.', () => {
   class TestClass {
