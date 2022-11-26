@@ -9,11 +9,10 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\"",
     "prepare": "husky install",
     "test": "NODE_ENV=test jest --watch --detectOpenHandles"
   },
-  "keywords": [],
+  "keywords": ["javascript", "electron", "D3.js"],
   "author": {
     "name": "Yanguk",
     "email": "heo.yanguk@gmail.com"
