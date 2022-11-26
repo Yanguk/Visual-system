@@ -51,6 +51,8 @@ const vmStatInfoArr = _.go(
 ```
 이터러블 프로토콜에 따른 함수형 프로그래밍의 도입을 인하여 코드에 for 문이 없어지고 명령적이게 되어서 한눈에 어떤 로직인 파악하기가 쉬워졌습니다.
 
+<br>
+
 >### 함수형 프로그래밍를 하면서 느낀점 부가 설명
 >
 >#### 함수형 프로그래밍의 장점
@@ -192,13 +194,17 @@ contextBridge.exposeInMainWorld('connect', {
 <br>
 
 ### 시스템 정보 가져오기
-* node.js에서 제공되는 os 모듈에서 기본 시스템 정보 및 메모리, cpu에 대한 정보를 가져올 수가 있었습니다.
-* 메모리에 대한 디테일한 사용량 및 프로세스 및 디스크에 대한 정보는 node.js에서 제공되는 모듈로는 정보를 얻을 수가 없어서 child-process 모듈을 통해서 터미널에 유닉스 터미널 명령어를 실행시켜서 얻은 stdout 값으로 가공하여 데이터를 얻었습니다.
+* `node.js`에서 제공되는 `os 모듈`에서 기본 시스템 정보 및 메모리, cpu에 대한 정보를 가져올 수가 있었습니다.
+* 메모리에 대한 디테일한 사용량 및 프로세스 및 디스크에 대한 정보는 node.js에서 제공되는 모듈로는 정보를 얻을 수가 없어서 `child-process` 모듈을 통해서 터미널에 유닉스 터미널 명령어를 실행시켜서 얻은 `stdout` 값으로 가공하여 데이터를 얻었습니다.
+
+<br>
 
 ### 개발 환경 셋팅
-* electron 공식 문서에서 권장하는 electron-forge를 이용하여서 개발 환경을 세팅하였습니다.  
-forge를 이용하면 mainProcess와 renderer에 손쉽게 다른 webpack 세팅 값을 적용할 수가 있고, webpack dev server 여는 동시에 main Process를 연결시키고 프로그램을 실행시켜 주기 때문에 개발하기가 편리하였습니다.
-* webpack의 loader와 plugin은 필요한 것 만 최소한으로 넣어서 간단하게 세팅하여 사용하였습니다.(renderer 프로세스의 css loader, scss loader)
+* `electron` 공식 문서에서 권장하는 `electron-forge`를 이용하여서 개발 환경을 세팅하였습니다.  
+`electron-forge`를 이용하면 mainProcess와 renderer에 손쉽게 다른 webpack 세팅 값을 적용할 수가 있고, webpack dev server 여는 동시에 main Process를 연결시키고 프로그램을 실행시켜 주기 때문에 개발하기가 편리하였습니다.
+* webpack의 loader`와 plugin은 필요한 것 만 최소한으로 넣어서 간단하게 세팅하여 사용하였습니다.(renderer 프로세스의 css loader, scss loader)
+
+<br>
 
 ## 개발 환경 사용법
 ```
