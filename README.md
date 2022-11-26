@@ -10,7 +10,7 @@ System Monitoring Application Created with [vanilla JS](https://developer.mozill
 - [어떻게 만들었나](#어떻게-만들었나)
   - [함수형 프로그래밍의 도입](#함수형-프로그래밍의-도입)
   - [옵저버패턴을 적용한 인터벌 관리](#옵저버패턴을-적용한-인터벌-관리)
-  - [Vanilla JS로 SPA 만들기](#vanilla-js%EB%A1%9C-spa-%EB%A7%8C%EB%93%A4%EA%B8%B0)
+  - [Vanilla JS로 SPA 만들기](#vanilla-js로-spa-만들기)
   - [D3.js로 svg태그 다루기](#d3js로-svg태그-다루기)
   - [electron main과 renderer의 통신](#electron에서의-main과-renderer의-소통-방식)
 
