@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 import { app, BrowserWindow, screen } from 'electron';
-import init from './init';
+
 import menuInit from './menu';
+import init from './init';
 
 const createWindow = (width, height) => {
   menuInit();

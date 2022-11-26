@@ -1,6 +1,6 @@
-import _ from '../../lib/fp';
-import L from '../../lib/fp/lazy';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
+import L from '../../lib/fp/lazy';
 
 export const processListConfigEnum = {
   SELECT: 'select',

@@ -9,7 +9,7 @@ export default class Toast {
   render(message, color = 'white', time = 2000) {
     const element = $.el(`
       <div class="toast-wrapper ${this.className}">
-        <p class="toastText" style="color:${color}";>${message}</p>
+        <p class="toastText" style="color:${color};">${message}</p>
       </div>
     `);
 

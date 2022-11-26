@@ -5,8 +5,8 @@ export default class StepIntervalHandler {
     this.fnList = [];
   }
 
-  insert(f) {
-    this.fnList.push(f);
+  insert(...f) {
+    this.fnList.push(...f);
   }
 
   update(data) {

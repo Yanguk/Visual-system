@@ -29,7 +29,7 @@ export const channelEnum = {
     DETAIL: 'memory-detail',
   },
   PROCESS: {
-    TOP: 'top',
+    List: 'process-list',
   }
 };
 

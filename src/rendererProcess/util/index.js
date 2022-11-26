@@ -1,16 +1,23 @@
+/* eslint-disable max-len */
 import { DOMAIN_TIME_DIFF, memoryInfoEnum } from '../../lib/constant';
-import _, { makeOnMount } from '../../lib/fp';
-import { curry } from '../../lib/fp/util';
+import { curry, execFn, push } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
 import $ from '../../lib/simpleDom';
 
 const root = $.qs('#root');
 
 export const receiveChannel = channel => window.connect.on(channel);
 
-export const makeComponent = renderFn => (...rest) => {
-  const [onMount, clearEvent] = makeOnMount();
+export const makeUnmount = () => {
+  const clearFns = [];
 
-  renderFn(onMount, ...rest);
+  return [push(clearFns), () => _.each(execFn, clearFns)];
+};
+
+export const makeComponent = renderFn => (...rest) => {
+  const [unmount, clearEvent] = makeUnmount();
+
+  renderFn(unmount, ...rest);
 
   return clearEvent;
 };
@@ -21,24 +28,23 @@ export const getTimeDomain = () => {
   return domain;
 };
 
-export const insertData = curry((arr, data) => {
+export const insertRealTimeGraphData = curry((arr, data) => {
   const info = { data, date: new Date() };
 
   arr.push(info);
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i]?.date && (arr[i].date <= new Date(info.date - DOMAIN_TIME_DIFF + 100))) {
-      arr.shift();
-    } else {
-      break;
-    }
-  }
+  _.go(
+    arr,
+    _.notUntil(item => item?.date && (item.date <= new Date(info.date - DOMAIN_TIME_DIFF + 100))),
+    _.each(() => arr.shift()),
+  );
 });
 
 export const renderDom = el => {
   window.localStorage.setItem('prePage', el.id);
 
   $.append(root, el);
+
   return () => el.remove();
 };
 

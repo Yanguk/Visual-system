@@ -1,10 +1,10 @@
-import _ from '../../lib/fp';
-import $ from '../../lib/simpleDom';
-import DiskBarGraph from '../common/DiskBarGraph';
 import { customAddEventListener, makeComponent, renderDom } from '../util';
+import DiskBarGraph from '../common/DiskBarGraph';
+import _ from '../../lib/fp/underDash';
 import { disk } from '../util/icons';
+import $ from '../../lib/simpleDom';
 
-const renderDiskPage = makeComponent(async onMount => {
+const renderDiskPage = makeComponent(async unmount => {
   const template = `
     <div class="disk-page-container" id="disk">
       <div class="disk-page-wrapper">
@@ -21,7 +21,7 @@ const renderDiskPage = makeComponent(async onMount => {
   `;
 
   const container = $.el(template);
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
   const diskMainGraphWrapper = $.qs('.disk-main-graph', container);
 
@@ -29,7 +29,7 @@ const renderDiskPage = makeComponent(async onMount => {
 
   window.api.disk().then(diskInfo => {
     diskGraph.render(diskInfo);
-    onMount(customAddEventListener('resize', () => diskGraph.resize()));
+    unmount(customAddEventListener('resize', () => diskGraph.resize()));
   });
 
   const diskAllData = await window.api.diskAll();

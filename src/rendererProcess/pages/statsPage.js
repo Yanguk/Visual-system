@@ -1,10 +1,10 @@
-import $ from '../../lib/simpleDom';
 import SinglePieGraph from '../common/SinglePieGraph';
+import $ from '../../lib/simpleDom';
 import {
   customSetInterval, makeComponent, makeTimeFormat, renderDom,
 } from '../util';
 
-const renderStatsPage = makeComponent(onMount => {
+const renderStatsPage = makeComponent(unmount => {
   const template = `
     <div class="stats-page-container" id="stats">
       <div class="stats-page-wrapper item">
@@ -12,12 +12,12 @@ const renderStatsPage = makeComponent(onMount => {
         <div class="graph-container">
           <div class="graph-wrapper">
             <h2>Average CPU Usage</h2>
-            <div class="cpu_graph">
+            <div class="cpu-graph">
             </div>
           </div>
           <div class="graph-wrapper">
             <h2>Average Memory Usage</h2>
-            <div class="memory_graph">
+            <div class="memory-graph">
             </div>
           </div>
         </div>
@@ -26,10 +26,10 @@ const renderStatsPage = makeComponent(onMount => {
   `;
 
   const container = $.el(template);
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
-  const cpuGraphWrapper = $.qs('.cpu_graph', container);
-  const memoryGraphWrapper = $.qs('.memory_graph', container);
+  const cpuGraphWrapper = $.qs('.cpu-graph', container);
+  const memoryGraphWrapper = $.qs('.memory-graph', container);
 
   const cpuPieGraph = new SinglePieGraph(cpuGraphWrapper);
   const memoryGraph = new SinglePieGraph(memoryGraphWrapper);
@@ -56,7 +56,7 @@ const renderStatsPage = makeComponent(onMount => {
     timeTextDom.textContent = makeTimeFormat(msTime);
   };
 
-  onMount(customSetInterval(1000, updateGraph));
+  unmount(customSetInterval(1000, updateGraph));
 });
 
 export default renderStatsPage;

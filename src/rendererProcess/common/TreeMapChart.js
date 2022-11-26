@@ -1,6 +1,7 @@
 /* eslint-disable newline-per-chained-call */
 /* eslint-disable no-nested-ternary */
 import * as d3 from 'd3';
+
 import { graphEnum, colorInfo } from '../../lib/constant';
 import $ from '../../lib/simpleDom';
 

@@ -1,7 +1,8 @@
 /* eslint-disable newline-per-chained-call */
 import * as d3 from 'd3';
+
 import { colorInfo } from '../../lib/constant';
-import { delay } from '../../lib/time';
+import delay from '../../lib/delay';
 
 export default class SinglePieGraph {
   constructor(parentEl) {

@@ -1,5 +1,6 @@
 /* eslint-disable newline-per-chained-call */
 import * as d3 from 'd3';
+
 import { colorInfo } from '../../lib/constant';
 
 const colorArr = [colorInfo.green, colorInfo.text1];

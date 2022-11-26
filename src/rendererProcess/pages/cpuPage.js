@@ -1,11 +1,11 @@
 import { channelEnum, graphEnum, GRAPH_COLOR } from '../../lib/constant';
-import _ from '../../lib/fp';
-import L from '../../lib/fp/lazy';
-import { curry, push } from '../../lib/fp/util';
-import $ from '../../lib/simpleDom';
 import drawGraphAndGetClear from '../common/realTimeGraph';
+import { push } from '../../lib/fp/util';
+import _ from '../../lib/fp/underDash';
+import $ from '../../lib/simpleDom';
+import L from '../../lib/fp/lazy';
 import {
-  insertData, makeComponent, receiveChannel, renderDom,
+  insertRealTimeGraphData, makeComponent, receiveChannel, renderDom,
 } from '../util';
 
 const cpuInfo = [];
@@ -20,19 +20,13 @@ const init = window.api.cpu().then(data => {
   const insertDataFns = _.go(
     _.range(cpuInfo.length),
     _.tap(_.each(_ => cpuAllUsageCoreInfo.push([]))),
-    _.map(index => insertData(cpuAllUsageCoreInfo[index])),
+    _.map(index => insertRealTimeGraphData(cpuAllUsageCoreInfo[index])),
   );
 
-  onAllUsageCPUEvent(cpuData => {
-    _.go(
-      _.range(cpuData.length),
-      _.map(index => [cpuData[index], index]),
-      _.each(([usage, index]) => insertDataFns[index](usage)),
-    );
-  });
+  onAllUsageCPUEvent(_.pipe(L.bind(insertDataFns), _.each(([usage, fn]) => fn(usage))));
 });
 
-const renderCPUPage = makeComponent(async onMount => {
+const renderCPUPage = makeComponent(async unmount => {
   const container = _.go(
     $.template('article', ''),
     $.el,
@@ -44,14 +38,14 @@ const renderCPUPage = makeComponent(async onMount => {
 
   await init;
 
-  onMount(renderDom(container));
+  unmount(renderDom(container));
 
   const coreTemplate = _.go(
     L.range(cpuInfo.length),
     _.map(index => `
       <div class="cpu-core-wrapper">
-        <p>CPU CORE ${index + 1} usage <span class="cpu_text"></span></p>
-        <div class="cpu_core item"></div>
+        <p>CPU CORE ${index + 1} usage <span class="cpu-text"></span></p>
+        <div class="cpu-core item"></div>
       </div>
     `),
     _.join('\n'),
@@ -59,21 +53,13 @@ const renderCPUPage = makeComponent(async onMount => {
 
   $.afterBeginInnerHTML(container, coreTemplate);
 
-  const changeUsageText = curry((el, data) => {
-    el.textContent = `${data}%`;
-  });
+  const changeUsageText = ([data, el]) => {
+    el.textContent = `${Math.round(data)}%`;
+  };
 
-  onMount(onAllUsageCPUEvent(data => {
-    _.go(
-      _.range(data.length),
-      _.each(index => {
-        _.go(
-          [...$.findAll('.cpu_text', container)],
-          _.each(dom => changeUsageText(dom, data[index])),
-        );
-      }),
-    );
-  }));
+  const textEl = [...$.findAll('.cpu-text', container)];
+
+  unmount(onAllUsageCPUEvent(_.pipe(L.bind(textEl), _.each(changeUsageText))));
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
@@ -82,11 +68,9 @@ const renderCPUPage = makeComponent(async onMount => {
   };
 
   _.go(
-    [...$.findAll('.cpu_core', container)],
-    L.getIndex,
-    _.each(([dom, idx]) => {
-      onMount(drawGraphAndGetClear(cpuAllUsageCoreInfo[idx], dom, graphConfig));
-    }),
+    [...$.findAll('.cpu-core', container)],
+    L.bind(cpuAllUsageCoreInfo),
+    _.each(([dom, cpuItem]) => unmount(drawGraphAndGetClear(cpuItem, dom, graphConfig))),
   );
 });
 

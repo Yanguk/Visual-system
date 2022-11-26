@@ -14,8 +14,14 @@ const menuInit = () => {
     {
       label: app.name,
       submenu: [
-        { role: 'about' },
-        { role: 'quit' },
+        {
+          label: 'About',
+          role: 'about',
+        },
+        {
+          label: 'Quit',
+          role: 'quit',
+        },
       ],
     },
     {
@@ -42,8 +48,8 @@ const menuInit = () => {
 
   app.setAboutPanelOptions({
     applicationName: 'Visual System',
-    applicationVersion: 'Version',
-    version: '1.0.0',
+    applicationVersion: 'beta',
+    version: '1.0.1',
     copyright: 'Copyright @ 2022 Yanguk',
   });
 

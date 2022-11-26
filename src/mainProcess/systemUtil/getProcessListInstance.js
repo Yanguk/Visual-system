@@ -1,11 +1,11 @@
-import { COMMAND } from '../../lib/constant';
-import _ from '../../lib/fp';
 import { identity, trimAndMakeArr } from '../../lib/fp/util';
 import makeSingleTonFactory from '../../lib/makeSingleTonFactory';
-import Observer from '../../lib/Observer';
 import customExec from '../osUtil/customExec';
+import { COMMAND } from '../../lib/constant';
+import Observer from '../../lib/Observer';
+import _ from '../../lib/fp/underDash';
 
-const execProcessCmd = async cmd => {
+const processingListData = async cmd => {
   const stdout = await customExec(cmd);
 
   const list = _.go(
@@ -43,7 +43,7 @@ export class ProcessInfo extends Observer {
 
     const cmd = limit > -1 ? `${selectedCmd} | head -${limit}` : selectedCmd;
 
-    return execProcessCmd(cmd);
+    return processingListData(cmd);
   }
 
   static async killProcess(pid) {
