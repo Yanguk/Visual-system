@@ -9,9 +9,16 @@ export default class SinglePieGraph {
     this.parentEl = parentEl;
     this.svg = null;
     this.isInit = true;
+    this.total = 0;
   }
 
   render(data, total) {
+    if (this.total !== 0) {
+      this.update(data);
+
+      return;
+    }
+
     this.data = data;
     this.total = total;
     const duration = this.isInit ? 1000 : 0;

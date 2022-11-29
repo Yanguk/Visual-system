@@ -64,6 +64,7 @@ export class CPUInfo extends Observer {
 
   removeInterval() {
     clearInterval(this.interval);
+    this.interval = null;
   }
 
   getTotalUsagePercentage() {

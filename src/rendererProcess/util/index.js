@@ -92,7 +92,7 @@ export const processingMemoryData = memoryData => {
   return newObj;
 };
 
-const padTo2Digits = num => String(num).padStart(2, '0');
+export const padTo2Digits = num => String(num).padStart(2, '0');
 
 export const makeTimeFormat = milliseconds => {
   let seconds = Math.floor(milliseconds / 1000);

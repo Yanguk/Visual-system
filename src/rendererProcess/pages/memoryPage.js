@@ -34,10 +34,6 @@ const getPercentageInfo = processingData => {
   return percentageInfo;
 };
 
-const receiveDataAndUpdate = (getDataFn, target) => _.pipe(
-  getDataFn, target.update.bind(target),
-);
-
 const receiveDataAndRender = (getDataFn, target) => _.pipe(
   getDataFn, target.render.bind(target),
 );
@@ -128,19 +124,6 @@ const renderMemoryPage = makeComponent(unmount => {
     preParsingFn.subscribe(changeNodeText);
 
     preParsingFn.sendParsingData(originData);
-    preParsingFn.removeSubScriber();
-
-    const receiveDataAndUpdateUsagePie = receiveDataAndUpdate(
-      ...usageControllers,
-    );
-
-    const receiveDataAndUpdatePercentagePie = receiveDataAndUpdate(
-      ...percentageControllers,
-    );
-
-    preParsingFn.subscribe(receiveDataAndUpdateUsagePie);
-    preParsingFn.subscribe(receiveDataAndUpdatePercentagePie);
-    preParsingFn.subscribe(changeNodeText);
 
     twoIntervalHandler.insert(preParsingFn.sendParsingData.bind(preParsingFn));
 

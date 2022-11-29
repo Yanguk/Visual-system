@@ -35,7 +35,9 @@ const renderStatsPage = makeComponent(unmount => {
   const memoryGraph = new SinglePieGraph(memoryGraphWrapper);
   const timeTextDom = $.qs('.time', container);
 
-  const renderGraph = data => {
+  const renderGraph = async () => {
+    const data = await window.api.getStats();
+
     const total = 100;
     cpuPieGraph.render(data.cpu.average, total);
     memoryGraph.render(data.memory.average, total);
@@ -44,19 +46,9 @@ const renderStatsPage = makeComponent(unmount => {
     timeTextDom.textContent = makeTimeFormat(msTime);
   };
 
-  window.api.getStats().then(renderGraph);
+  renderGraph();
 
-  const updateGraph = async () => {
-    const data = await window.api.getStats();
-
-    cpuPieGraph.update(data.cpu.average);
-    memoryGraph.update(data.memory.average);
-
-    const msTime = data.cpu.time;
-    timeTextDom.textContent = makeTimeFormat(msTime);
-  };
-
-  unmount(customSetInterval(1000, updateGraph));
+  unmount(customSetInterval(1000, renderGraph));
 });
 
 export default renderStatsPage;
