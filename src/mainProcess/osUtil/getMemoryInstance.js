@@ -137,6 +137,7 @@ export class MemoryInfo extends Observer {
 
   removeInterval() {
     clearInterval(this.interval);
+    this.interval = null;
   }
 }
 

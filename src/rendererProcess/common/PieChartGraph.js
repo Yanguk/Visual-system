@@ -34,6 +34,11 @@ export default class PieChartGraph {
   render(data) {
     this.data = data;
 
+    if (this.svg) {
+      this.update(data);
+      return;
+    }
+
     const duration = this.isInit
       ? this.duration
       : 0;
