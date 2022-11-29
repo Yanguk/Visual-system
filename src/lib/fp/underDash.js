@@ -1,5 +1,5 @@
 import L from './lazy';
-import { curry, push, shift } from './util';
+import { curry } from './util';
 
 const go1 = (target, f) => target instanceof Promise
   ? target.then(f)

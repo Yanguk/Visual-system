@@ -17,3 +17,6 @@ out/
 
 #vscode
 .vscode
+
+# Test
+coverage

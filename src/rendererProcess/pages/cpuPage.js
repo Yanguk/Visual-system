@@ -23,7 +23,7 @@ const init = window.api.cpu().then(data => {
     _.map(index => insertRealTimeGraphData(cpuAllUsageCoreInfo[index])),
   );
 
-  onAllUsageCPUEvent(_.pipe(L.bind(insertDataFns), _.each(([usage, fn]) => fn(usage))));
+  onAllUsageCPUEvent(_.pipe(L.zip(insertDataFns), _.each(([usage, fn]) => fn(usage))));
 });
 
 const renderCPUPage = makeComponent(async unmount => {
@@ -59,7 +59,7 @@ const renderCPUPage = makeComponent(async unmount => {
 
   const textEl = [...$.findAll('.cpu-text', container)];
 
-  unmount(onAllUsageCPUEvent(_.pipe(L.bind(textEl), _.each(changeUsageText))));
+  unmount(onAllUsageCPUEvent(_.pipe(L.zip(textEl), _.each(changeUsageText))));
 
   const graphConfig = {
     [graphEnum.MARGIN]: [20, 25, 20, 25],
@@ -69,7 +69,7 @@ const renderCPUPage = makeComponent(async unmount => {
 
   _.go(
     [...$.findAll('.cpu-core', container)],
-    L.bind(cpuAllUsageCoreInfo),
+    L.zip(cpuAllUsageCoreInfo),
     _.each(([dom, cpuItem]) => unmount(drawGraphAndGetClear(cpuItem, dom, graphConfig))),
   );
 });

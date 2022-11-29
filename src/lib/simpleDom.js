@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import { curry } from './fp/util';
 
 const qs = (target, parent = document) => parent.querySelector(target);
@@ -22,13 +23,18 @@ const template = curry((tag, value = '') => `<${tag}>${value}</${tag}>`);
 const templateClass = (tag, ...rest) => {
   const classList = rest.join(' ');
 
-  return value => `<${tag} class="${classList}">${value}</${tag}>`
+  return value => `<${tag} class="${classList}">${value}</${tag}>`;
 };
 
-const addClass = curry((value, el) => (el?.classList.add(value), el));
-const removeClass = curry((value, el) => (el?.classList.remove(value), el));
+const chain = f => (value, target) => (f(value, target), target);
 
-const onAddEvent = (eventName) => curry((f, el) => (el.addEventListener(eventName, f), el));
+const addClass = curry(chain((value, element) => element?.classList.add(value)));
+
+const removeClass = curry(chain((value, element) => element?.classList.remove(value)));
+
+const onAddEvent = eventName => curry(
+  chain((f, element) => element.addEventListener(eventName, f)),
+);
 
 const $ = {
   qs,

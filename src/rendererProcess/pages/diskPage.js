@@ -4,6 +4,8 @@ import _ from '../../lib/fp/underDash';
 import { disk } from '../util/icons';
 import $ from '../../lib/simpleDom';
 
+const resizeEvent = customAddEventListener('resize');
+
 const renderDiskPage = makeComponent(async unmount => {
   const template = `
     <div class="disk-page-container" id="disk">
@@ -29,7 +31,7 @@ const renderDiskPage = makeComponent(async unmount => {
 
   window.api.disk().then(diskInfo => {
     diskGraph.render(diskInfo);
-    unmount(customAddEventListener('resize', () => diskGraph.resize()));
+    unmount(resizeEvent(() => diskGraph.resize()));
   });
 
   const diskAllData = await window.api.diskAll();

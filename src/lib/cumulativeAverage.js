@@ -3,6 +3,6 @@ const cumulativeAverage = (preAvg, newData, listLength) => {
   const newWeight = 1 / listLength;
 
   return (preAvg * oldWeight) + (newData * newWeight);
-}
+};
 
 export default cumulativeAverage;

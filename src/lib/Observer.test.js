@@ -26,5 +26,5 @@ describe('Observer Class Test', () => {
     expect(testChannelFn.mock.calls.length).toBe(2);
     expect(test2ChannelFn.mock.calls[0][0]).toBe(value);
     expect(test2ChannelFn.mock.calls.length).toBe(2);
-  })
+  });
 });
