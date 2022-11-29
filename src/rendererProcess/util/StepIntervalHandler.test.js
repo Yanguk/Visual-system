@@ -24,5 +24,5 @@ describe('StepIntervalHandler Test', () => {
     expect(fn1).toBeCalledTimes(2);
     expect(fn2).toBeCalledTimes(2);
     expect(fn1.mock.lastCall[0]).toBe(data);
-  })
+  });
 });

@@ -48,13 +48,13 @@ export const renderDom = el => {
   return () => el.remove();
 };
 
-export const customAddEventListener = (eventName, f, parent = window) => {
+export const customAddEventListener = curry((eventName, f, parent = window) => {
   const handler = () => f();
 
   parent.addEventListener(eventName, handler);
 
   return () => parent.removeEventListener(eventName, handler);
-};
+});
 
 export const customSetInterval = curry((time, f) => {
   const handler = window.setInterval(f, time);

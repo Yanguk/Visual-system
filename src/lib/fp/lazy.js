@@ -42,13 +42,13 @@ const flatten = function* (iter) {
       yield item;
     }
   }
-}
+};
 
 const getIndex = function* (iter) {
-  const rage = L.range(iter.length);
+  const rangeIter = range(iter.length);
 
   for (const item of iter) {
-    yield [item, rage.next().value];
+    yield [item, rangeIter.next().value];
   }
 };
 
@@ -68,7 +68,7 @@ const until = curry(function* (f, iter) {
 
     yield item;
   }
-})
+});
 
 const notUntil = curry(function* (f, iter) {
   for (const item of iter) {
@@ -80,7 +80,7 @@ const notUntil = curry(function* (f, iter) {
   }
 });
 
-const bind = curry(function* (subIter, targetIter) {
+const zip = curry(function* (subIter, targetIter) {
   const sub = subIter[Symbol.iterator]();
   const target = targetIter[Symbol.iterator]();
 
@@ -116,7 +116,7 @@ const L = {
   iterObjKey,
   until,
   notUntil,
-  bind,
+  zip,
   take,
 };
 

@@ -7,7 +7,7 @@ describe('lazy 함수 테스트', () => {
       const a = [...L.range(10)];
       const b = [...L.range(10, 23)];
 
-      const c = [...L.bind(b, a)];
+      const c = [...L.zip(b, a)];
 
       expect(c).toStrictEqual([
         [ 0, 10 ], [ 1, 11 ],

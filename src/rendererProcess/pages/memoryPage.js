@@ -13,6 +13,8 @@ import {
   renderDom,
 } from '../util';
 
+const resizeEvent = customAddEventListener('resize');
+
 const getUsageInfo = processingData => {
   const usageInfo = {
     Compressed: processingData.Compressed,
@@ -142,8 +144,8 @@ const renderMemoryPage = makeComponent(unmount => {
 
     twoIntervalHandler.insert(preParsingFn.sendParsingData.bind(preParsingFn));
 
-    unmount(customAddEventListener('resize', () => percentagePieChart.resize()));
-    unmount(customAddEventListener('resize', () => usagePieChartGraph.resize()));
+    unmount(resizeEvent(percentagePieChart.resize.bind(percentagePieChart)));
+    unmount(resizeEvent(usagePieChartGraph.resize.bind(usagePieChartGraph)));
 
     unmount(
       onMemoryUsageEvent(

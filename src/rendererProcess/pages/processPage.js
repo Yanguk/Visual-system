@@ -11,6 +11,7 @@ import {
 } from '../util';
 
 const onProcessEvent = receiveChannel(channelEnum.PROCESS.List);
+const resizeEvent = customAddEventListener('resize');
 
 const processingProcessData = (data, selectIndex) => _.go(
   data,
@@ -91,7 +92,7 @@ const renderProcessPage = makeComponent(unmount => {
   window.api.processList().then(updateProcessData);
 
   unmount(onProcessEvent(updateProcessData));
-  unmount(customAddEventListener('resize', () => treeMapChart.resize()));
+  unmount(resizeEvent(treeMapChart.resize.bind(treeMapChart)));
 });
 
 export default renderProcessPage;

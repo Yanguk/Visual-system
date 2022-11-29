@@ -8,7 +8,7 @@ package.json
 package-lock.json
 
 # util
-src/lib
+src/lib/fp
 
 # test
 __tests__

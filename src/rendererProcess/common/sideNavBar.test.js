@@ -17,7 +17,7 @@ describe('Nav Bar List', () => {
       expect(el.id).toEqual(navList[index]);
     });
   });
-})
+});
 
 describe('Nav Bar Test', () => {
   test('초기 화면은 홈페이지가 렌더링 됩니다.', async () => {

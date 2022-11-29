@@ -5,7 +5,7 @@ const makeSingleTonFactory = InstanceGenerator => {
     instance ??= new InstanceGenerator(a);
 
     return instance;
-  }
+  };
 };
 
 export default makeSingleTonFactory;

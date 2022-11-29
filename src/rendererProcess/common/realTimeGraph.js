@@ -3,6 +3,8 @@ import * as d3 from 'd3';
 import { customAddEventListener, getTimeDomain, makeComponent } from '../util';
 import { graphEnum } from '../../lib/constant';
 
+const resizeEvent = customAddEventListener('resize');
+
 const drawGraphAndGetClear = makeComponent((unmount, data, parentEl, config) => {
   const [mt, mr, mb, ml] = config[graphEnum.MARGIN];
   const onInterval = config[graphEnum.INTERVAL];
@@ -103,7 +105,7 @@ const drawGraphAndGetClear = makeComponent((unmount, data, parentEl, config) => 
 
   unmount(() => graphController.clearGraph());
 
-  unmount(customAddEventListener('resize', reSizing));
+  unmount(resizeEvent(reSizing));
 });
 
 export default drawGraphAndGetClear;

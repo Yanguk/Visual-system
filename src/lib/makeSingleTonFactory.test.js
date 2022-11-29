@@ -17,5 +17,5 @@ describe('오직 하나의 인스턴스만 존재해야 합니다.', () => {
     const test4 = getSingleTonTest();
 
     expect(test3 === test4).toBeTruthy();
-  })
+  });
 });
