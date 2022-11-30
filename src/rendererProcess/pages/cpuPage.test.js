@@ -7,7 +7,7 @@ describe('cpuPage Render', () => {
   test('cpu Render()', async () => {
     await delay(0);
 
-    const cpuPageContainer = document.querySelector('.cpuPage');
+    const cpuPageContainer = document.querySelector('.cpu-page');
 
     expect(cpuPageContainer).not.toBeNull();
   });
@@ -15,7 +15,7 @@ describe('cpuPage Render', () => {
   test('cpu unMount', () => {
     clearPage();
 
-    const cpuPageContainer = document.querySelector('.cpuPage');
+    const cpuPageContainer = document.querySelector('.cpu-page');
 
     expect(cpuPageContainer).toBeNull();
   });

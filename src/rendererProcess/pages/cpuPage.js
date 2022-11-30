@@ -31,7 +31,7 @@ const renderCPUPage = makeComponent(async unmount => {
     $.template('article', ''),
     $.el,
     $.addClass('flex-container'),
-    $.addClass('cpuPage'),
+    $.addClass('cpu-page'),
   );
 
   container.id = 'cpu';
