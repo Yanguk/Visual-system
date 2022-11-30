@@ -132,7 +132,7 @@ const container = _.go(
   $.template('article', ''),
   $.el,
   $.addClass('flex-container'),
-  $.addClass('cpuPage'),
+  $.addClass('cpu-page'),
 );
 
 unmount(renderDom(container));
