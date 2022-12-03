@@ -1,4 +1,4 @@
-# [Visual-system](https://www.visual-system.online)
+# [Visual-system](https://github.com/Yanguk/Visual-system/releases/tag/beta-1.0.0)
 
 System Monitoring Application Created with [vanilla JS](https://developer.mozilla.org/ko/docs/Web/JavaScript) + [electron](https://www.electronjs.org) + [D3.js](https://d3js.org)
 
