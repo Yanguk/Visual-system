@@ -6,6 +6,15 @@ System Monitoring Application Created with [vanilla JS](https://developer.mozill
 <img src="https://user-images.githubusercontent.com/99335782/203970220-0beef7d5-18ed-4ea6-9a63-29752bdacdf9.png" width="600">
 </p>
 
+<details>
+<summary>영상 보기</summary>
+<div markdown="1">
+https://user-images.githubusercontent.com/99335782/207201566-48687988-32fb-4403-8379-262e83c4ce5e.mov
+</div>
+</details>
+
+<br>
+
 # 목차
 - [어떻게 만들었나](#어떻게-만들었나)
   - [함수형 프로그래밍의 도입](#함수형-프로그래밍의-도입)
