@@ -9,7 +9,9 @@ System Monitoring Application Created with [vanilla JS](https://developer.mozill
 <details>
 <summary>영상 보기</summary>
 <div markdown="1">
+
 https://user-images.githubusercontent.com/99335782/207201566-48687988-32fb-4403-8379-262e83c4ce5e.mov
+
 </div>
 </details>
 
